@@ -23,6 +23,7 @@ import {
   Waves,
   Zap
 } from 'lucide-react';
+import { LanguageProvider, useLanguage } from './i18n';
 
 interface GGWaveContext {
   getDefaultParameters: () => any;
@@ -35,6 +36,15 @@ interface GGWaveContext {
 }
 
 export default function App() {
+  return (
+    <LanguageProvider>
+      <MainApp />
+    </LanguageProvider>
+  );
+}
+
+function MainApp() {
+  const { t, language, setLanguage } = useLanguage();
   const [geminiKey, setGeminiKey] = useState<string>('');
   const [geminiModel, setGeminiModel] = useState<string>('gemini-3.1-flash-live-preview');
   const [naverId, setNaverId] = useState<string>('');
@@ -172,7 +182,7 @@ export default function App() {
     }
 
     if (!ggwave || ggwaveInstance === null || !ggwaveParams) {
-      alert('GGWave 모듈이 로드되지 않았거나 초기화에 실패했습니다.');
+      alert(t('alertEngineNotLoaded'));
       return;
     }
 
@@ -198,7 +208,7 @@ export default function App() {
     }
 
     if (queue.length === 0 || Object.keys(compactPayloadObj).length === 0) {
-      alert('송출할 데이터 내용이 비어 있습니다. 입력 필드를 작성해 주세요.');
+      alert(t('alertEmptyFields'));
       return;
     }
 
@@ -228,7 +238,7 @@ export default function App() {
 
         const waveformBytes = ggwave.encode(ggwaveInstance, currentMsg, protoId, volume);
         if (!waveformBytes || waveformBytes.byteLength === 0) {
-          throw new Error('인코딩 결과 오디오 데이터가 빈 바이트로 수신되었습니다.');
+          throw new Error(t('alertEncodeEmpty'));
         }
 
         const sampleCount = waveformBytes.byteLength / 4;
@@ -263,7 +273,7 @@ export default function App() {
 
         // Add 1-second delay between sequential signals
         if (i < queue.length - 1 && !cancelTransmissionRef.current) {
-          setCurrentPayloadText('1초 간격 대기 중...');
+          setCurrentPayloadText(t('intervalText'));
           await new Promise<void>(resolveDelay => {
             const timer = setTimeout(() => {
               resolveDelay();
@@ -295,7 +305,7 @@ export default function App() {
       }
     } catch (err: any) {
       console.error('Transmission error:', err);
-      alert(`소리 신호 생성 또는 재생에 실패했습니다: ${err?.message || err}`);
+      alert(`${t('alertPlayError')}${err?.message || err}`);
       stopTransmission();
     }
   };
@@ -457,13 +467,25 @@ export default function App() {
             </div>
           </div>
           
-          <button 
-            onClick={() => setExplainOpen(!explainOpen)}
-            className="rounded-lg p-2 bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
-            title="설명란"
-          >
-            <HelpCircle className="h-4 w-4 text-slate-300" />
-          </button>
+          <div className="flex items-center gap-2">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as any)}
+              className="rounded-lg px-2.5 py-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 text-xs focus:outline-none focus:ring-1 focus:ring-sky-500/50 cursor-pointer transition-all duration-200"
+            >
+              <option value="ko" className="bg-slate-900 text-slate-300">한국어</option>
+              <option value="en" className="bg-slate-900 text-slate-300">English</option>
+              <option value="ja" className="bg-slate-900 text-slate-300">日本語</option>
+            </select>
+
+            <button 
+              onClick={() => setExplainOpen(!explainOpen)}
+              className="rounded-lg p-2 bg-white/5 border border-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+              title={t('explain')}
+            >
+              <HelpCircle className="h-4 w-4 text-slate-300" />
+            </button>
+          </div>
         </div>
 
         {/* Info Explainer block */}
@@ -476,15 +498,11 @@ export default function App() {
               className="overflow-hidden bg-slate-950/40 border-l-2 border-sky-500/60 rounded-r-xl"
             >
               <div className="p-4 text-xs text-slate-300 space-y-2 leading-relaxed">
-                <p className="font-semibold text-sky-400">🔊 GGWave 음파 송신이란 무엇인가요?</p>
-                <p>
-                  GGWave는 전자기기에 장착된 스피커와 마이크를 이용하여 **데이터를 음향 주파수(소리)로 전송**하는 초소형 무선 프로토콜 데이터 라이브러리입니다.
-                </p>
-                <p>
-                  이 페이지에서는 입력하신 **Gemini API Key, Naver Client ID 및 Secret**을 규격화된 JSON 객체 구조로 변환한 다음, 사람이 들을 수 있는 청각 음파 대역(Audible Fast) 또는 초음파 대역(Ultrasound)으로 부호화(FSK 변조)하여 소리로 송출(TX)합니다. 수신 장치는 마이크를 통해 이 소리를 듣고 다시 데이터로 복원하게 됩니다.
-                </p>
+                <p className="font-semibold text-sky-400">{t('explainTitle')}</p>
+                <p>{t('explainDesc1')}</p>
+                <p>{t('explainDesc2')}</p>
                 <p className="text-[10px] text-sky-400/70 font-mono">
-                  🔒 보안 안내: 모든 암호화 및 부호화 작업은 전적으로 브라우저 내부(WASM)에서 오프라인으로만 처리되며 서비스 서버로 데이터가 절대 전송되지 않습니다.
+                  {t('explainSecurity')}
                 </p>
               </div>
             </motion.div>
@@ -498,27 +516,27 @@ export default function App() {
           {loadingState === 'loading' && (
             <div className="flex items-center gap-3 rounded-xl bg-sky-500/10 border border-sky-500/20 p-3.5 text-xs text-sky-300 font-medium animate-pulse">
               <RefreshCw className="h-4 w-4 animate-spin text-sky-400" />
-              <span>음파 변환 엔진(WASM)을 탑재하고 있습니다...</span>
+              <span>{t('loadingEngine')}</span>
             </div>
           )}
 
           {loadingState === 'error' && (
             <div className="rounded-xl bg-rose-500/10 p-3.5 text-xs text-rose-300 border border-rose-500/20">
-              <p className="font-semibold">⚠️ 소리 변환 장치 준비 실패</p>
-              <p className="text-slate-400 mt-1">인터넷 연결을 확인하거나 페이지를 새로고침 해주세요.</p>
+              <p className="font-semibold">{t('errorEngineTitle')}</p>
+              <p className="text-slate-400 mt-1">{t('errorEngineDesc')}</p>
             </div>
           )}
 
           {/* Form Credentials Section - 3 Edittexts */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">전송 데이터 내용 입력</h2>
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('inputSectionTitle')}</h2>
             </div>
 
             {/* Input 1: Gemini API Key */}
             <div className="space-y-1.5" id="field-gemini">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>Gemini API Key</span>
+                <span>{t('geminiKeyLabel')}</span>
                 <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">gemini_api_key</span>
               </label>
               <div className="relative">
@@ -529,7 +547,7 @@ export default function App() {
                   type="text"
                   value={geminiKey}
                   onChange={(e) => setGeminiKey(e.target.value)}
-                  placeholder="AIzaSy..."
+                  placeholder={t('placeholderGeminiKey')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
@@ -538,7 +556,7 @@ export default function App() {
             {/* Input 1.5: Gemini Model */}
             <div className="space-y-1.5" id="field-gemini-model">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>Gemini Model</span>
+                <span>{t('geminiModelLabel')}</span>
                 <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">gemini_model</span>
               </label>
               <div className="relative">
@@ -549,7 +567,7 @@ export default function App() {
                   type="text"
                   value={geminiModel}
                   onChange={(e) => setGeminiModel(e.target.value)}
-                  placeholder="gemini-3.1-flash-live-preview"
+                  placeholder={t('placeholderGeminiModel')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
@@ -558,7 +576,7 @@ export default function App() {
             {/* Input 2: Naver Client ID */}
             <div className="space-y-1.5" id="field-naver-id">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>NAVER Client ID</span>
+                <span>{t('naverIdLabel')}</span>
                 <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">naver_client_id</span>
               </label>
               <div className="relative">
@@ -569,7 +587,7 @@ export default function App() {
                   type="text"
                   value={naverId}
                   onChange={(e) => setNaverId(e.target.value)}
-                  placeholder="ID 또는 클라이언트 키 입력"
+                  placeholder={t('placeholderNaverId')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
@@ -578,7 +596,7 @@ export default function App() {
             {/* Input 3: Naver Client Secret */}
             <div className="space-y-1.5" id="field-naver-secret">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>NAVER Secret</span>
+                <span>{t('naverSecretLabel')}</span>
                 <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">naver_client_secret</span>
               </label>
               <div className="relative">
@@ -589,7 +607,7 @@ export default function App() {
                   type="text"
                   value={naverSecret}
                   onChange={(e) => setNaverSecret(e.target.value)}
-                  placeholder="클라이언트 시크릿 토큰 입력"
+                  placeholder={t('placeholderNaverSecret')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
@@ -605,12 +623,12 @@ export default function App() {
                   <div className="flex items-center gap-2 min-w-0">
                     <span className={`inline-block w-2 h-2 rounded-full ${isSoundActive ? 'bg-sky-400 animate-pulse' : 'bg-slate-600'}`}></span>
                     <span className="truncate max-w-[200px]" title={currentPayloadText || ""}>
-                      {currentPayloadText || '대기 중...'}
+                      {currentPayloadText || t('statusWaiting')}
                     </span>
                   </div>
                   {totalPlayItems !== null && currentPlayIndex !== null && (
                     <span className="text-sky-400 font-bold shrink-0">
-                      {currentPlayIndex} / {totalPlayItems} ({isSoundActive ? '송출 중' : '인터벌'})
+                      {currentPlayIndex} / {totalPlayItems} ({isSoundActive ? t('statusTransmitting') : t('statusInterval')})
                     </span>
                   )}
                 </div>
@@ -620,9 +638,9 @@ export default function App() {
                 <div className="rounded-full bg-white/5 p-4 border border-white/10">
                   <Waves className="h-5 w-5 text-slate-400 stroke-[1.5]" />
                 </div>
-                <p className="text-xs text-slate-300 text-center font-medium">송출 대기 중</p>
+                <p className="text-xs text-slate-300 text-center font-medium">{t('waitingSignal')}</p>
                 <p className="text-[10px] text-slate-500 text-center max-w-[220px]">
-                  데이터를 작성하고 아래 재생 버튼을 탭하면 이 영역에 음화 스펙트럼이 활성화됩니다.
+                  {t('waitingSignalDesc')}
                 </p>
               </div>
             )}
@@ -632,7 +650,7 @@ export default function App() {
           <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-4 shadow-sm">
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-slate-300">음파 변조 통신 프로토콜</span>
+                <span className="font-bold text-slate-300">{t('protocolTitle')}</span>
                 <span className="text-[10px] bg-sky-500/10 text-sky-400 border border-sky-500/20 px-1.5 py-0.5 rounded font-bold font-mono">FSK</span>
               </div>
               <div className="grid grid-cols-3 gap-1.5 bg-black/40 p-1.5 rounded-xl">
@@ -640,52 +658,52 @@ export default function App() {
                   type="button"
                   onClick={() => setProtocol('audible_fast')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                    protocol === 'audible_fast'
+                     protocol === 'audible_fast'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
                 >
                   <Volume2 className="h-3.5 w-3.5" />
-                  <span>빠른 소리</span>
+                  <span>{t('protocolAudibleFast')}</span>
                 </button>
                 
                 <button
                   type="button"
                   onClick={() => setProtocol('audible_fastest')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                    protocol === 'audible_fastest'
+                     protocol === 'audible_fastest'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
                 >
                   <Zap className="h-3.5 w-3.5" />
-                  <span>광속 소리</span>
+                  <span>{t('protocolAudibleFastest')}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setProtocol('ultrasound_fast')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                    protocol === 'ultrasound_fast'
+                     protocol === 'ultrasound_fast'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
                 >
                   <VolumeX className="h-3.5 w-3.5" />
-                  <span>초음파 (무음)</span>
+                  <span>{t('protocolUltrasoundFast')}</span>
                 </button>
               </div>
               <p className="text-[10px] text-slate-500 leading-normal">
-                {protocol === 'audible_fast' && '• Audible Fast: 고속 통전 방식으로, 로봇 비프음 같은 고음이 발생합니다.'}
-                {protocol === 'audible_fastest' && '• Audible Fastest: 최고 속도 모드로, 매우 촘촘하고 강한 디지털 기계음이 나옵니다.'}
-                {protocol === 'ultrasound_fast' && '• Ultrasound: 사람이 들을 수 없는 18kHz 이상의 주파수로 정숙성이 유지됩니다.'}
+                {protocol === 'audible_fast' && t('descAudibleFast')}
+                {protocol === 'audible_fastest' && t('descAudibleFastest')}
+                {protocol === 'ultrasound_fast' && t('descUltrasoundFast')}
               </p>
             </div>
 
             {/* Volume bar */}
             <div className="space-y-2">
               <div className="flex justify-between text-xs text-slate-300 font-bold">
-                <span>데이터 음향 볼륨</span>
+                <span>{t('volumeTitle')}</span>
                 <span>{volume}%</span>
               </div>
               <div className="flex items-center gap-3">
@@ -713,14 +731,14 @@ export default function App() {
             <div className="flex items-center justify-between text-xs">
               <span className="font-bold text-slate-300 flex items-center gap-1.5">
                 <FileJson className="h-4 w-4 text-sky-400" />
-                수동 전송 데이터 구조 (JSON)
+                {t('previewTitle')}
                 <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full ${
                   new TextEncoder().encode(jsonPayload).length <= 140 
                     ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
                     : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                 }`}>
                   {new TextEncoder().encode(jsonPayload).length}B 
-                  {new TextEncoder().encode(jsonPayload).length <= 140 ? ' (단일 송출 가능)' : ' (140B 초과 - 1초 간격 분할 송출)'}
+                  {new TextEncoder().encode(jsonPayload).length <= 140 ? t('singlePacket') : t('multiPacket')}
                 </span>
               </span>
               <button
@@ -730,12 +748,12 @@ export default function App() {
                 {copied ? (
                   <>
                     <Check className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-medium">복사됨!</span>
+                    <span className="text-emerald-400 font-medium">{t('copied')}</span>
                   </>
                 ) : (
                   <>
                     <Copy className="h-3.5 w-3.5" />
-                    <span>복사하기</span>
+                    <span>{t('copy')}</span>
                   </>
                 )}
               </button>
@@ -764,18 +782,18 @@ export default function App() {
             {isTransmitting ? (
               <>
                 <Square className="h-5 w-5 fill-white" />
-                <span>데이터 전송 중지하기 (Stop)</span>
+                <span>{t('btnStop')}</span>
               </>
             ) : (
               <>
                 <Play className="h-5 w-5 fill-white" />
-                <span>데이터 소리 송출 시작 (Play)</span>
+                <span>{t('btnPlay')}</span>
               </>
             )}
           </button>
           
           <p className="text-[10px] text-slate-500 mt-3 leading-normal">
-            * 기기의 가청 스피커 볼륨이 켜져 있는지 확인하고 수신기 근처에서 재생해 주세요.
+            {t('footerWarning')}
           </p>
         </div>
 
