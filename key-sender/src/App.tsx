@@ -49,6 +49,7 @@ function MainApp() {
   const [geminiModel, setGeminiModel] = useState<string>('gemini-3.1-flash-live-preview');
   const [naverId, setNaverId] = useState<string>('');
   const [naverSecret, setNaverSecret] = useState<string>('');
+  const [kakaoKey, setKakaoKey] = useState<string>('');
 
   // Interface state
   const [volume, setVolume] = useState<number>(60);
@@ -135,6 +136,7 @@ function MainApp() {
   if (geminiModel) compactPayloadObj.m = geminiModel;
   if (naverId) compactPayloadObj.i = naverId;
   if (naverSecret) compactPayloadObj.s = naverSecret;
+  if (kakaoKey) compactPayloadObj.k = kakaoKey;
 
   const jsonPayload = JSON.stringify(compactPayloadObj);
 
@@ -192,6 +194,7 @@ function MainApp() {
     if (geminiModel) compactPayloadObj.m = geminiModel;
     if (naverId) compactPayloadObj.i = naverId;
     if (naverSecret) compactPayloadObj.s = naverSecret;
+    if (kakaoKey) compactPayloadObj.k = kakaoKey;
 
     const currentJsonPayload = JSON.stringify(compactPayloadObj);
     const bytesCount = new TextEncoder().encode(currentJsonPayload).length;
@@ -205,6 +208,7 @@ function MainApp() {
       if (geminiModel) queue.push(JSON.stringify({ m: geminiModel }));
       if (naverId) queue.push(JSON.stringify({ i: naverId }));
       if (naverSecret) queue.push(JSON.stringify({ s: naverSecret }));
+      if (kakaoKey) queue.push(JSON.stringify({ k: kakaoKey }));
     }
 
     if (queue.length === 0 || Object.keys(compactPayloadObj).length === 0) {
@@ -608,6 +612,26 @@ function MainApp() {
                   value={naverSecret}
                   onChange={(e) => setNaverSecret(e.target.value)}
                   placeholder={t('placeholderNaverSecret')}
+                  className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
+                />
+              </div>
+            </div>
+
+            {/* Input 4: Kakao API Key */}
+            <div className="space-y-1.5" id="field-kakao-key">
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
+                <span>{t('kakaoKeyLabel')}</span>
+                <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">kakao_api_key</span>
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <ShieldCheck className="h-4 w-4 text-slate-500" />
+                </div>
+                <input
+                  type="text"
+                  value={kakaoKey}
+                  onChange={(e) => setKakaoKey(e.target.value)}
+                  placeholder={t('placeholderKakaoKey')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
