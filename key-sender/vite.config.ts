@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 
-// ESM 환경(최신 Node/Vite)에서 __dirname을 안전하게 가져오기 위한 코드
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,12 +13,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
+      // 핵심: 브라우저가 실행될 때 fs와 path를 요구하면 에러 대신 빈 객({})을 주도록 가상 매핑
+      'fs': 'unenv/runtime/mock/empty',
+      'path': 'unenv/runtime/mock/empty',
     },
   },
   build: {
-    // GitHub Pages 배포 러너가 결함이 있는 파일로 오인하지 않도록 빌드 옵션 강제 지정
-    rollupOptions: {
-      external: ['fs', 'path'],
-    },
+    // 이전의 external 옵션은 브라우저 배포 시 에러를 유발하므로 과감히 삭제합니다.
+    rollupOptions: {},
   },
 });
