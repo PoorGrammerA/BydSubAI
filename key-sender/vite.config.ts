@@ -7,19 +7,34 @@ import { defineConfig } from 'vite';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 브라우저 환경에서 fs와 path를 호출할 때 에러가 나지 않도록 빈 가상 모듈을 제공하는 미니 플러그인
+const nodeMockPlugin = () => {
+  return {
+    name: 'node-mock-plugin',
+    resolveId(id: string) {
+      if (id === 'virtual:node-mock') {
+        return id;
+      }
+      return null;
+    },
+    load(id: string) {
+      if (id === 'virtual:node-mock') {
+        return 'export default {};'; // 빈 객체를 내보냄
+      }
+      return null;
+    }
+  };
+};
+
 export default defineConfig({
   base: './',
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), nodeMockPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
-      // 핵심: 브라우저가 실행될 때 fs와 path를 요구하면 에러 대신 빈 객({})을 주도록 가상 매핑
-      'fs': 'unenv/runtime/mock/empty',
-      'path': 'unenv/runtime/mock/empty',
+      // ggwave가 fs와 path를 찾으면 위에서 만든 빈 가상 모듈로 연결해줍니다.
+      'fs': 'virtual:node-mock',
+      'path': 'virtual:node-mock',
     },
-  },
-  build: {
-    // 이전의 external 옵션은 브라우저 배포 시 에러를 유발하므로 과감히 삭제합니다.
-    rollupOptions: {},
   },
 });
