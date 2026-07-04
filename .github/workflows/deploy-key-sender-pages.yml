@@ -29,13 +29,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: key-sender/package-lock.json
 
       - name: Install dependencies
         run: |
           cd key-sender
+          npm install --save-dev vite-plugin-node-polyfills
           npm ci
 
       - name: Build static files
