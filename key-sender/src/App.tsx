@@ -46,7 +46,8 @@ export default function App() {
 function MainApp() {
   const { t, language, setLanguage } = useLanguage();
   const [geminiKey, setGeminiKey] = useState<string>('');
-  const [geminiModel, setGeminiModel] = useState<string>('gemini-3.1-flash-live-preview');
+  const [geminiLiveModel, setGeminiLiveModel] = useState<string>('gemini-3.1-flash-live-preview');
+  const [geminiNormalModel, setGeminiNormalModel] = useState<string>('gemma-4-31b-it');
   const [naverId, setNaverId] = useState<string>('');
   const [naverSecret, setNaverSecret] = useState<string>('');
   const [kakaoKey, setKakaoKey] = useState<string>('');
@@ -133,7 +134,8 @@ function MainApp() {
   // Compute live compact JSON string representation without whitespace and using short keys
   const compactPayloadObj: Record<string, string> = {};
   if (geminiKey) compactPayloadObj.g = geminiKey;
-  if (geminiModel) compactPayloadObj.m = geminiModel;
+  if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
+  if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
   if (naverId) compactPayloadObj.i = naverId;
   if (naverSecret) compactPayloadObj.s = naverSecret;
   if (kakaoKey) compactPayloadObj.k = kakaoKey;
@@ -191,7 +193,8 @@ function MainApp() {
     // Build sub-transmission targets based on 140b size limit
     const compactPayloadObj: Record<string, string> = {};
     if (geminiKey) compactPayloadObj.g = geminiKey;
-    if (geminiModel) compactPayloadObj.m = geminiModel;
+    if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
+    if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
     if (naverId) compactPayloadObj.i = naverId;
     if (naverSecret) compactPayloadObj.s = naverSecret;
     if (kakaoKey) compactPayloadObj.k = kakaoKey;
@@ -205,7 +208,8 @@ function MainApp() {
     } else {
       // Exceeds 140 bytes! Split into separate messages with 1s delays sequentially
       if (geminiKey) queue.push(JSON.stringify({ g: geminiKey }));
-      if (geminiModel) queue.push(JSON.stringify({ m: geminiModel }));
+      if (geminiLiveModel) queue.push(JSON.stringify({ m: geminiLiveModel }));
+      if (geminiNormalModel) queue.push(JSON.stringify({ n: geminiNormalModel }));
       if (naverId) queue.push(JSON.stringify({ i: naverId }));
       if (naverSecret) queue.push(JSON.stringify({ s: naverSecret }));
       if (kakaoKey) queue.push(JSON.stringify({ k: kakaoKey }));
@@ -557,10 +561,30 @@ function MainApp() {
               </div>
             </div>
 
-            {/* Input 1.5: Gemini Model */}
-            <div className="space-y-1.5" id="field-gemini-model">
+            {/* Input 1.5: Gemini Live Model */}
+            <div className="space-y-1.5" id="field-gemini-live-model">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>{t('geminiModelLabel')}</span>
+                <span>{t('geminiLiveModelLabel')}</span>
+                <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">gemini_live_model</span>
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <Zap className="h-4 w-4 text-slate-500" />
+                </div>
+                <input
+                  type="text"
+                  value={geminiLiveModel}
+                  onChange={(e) => setGeminiLiveModel(e.target.value)}
+                  placeholder={t('placeholderGeminiLiveModel')}
+                  className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
+                />
+              </div>
+            </div>
+
+            {/* Input 1.6: Gemini Model */}
+            <div className="space-y-1.5" id="field-gemini-normal-model">
+              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
+                <span>{t('geminiNormalModelLabel')}</span>
                 <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">gemini_model</span>
               </label>
               <div className="relative">
@@ -569,9 +593,9 @@ function MainApp() {
                 </div>
                 <input
                   type="text"
-                  value={geminiModel}
-                  onChange={(e) => setGeminiModel(e.target.value)}
-                  placeholder={t('placeholderGeminiModel')}
+                  value={geminiNormalModel}
+                  onChange={(e) => setGeminiNormalModel(e.target.value)}
+                  placeholder={t('placeholderGeminiNormalModel')}
                   className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
                 />
               </div>
