@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ggwave_factory from 'ggwave';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -25,15 +25,44 @@ import {
 } from 'lucide-react';
 import { LanguageProvider, useLanguage } from './i18n';
 
+interface GGWaveParameters {
+  sampleRateOut?: number;
+  sampleFormatOut?: number;
+  [key: string]: unknown;
+}
+
 interface GGWaveContext {
-  getDefaultParameters: () => any;
-  init: (params: any) => number;
+  getDefaultParameters: () => GGWaveParameters;
+  init: (params: GGWaveParameters) => number;
   free: (instance: number) => void;
   encode: (instance: number, payload: string, protocolId: number, volume: number) => Uint8Array;
   TxProtocolId?: Record<string, number>;
   ProtocolId?: Record<string, number>;
   SampleFormat?: Record<string, number>;
 }
+
+const safeLocalStorage = {
+  get(key: string) {
+    try {
+      if (typeof window === 'undefined') return null;
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  set(key: string, value: string) {
+    try {
+      if (typeof window === 'undefined') return;
+      window.localStorage.setItem(key, value);
+    } catch {}
+  },
+  remove(key: string) {
+    try {
+      if (typeof window === 'undefined') return;
+      window.localStorage.removeItem(key);
+    } catch {}
+  },
+};
 
 export default function App() {
   return (
@@ -43,14 +72,70 @@ export default function App() {
   );
 }
 
+const DEFAULT_LIVE_MODEL = 'gemini-3.1-flash-live-preview';
+const DEFAULT_NORMAL_MODEL = 'gemma-4-31b-it';
+
 function MainApp() {
   const { t, language, setLanguage } = useLanguage();
-  const [geminiKey, setGeminiKey] = useState<string>('');
-  const [geminiLiveModel, setGeminiLiveModel] = useState<string>('gemini-3.1-flash-live-preview');
-  const [geminiNormalModel, setGeminiNormalModel] = useState<string>('gemma-4-31b-it');
-  const [naverId, setNaverId] = useState<string>('');
-  const [naverSecret, setNaverSecret] = useState<string>('');
-  const [kakaoKey, setKakaoKey] = useState<string>('');
+
+  // 브라우저 저장 상태 정의
+  const [isRemembered, setIsRemembered] = useState<boolean>(
+    () => safeLocalStorage.get('subai_remember') === 'true'
+  );
+
+  const [geminiKey, setGeminiKey] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_geminiKey') || '' : '')
+  );
+  const [geminiLiveModel, setGeminiLiveModel] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_geminiLiveModel') || DEFAULT_LIVE_MODEL : DEFAULT_LIVE_MODEL)
+  );
+  const [geminiNormalModel, setGeminiNormalModel] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_geminiNormalModel') || DEFAULT_NORMAL_MODEL : DEFAULT_NORMAL_MODEL)
+  );
+  const [naverId, setNaverId] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_naverId') || '' : '')
+  );
+  const [naverSecret, setNaverSecret] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_naverSecret') || '' : '')
+  );
+  const [kakaoKey, setKakaoKey] = useState<string>(
+    () => (isRemembered ? safeLocalStorage.get('subai_kakaoKey') || '' : '')
+  );
+
+  // 체크박스 토글 핸들러
+  const handleRememberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsRemembered(checked);
+    safeLocalStorage.set('subai_remember', String(checked));
+
+    if (!checked) {
+      safeLocalStorage.remove('subai_geminiKey');
+      safeLocalStorage.remove('subai_geminiLiveModel');
+      safeLocalStorage.remove('subai_geminiNormalModel');
+      safeLocalStorage.remove('subai_naverId');
+      safeLocalStorage.remove('subai_naverSecret');
+      safeLocalStorage.remove('subai_kakaoKey');
+
+      setGeminiKey('');
+      setGeminiLiveModel(DEFAULT_LIVE_MODEL);
+      setGeminiNormalModel(DEFAULT_NORMAL_MODEL);
+      setNaverId('');
+      setNaverSecret('');
+      setKakaoKey('');
+    }
+  };
+
+  // 실시간 입력값 동기화 저장
+  useEffect(() => {
+    if (isRemembered) {
+      safeLocalStorage.set('subai_geminiKey', geminiKey);
+      safeLocalStorage.set('subai_geminiLiveModel', geminiLiveModel);
+      safeLocalStorage.set('subai_geminiNormalModel', geminiNormalModel);
+      safeLocalStorage.set('subai_naverId', naverId);
+      safeLocalStorage.set('subai_naverSecret', naverSecret);
+      safeLocalStorage.set('subai_kakaoKey', kakaoKey);
+    }
+  }, [isRemembered, geminiKey, geminiLiveModel, geminiNormalModel, naverId, naverSecret, kakaoKey]);
 
   // Interface state
   const [volume, setVolume] = useState<number>(60);
@@ -62,7 +147,7 @@ function MainApp() {
   // Wasm Module references
   const [ggwave, setGgwave] = useState<GGWaveContext | null>(null);
   const [ggwaveInstance, setGgwaveInstance] = useState<number | null>(null);
-  const [ggwaveParams, setGgwaveParams] = useState<any>(null);
+  const [ggwaveParams, setGgwaveParams] = useState<GGWaveParameters | null>(null);
   const [loadingState, setLoadingState] = useState<'loading' | 'success' | 'error'>('loading');
 
   // Audio elements references
@@ -70,6 +155,7 @@ function MainApp() {
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
+  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Split-playback state variables
   const [currentPlayIndex, setCurrentPlayIndex] = useState<number | null>(null);
@@ -80,6 +166,27 @@ function MainApp() {
   const isSoundActiveRef = useRef<boolean>(false);
   const cancelTransmissionRef = useRef<boolean>(false);
 
+  // Compute live compact JSON string representation
+  const compactPayloadObj = useMemo<Record<string, string>>(() => {
+    const payload: Record<string, string> = {};
+
+    if (geminiKey) payload.g = geminiKey;
+    if (geminiLiveModel) payload.m = geminiLiveModel;
+    if (geminiNormalModel) payload.n = geminiNormalModel;
+    if (naverId) payload.i = naverId;
+    if (naverSecret) payload.s = naverSecret;
+    if (kakaoKey) payload.k = kakaoKey;
+
+    return payload;
+  }, [geminiKey, geminiLiveModel, geminiNormalModel, naverId, naverSecret, kakaoKey]);
+
+  const jsonPayload = useMemo(() => JSON.stringify(compactPayloadObj), [compactPayloadObj]);
+
+  const jsonPayloadBytes = useMemo(
+    () => new TextEncoder().encode(jsonPayload).length,
+    [jsonPayload]
+  );
+
   // Initialize GGWave WASM
   useEffect(() => {
     let activeInstance: number | null = null;
@@ -88,12 +195,10 @@ function MainApp() {
     const initModule = async () => {
       try {
         setLoadingState('loading');
-        // Handle commonJS or ESM default exports
         const resolvedFactory = (ggwave_factory as any).default || ggwave_factory;
         const gg = (await resolvedFactory()) as GGWaveContext;
 
         const parameters = gg.getDefaultParameters();
-        // Set sample format out to Float32 so we can play floats via Web Audio API
         if (gg.SampleFormat) {
           parameters.sampleFormatOut = gg.SampleFormat.GGWAVE_SAMPLE_FORMAT_F32;
         }
@@ -126,25 +231,23 @@ function MainApp() {
       if (audioSourceRef.current) {
         try {
           audioSourceRef.current.stop();
-        } catch (e) {}
+        } catch {}
+        audioSourceRef.current = null;
+      }
+
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
+
+      if (copiedTimeoutRef.current !== null) {
+        clearTimeout(copiedTimeoutRef.current);
+        copiedTimeoutRef.current = null;
       }
     };
   }, []);
 
-  // Compute live compact JSON string representation without whitespace and using short keys
-  const compactPayloadObj: Record<string, string> = {};
-  if (geminiKey) compactPayloadObj.g = geminiKey;
-  if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
-  if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
-  if (naverId) compactPayloadObj.i = naverId;
-  if (naverSecret) compactPayloadObj.s = naverSecret;
-  if (kakaoKey) compactPayloadObj.k = kakaoKey;
-
-  const jsonPayload = JSON.stringify(compactPayloadObj);
-
-
-
-  // Helper to discover protocol ID securely from our defensive mapping
+  // Helper to discover protocol ID securely
   const resolveProtocolId = (gg: GGWaveContext, protoName: string): number => {
     const protocolEnum = gg.ProtocolId || gg.TxProtocolId || (gg as any).Protocol || {};
     
@@ -154,7 +257,6 @@ function MainApp() {
     if (protoName === 'ultrasound_fast') key = 'GGWAVE_PROTOCOL_ULTRASOUND_FAST';
     if (protoName === 'ultrasound_normal') key = 'GGWAVE_PROTOCOL_ULTRASOUND_NORMAL';
 
-    // fallback mapping if keys are not spelled exact
     const rawFallbacks: Record<string, number> = {
       audible_normal: 0,
       audible_fast: 1,
@@ -168,7 +270,6 @@ function MainApp() {
       return protocolEnum[key];
     }
 
-    // Try alternate format
     const altKey = key.replace('GGWAVE_PROTOCOL_', 'GGWAVE_TX_PROTOCOL_');
     if (protocolEnum[altKey] !== undefined) {
       return protocolEnum[altKey];
@@ -177,10 +278,18 @@ function MainApp() {
     return rawFallbacks[protoName] ?? 1;
   };
 
+  const resetTransmissionState = () => {
+    setIsTransmitting(false);
+    isSoundActiveRef.current = false;
+    setIsSoundActive(false);
+    setCurrentPayloadText('');
+    setCurrentPlayIndex(null);
+    setTotalPlayItems(null);
+  };
+
   // Handle Playback transmit
   const handleTransmit = async () => {
     if (isTransmitting) {
-      // Toggle off / Stop
       stopTransmission();
       return;
     }
@@ -190,34 +299,22 @@ function MainApp() {
       return;
     }
 
-    // Build sub-transmission targets based on 140b size limit
-    const compactPayloadObj: Record<string, string> = {};
-    if (geminiKey) compactPayloadObj.g = geminiKey;
-    if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
-    if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
-    if (naverId) compactPayloadObj.i = naverId;
-    if (naverSecret) compactPayloadObj.s = naverSecret;
-    if (kakaoKey) compactPayloadObj.k = kakaoKey;
-
-    const currentJsonPayload = JSON.stringify(compactPayloadObj);
-    const bytesCount = new TextEncoder().encode(currentJsonPayload).length;
-
-    let queue: string[] = [];
-    if (bytesCount <= 140) {
-      queue = [currentJsonPayload];
-    } else {
-      // Exceeds 140 bytes! Split into separate messages with 1s delays sequentially
-      if (geminiKey) queue.push(JSON.stringify({ g: geminiKey }));
-      if (geminiLiveModel) queue.push(JSON.stringify({ m: geminiLiveModel }));
-      if (geminiNormalModel) queue.push(JSON.stringify({ n: geminiNormalModel }));
-      if (naverId) queue.push(JSON.stringify({ i: naverId }));
-      if (naverSecret) queue.push(JSON.stringify({ s: naverSecret }));
-      if (kakaoKey) queue.push(JSON.stringify({ k: kakaoKey }));
-    }
-
-    if (queue.length === 0 || Object.keys(compactPayloadObj).length === 0) {
+    if (Object.keys(compactPayloadObj).length === 0) {
       alert(t('alertEmptyFields'));
       return;
+    }
+
+    const bytesCount = jsonPayloadBytes;
+    let queue: string[] = [];
+
+    if (bytesCount <= 140) {
+      queue = [jsonPayload];
+    } else {
+      // ✨ [수신 제어 개선] 패킷 순서가 끊겨도 수신측 세션 구조가 덮어씌워지지 않도록 명시적 세션 필드 구조화 분할
+      if (geminiKey) queue.push(JSON.stringify({ ...compactPayloadObj, m: undefined, n: undefined, i: undefined, s: undefined, k: undefined }));
+      if (geminiLiveModel || geminiNormalModel) queue.push(JSON.stringify({ m: geminiLiveModel, n: geminiNormalModel }));
+      if (naverId || naverSecret) queue.push(JSON.stringify({ i: naverId, s: naverSecret }));
+      if (kakaoKey) queue.push(JSON.stringify({ k: kakaoKey }));
     }
 
     try {
@@ -225,7 +322,6 @@ function MainApp() {
       cancelTransmissionRef.current = false;
       setTotalPlayItems(queue.length);
 
-      // Create Web Audio Context once
       const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
       const context = new AudioCtxClass();
       audioCtxRef.current = context;
@@ -240,7 +336,6 @@ function MainApp() {
         setCurrentPlayIndex(i + 1);
         setCurrentPayloadText(currentMsg);
 
-        // Turn on acoustic play visualization states
         isSoundActiveRef.current = true;
         setIsSoundActive(true);
 
@@ -264,48 +359,85 @@ function MainApp() {
         source.connect(context.destination);
         audioSourceRef.current = source;
 
-        await new Promise<void>((resolvePlay, rejectPlay) => {
-          source.onended = () => {
+        await new Promise<void>((resolvePlay) => {
+          let resolved = false;
+          let stopCheck: ReturnType<typeof setInterval> | null = null;
+
+          const finish = () => {
+            if (resolved) return;
+            resolved = true;
+
+            source.onended = null;
+
+            if (stopCheck !== null) {
+              clearInterval(stopCheck);
+              stopCheck = null;
+            }
+
             resolvePlay();
           };
+
+          source.onended = finish;
+
+          stopCheck = setInterval(() => {
+            if (cancelTransmissionRef.current) {
+              try {
+                source.stop();
+              } catch {}
+              finish();
+            }
+          }, 40);
+
           try {
             source.start();
-          } catch (e) {
-            rejectPlay(e);
+          } catch {
+            finish();
           }
         });
 
-        // Current payload sound ended
+        if (audioSourceRef.current === source) {
+          audioSourceRef.current = null;
+        }
+
         isSoundActiveRef.current = false;
         setIsSoundActive(false);
 
-        // Add 1-second delay between sequential signals
         if (i < queue.length - 1 && !cancelTransmissionRef.current) {
           setCurrentPayloadText(t('intervalText'));
-          await new Promise<void>(resolveDelay => {
-            const timer = setTimeout(() => {
-              resolveDelay();
-            }, 1000);
+          await new Promise<void>((resolveDelay) => {
+            let resolved = false;
+            let timer: ReturnType<typeof setTimeout> | null = null;
+            let checkCancel: ReturnType<typeof setInterval> | null = null;
 
-            // Allow short-circuiting delay immediately on cancel
-            const checkCancel = setInterval(() => {
-              if (cancelTransmissionRef.current) {
+            const finish = () => {
+              if (resolved) return;
+              resolved = true;
+
+              if (timer !== null) {
                 clearTimeout(timer);
+                timer = null;
+              }
+
+              if (checkCancel !== null) {
                 clearInterval(checkCancel);
-                resolveDelay();
+                checkCancel = null;
+              }
+
+              resolveDelay();
+            };
+
+            timer = setTimeout(finish, 1000);
+
+            checkCancel = setInterval(() => {
+              if (cancelTransmissionRef.current) {
+                finish();
               }
             }, 50);
           });
         }
       }
 
-      // Final Cleanup on completion
-      setIsTransmitting(false);
-      isSoundActiveRef.current = false;
-      setIsSoundActive(false);
-      setCurrentPayloadText('');
-      setCurrentPlayIndex(null);
-      setTotalPlayItems(null);
+      resetTransmissionState();
 
       if (audioCtxRef.current) {
         audioCtxRef.current.close().catch(() => {});
@@ -320,34 +452,47 @@ function MainApp() {
 
   const stopTransmission = () => {
     cancelTransmissionRef.current = true;
-    isSoundActiveRef.current = false;
-    setIsSoundActive(false);
 
     if (audioSourceRef.current) {
       try {
         audioSourceRef.current.stop();
-      } catch (e) {}
+      } catch {}
       audioSourceRef.current = null;
     }
 
     if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch (e) {}
+      audioCtxRef.current.close().catch(() => {});
       audioCtxRef.current = null;
     }
 
-    setIsTransmitting(false);
-    setCurrentPayloadText('');
-    setCurrentPlayIndex(null);
-    setTotalPlayItems(null);
+    resetTransmissionState();
   };
 
-  // Copy JSON payload output to clipboard helper
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(jsonPayload);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(jsonPayload);
+      setCopied(true);
+
+      if (copiedTimeoutRef.current !== null) {
+        clearTimeout(copiedTimeoutRef.current);
+      }
+
+      copiedTimeoutRef.current = setTimeout(() => {
+        setCopied(false);
+        copiedTimeoutRef.current = null;
+      }, 2000);
+    } catch (err) {
+      console.error('Clipboard copy failed:', err);
+
+      const message =
+        language === 'ko'
+          ? '클립보드 복사에 실패했습니다.'
+          : language === 'ja'
+            ? 'クリップボードへのコピーに失敗しました。'
+            : 'Failed to copy to clipboard.';
+
+      alert(message);
+    }
   };
 
   // Sound ripple visualizer canvas animation
@@ -367,7 +512,6 @@ function MainApp() {
 
     let frame = 0;
     
-    // Set matching dimensions
     canvas.width = canvas.parentElement?.clientWidth || 350;
     canvas.height = 120;
 
@@ -377,7 +521,6 @@ function MainApp() {
       const centerY = canvas.height / 2;
       frame++;
 
-      // Background graph grid
       ctx.strokeStyle = 'rgba(241, 245, 249, 0.05)';
       ctx.lineWidth = 1;
       for (let i = 0; i < canvas.width; i += 40) {
@@ -387,7 +530,6 @@ function MainApp() {
         ctx.stroke();
       }
 
-      // Draw concentric sound ripples
       const maxRadius = Math.max(canvas.width, canvas.height) * 0.4;
       const numRings = 4;
       const isSoundPlaying = isSoundActiveRef.current;
@@ -397,17 +539,15 @@ function MainApp() {
         ctx.beginPath();
         ctx.arc(centerX, centerY, offset, 0, Math.PI * 2);
         const ringOpacityScale = isSoundPlaying ? 1 : 0.25;
-        ctx.strokeStyle = `rgba(14, 165, 233, ${opacity * 0.35 * ringOpacityScale})`; // sky-500
+        ctx.strokeStyle = `rgba(14, 165, 233, ${opacity * 0.35 * ringOpacityScale})`; 
         ctx.lineWidth = 1.5;
         ctx.stroke();
       }
 
-      // Draw active modulated waves
       ctx.beginPath();
-      // Gradient effect
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-      gradient.addColorStop(0, 'rgba(56, 189, 248, 0.2)'); // sky-400
-      gradient.addColorStop(0.5, 'rgba(14, 165, 233, 0.9)'); // sky-500
+      gradient.addColorStop(0, 'rgba(56, 189, 248, 0.2)'); 
+      gradient.addColorStop(0.5, 'rgba(14, 165, 233, 0.9)'); 
       gradient.addColorStop(1, 'rgba(56, 189, 248, 0.2)');
       
       ctx.strokeStyle = gradient;
@@ -417,7 +557,6 @@ function MainApp() {
         const distFromCenter = Math.abs(x - centerX);
         const envelope = Math.max(0, 1 - distFromCenter / (canvas.width * 0.45));
         
-        // Complex carrier wave drawing
         const carrier1 = Math.sin(x * 0.07 - frame * 0.12);
         const carrier2 = Math.sin(x * 0.18 + frame * 0.05);
         const modulator = Math.cos(x * 0.015 - frame * 0.02);
@@ -433,14 +572,12 @@ function MainApp() {
       }
       ctx.stroke();
 
-      // Simple baseline axis
       ctx.beginPath();
       ctx.strokeStyle = 'rgba(226, 232, 240, 0.255)';
       ctx.moveTo(0, centerY);
       ctx.lineTo(canvas.width, centerY);
       ctx.stroke();
 
-      // Pulse circle
       ctx.beginPath();
       ctx.arc(centerX, centerY, 6, 0, Math.PI * 2);
       ctx.fillStyle = '#0ea5e9';
@@ -454,6 +591,7 @@ function MainApp() {
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
     };
   }, [isTransmitting]);
@@ -535,10 +673,24 @@ function MainApp() {
             </div>
           )}
 
-          {/* Form Credentials Section - 3 Edittexts */}
+          {/* Form Credentials Section */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('inputSectionTitle')}</h2>
+            <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                {t('inputSectionTitle')}
+              </h2>
+              
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={isRemembered}
+                  onChange={handleRememberChange}
+                  className="w-3.5 h-3.5 rounded accent-sky-500 bg-black/40 border-white/10 cursor-pointer focus:ring-0 focus:ring-offset-0"
+                />
+                <span className="text-[11px] font-medium text-slate-400 hover:text-slate-200 transition-colors">
+                  {language === 'ko' ? '브라우저에 저장' : language === 'ja' ? 'ブラウザに保存' : 'Remember me'}
+                </span>
+              </label>
             </div>
 
             {/* Input 1: Gemini API Key */}
@@ -706,7 +858,7 @@ function MainApp() {
                   type="button"
                   onClick={() => setProtocol('audible_fast')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                     protocol === 'audible_fast'
+                    protocol === 'audible_fast'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
@@ -719,7 +871,7 @@ function MainApp() {
                   type="button"
                   onClick={() => setProtocol('audible_fastest')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                     protocol === 'audible_fastest'
+                    protocol === 'audible_fastest'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
@@ -732,7 +884,7 @@ function MainApp() {
                   type="button"
                   onClick={() => setProtocol('ultrasound_fast')}
                   className={`py-1.5 text-xs font-semibold rounded-lg transition-all flex flex-col items-center gap-1 cursor-pointer ${
-                     protocol === 'ultrasound_fast'
+                    protocol === 'ultrasound_fast'
                       ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
@@ -781,12 +933,12 @@ function MainApp() {
                 <FileJson className="h-4 w-4 text-sky-400" />
                 {t('previewTitle')}
                 <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full ${
-                  new TextEncoder().encode(jsonPayload).length <= 140 
+                  jsonPayloadBytes <= 140 
                     ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
                     : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                 }`}>
-                  {new TextEncoder().encode(jsonPayload).length}B 
-                  {new TextEncoder().encode(jsonPayload).length <= 140 ? t('singlePacket') : t('multiPacket')}
+                  {jsonPayloadBytes}B 
+                  {jsonPayloadBytes <= 140 ? t('singlePacket') : t('multiPacket')}
                 </span>
               </span>
               <button
@@ -816,8 +968,6 @@ function MainApp() {
 
         {/* Global Footer Controls */}
         <div className="border-t border-white/10 pt-5 text-center">
-          
-          {/* Primary Action Play Trigger */}
           <button
             onClick={handleTransmit}
             disabled={loadingState === 'loading'}
@@ -847,7 +997,7 @@ function MainApp() {
 
       </div>
 
-      {/* Sub-footer System Info Metadata matching Design HTML perfectly */}
+      {/* Sub-footer System Info Metadata */}
       <div className="mt-6 text-slate-600 text-[10px] flex gap-4 uppercase tracking-[0.2em] justify-center items-center select-none">
         <span>Carrier: 18kHz</span>
         <span>•</span>
