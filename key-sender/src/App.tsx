@@ -13,7 +13,6 @@ import {
   Square, 
   Radio, 
   KeyRound, 
-  ShieldCheck, 
   Copy, 
   Check, 
   RefreshCw,
@@ -48,7 +47,8 @@ function MainApp() {
   const [geminiKey, setGeminiKey] = useState<string>('');
   const [geminiLiveModel, setGeminiLiveModel] = useState<string>('gemini-3.1-flash-live-preview');
   const [geminiNormalModel, setGeminiNormalModel] = useState<string>('gemma-4-31b-it');
-  const [kakaoKey, setKakaoKey] = useState<string>('');
+  const [transmissionMode, setTransmissionMode] = useState<'settings' | 'clipboard'>('settings');
+  const [plainText, setPlainText] = useState<string>('');
 
   // Interface state
   const [volume, setVolume] = useState<number>(60);
@@ -131,10 +131,13 @@ function MainApp() {
 
   // Compute live compact JSON string representation without whitespace and using short keys
   const compactPayloadObj: Record<string, string> = {};
-  if (geminiKey) compactPayloadObj.g = geminiKey;
-  if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
-  if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
-  if (kakaoKey) compactPayloadObj.k = kakaoKey;
+  if (transmissionMode === 'clipboard') {
+    if (plainText) compactPayloadObj['?'] = plainText;
+  } else {
+    if (geminiKey) compactPayloadObj.g = geminiKey;
+    if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
+    if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
+  }
 
   const jsonPayload = JSON.stringify(compactPayloadObj);
 
@@ -188,10 +191,13 @@ function MainApp() {
 
     // Build sub-transmission targets based on 140b size limit
     const compactPayloadObj: Record<string, string> = {};
-    if (geminiKey) compactPayloadObj.g = geminiKey;
-    if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
-    if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
-    if (kakaoKey) compactPayloadObj.k = kakaoKey;
+    if (transmissionMode === 'clipboard') {
+      if (plainText) compactPayloadObj['?'] = plainText;
+    } else {
+      if (geminiKey) compactPayloadObj.g = geminiKey;
+      if (geminiLiveModel) compactPayloadObj.m = geminiLiveModel;
+      if (geminiNormalModel) compactPayloadObj.n = geminiNormalModel;
+    }
 
     const currentJsonPayload = JSON.stringify(compactPayloadObj);
     const bytesCount = new TextEncoder().encode(currentJsonPayload).length;
@@ -199,12 +205,14 @@ function MainApp() {
     let queue: string[] = [];
     if (bytesCount <= 140) {
       queue = [currentJsonPayload];
+    } else if (transmissionMode === 'clipboard') {
+      alert(t('alertPlainTextTooLong'));
+      return;
     } else {
       // Exceeds 140 bytes! Split into separate messages with 1s delays sequentially
       if (geminiKey) queue.push(JSON.stringify({ g: geminiKey }));
       if (geminiLiveModel) queue.push(JSON.stringify({ m: geminiLiveModel }));
       if (geminiNormalModel) queue.push(JSON.stringify({ n: geminiNormalModel }));
-      if (kakaoKey) queue.push(JSON.stringify({ k: kakaoKey }));
     }
 
     if (queue.length === 0 || Object.keys(compactPayloadObj).length === 0) {
@@ -533,6 +541,33 @@ function MainApp() {
               <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t('inputSectionTitle')}</h2>
             </div>
 
+            <div className="grid grid-cols-2 gap-1.5 bg-black/40 p-1.5 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setTransmissionMode('settings')}
+                className={`py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  transmissionMode === 'settings'
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                }`}
+              >
+                {t('modeSettings')}
+              </button>
+              <button
+                type="button"
+                onClick={() => setTransmissionMode('clipboard')}
+                className={`py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  transmissionMode === 'clipboard'
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/15'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                }`}
+              >
+                {t('modeClipboard')}
+              </button>
+            </div>
+
+            {transmissionMode === 'settings' ? (
+              <>
             {/* Input 1: Gemini API Key */}
             <div className="space-y-1.5" id="field-gemini">
               <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
@@ -592,26 +627,32 @@ function MainApp() {
                 />
               </div>
             </div>
-
-            {/* Kakao API Key */}
-            <div className="space-y-1.5" id="field-kakao-key">
-              <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
-                <span>{t('kakaoKeyLabel')}</span>
-                <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">kakao_api_key</span>
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <ShieldCheck className="h-4 w-4 text-slate-500" />
+              </>
+            ) : (
+              <div className="space-y-1.5" id="field-plain-text">
+                <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-1 flex justify-between">
+                  <span>{t('plainTextLabel')}</span>
+                  <span className="text-[9px] text-slate-500 font-normal lowercase font-mono">{"{\"?\":\"…\"}"}</span>
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Copy className="h-4 w-4 text-slate-500" />
+                  </div>
+                  <input
+                    type="text"
+                    value={plainText}
+                    onChange={(e) => setPlainText(e.target.value)}
+                    placeholder={t('placeholderPlainText')}
+                    autoComplete="off"
+                    spellCheck={false}
+                    className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
+                  />
                 </div>
-                <input
-                  type="text"
-                  value={kakaoKey}
-                  onChange={(e) => setKakaoKey(e.target.value)}
-                  placeholder={t('placeholderKakaoKey')}
-                  className="input-field block w-full py-2.5 pl-9 pr-3 text-sm font-mono placeholder:text-slate-600"
-                />
+                <p className="px-1 text-[10px] leading-relaxed text-amber-300/80">
+                  {t('plainTextClipboardNotice')}
+                </p>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Transmit Visual Signal Space */}
@@ -738,7 +779,11 @@ function MainApp() {
                     : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                 }`}>
                   {new TextEncoder().encode(jsonPayload).length}B 
-                  {new TextEncoder().encode(jsonPayload).length <= 140 ? t('singlePacket') : t('multiPacket')}
+                  {new TextEncoder().encode(jsonPayload).length <= 140
+                    ? t('singlePacket')
+                    : transmissionMode === 'clipboard'
+                      ? t('tooLarge')
+                      : t('multiPacket')}
                 </span>
               </span>
               <button
