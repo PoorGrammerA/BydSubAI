@@ -14,7 +14,7 @@
 | :--- | :--- | :--- | :--- |
 | **공조기** | **`control_air_conditioner`** | 에어컨/공조기 전원, 풍량, 온도, 순환, 성에제거, 모드, 바람방향 제어 | `power`, `wind_level`, `temperature`, `cycle_mode`, `mode`, `front_defrost`, `rear_defrost`, `wind_direction_face`, `wind_direction_foot`, `wind_direction_screen` |
 | **시트/핸들** | **`control_seat`** | 운전석 및 조수석 시트 열선/통풍 단계 조절 | `position` (필수), `heating_level`, `ventilation_level` |
-| **시트/핸들** | **`control_steering_wheel_heating`** | 스티어링 휠(핸들) 열선 켜기/끄기 | `power` (필수) |
+| **시트/핸들** | **`control_steering_wheel_heating`** | 스티어링 휠(핸들) 열선 켜기/끄기 및 단계(1~3) 제어 | `power` (필수), `level` (선택: 1~3단, DiLink 5 지원) |
 | **바디/트렁크**| **`control_trunk`** | 트렁크 테일게이트 열기/닫기/정지 | `action` (필수) |
 | **바디/창문** | **`control_window`** | 개별/구역/전체 창문 개방률 프리셋 및 0~100% 미세 제어 | `area` (필수), `action` (필수), `custom_percent` |
 | **바디/창문** | **`control_sunroof`** | 선루프 개방/폐쇄/환기/정지 및 0~100% 미세 제어 | `action` (필수), `custom_percent` |
@@ -56,9 +56,10 @@
   - `ventilation_level` (integer, 0~3): 시트 통풍 단계 (0=OFF, 1=1단, 2=2단, 3=3단)
 
 #### 3) 스티어링 휠 핸들 열선 제어 (`control_steering_wheel_heating`)
-* **목적**: 스티어링 휠(핸들) 열선 기능 켜기/끄기
+* **목적**: 스티어링 휠(핸들) 열선 기능 켜기/끄기 및 단계별 세기 조절
 * **주요 파라미터**:
   - `power` (boolean, 필수): 열선 전원 (`true`: 켜기, `false`: 끄기)
+  - `level` (integer, 선택): 열선 강도 단계 (1=1단, 2=2단, 3=3단, DiLink 5 지원 차량)
 
 #### 4) 트렁크 테일게이트 제어 (`control_trunk`)
 * **목적**: 차량 뒷문(트렁크 테일게이트) 열기, 닫기 및 동작 정지

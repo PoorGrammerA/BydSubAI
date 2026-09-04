@@ -14,7 +14,7 @@ This document details the **Function Calling (Tool) APIs** used by **BYD Sub AI*
 | :--- | :--- | :--- | :--- |
 | **Climate / HVAC** | **`control_air_conditioner`** | Controls HVAC power, fan speed, target temperature, circulation mode, defrosters, and vent directions. | `power`, `wind_level`, `temperature`, `cycle_mode`, `mode`, `front_defrost`, `rear_defrost`, `wind_direction_face`, `wind_direction_foot`, `wind_direction_screen` |
 | **Seats / Wheel** | **`control_seat`** | Controls heating and ventilation levels for driver and front passenger seats. | `position` (required), `heating_level`, `ventilation_level` |
-| **Seats / Wheel** | **`control_steering_wheel_heating`** | Toggles heated steering wheel ON/OFF. | `power` (required) |
+| **Seats / Wheel** | **`control_steering_wheel_heating`** | Toggles heated steering wheel ON/OFF with optional level (1–3) on DiLink 5. | `power` (required), `level` (optional: 1-3) |
 | **Body / Tailgate**| **`control_trunk`** | Opens, closes, or halts the rear motorized tailgate. | `action` (required) |
 | **Body / Windows** | **`control_window`** | Controls side window positions with presets or fine 0–100% percentages. | `area` (required), `action` (required), `custom_percent` |
 | **Body / Windows** | **`control_sunroof`** | Opens, closes, tilts (vents), or sets sunroof percentage. | `action` (required), `custom_percent` |
@@ -56,9 +56,10 @@ This document details the **Function Calling (Tool) APIs** used by **BYD Sub AI*
   - `ventilation_level` (integer, 0–3): Cooling level (0=OFF, 1=Low, 2=Medium, 3=High).
 
 #### 3) Heated Steering Wheel (`control_steering_wheel_heating`)
-* **Purpose**: Toggles steering wheel heating element.
+* **Purpose**: Toggles steering wheel heating element with optional intensity level on supported models.
 * **Parameters**:
   - `power` (boolean, required): Heating power (`true` for ON, `false` for OFF).
+  - `level` (integer, optional): Heating level (1=Low, 2=Medium, 3=High). Supported on DiLink 5.
 
 #### 4) Tailgate / Trunk (`control_trunk`)
 * **Purpose**: Operates the rear motorized tailgate door.

@@ -16,6 +16,7 @@ import com.poorgrammera.bydsubai.tool.ExternalToolDiscovery;
 import com.poorgrammera.bydsubai.tool.ExternalToolRegistry;
 import com.poorgrammera.bydsubai.tool.ExternalToolResults;
 import com.poorgrammera.bydsubai.vehicle.ClimateNoiseReductionController;
+import com.poorgrammera.bydsubai.vehicle.VehicleClassLoaderFactory;
 import com.poorgrammera.bydsubai.adb.AdbShellExecutor;
 
 
@@ -70,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int GGWAVE_RECORD_AUDIO_REQUEST_CODE = 2002;
     private static final int PERMISSION_REQUEST_CODE = 2003;
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 3001;
+
+    private static final String[] BYD_VEHICLE_PERMISSIONS = {
+            "android.permission.BYDAUTO_SETTING_COMMON",
+            "android.permission.BYDAUTO_SETTING_GET",
+            "android.permission.BYDAUTO_SETTING_SET",
+            "android.permission.BYDAUTO_AC_COMMON",
+            "android.permission.BYDAUTO_AC_GET",
+            "android.permission.BYDAUTO_BODYWORK_COMMON",
+            "android.permission.BYDAUTO_BODYWORK_GET",
+            "android.permission.BYDAUTO_BODYWORK_SET"
+    };
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor(runnable ->
             new Thread(runnable, "MainActivity-Worker"));
@@ -277,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     updateServiceStatusUI();
                     grantReadLogsPermission();
+                    grantVehiclePermissionsIfNeeded();
                 });
             }
 
@@ -893,6 +906,44 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String error) {
                 Log.e(TAG, "Failed to grant READ_LOGS permission via ADB: " + error);
                 runOnUiThread(() -> updateServiceStatusUI());
+            }
+        });
+    }
+
+    private void grantVehiclePermissionsIfNeeded() {
+        boolean isDilink3 = getSharedPreferences(ConfigData.PREF_NAME, MODE_PRIVATE)
+                .getBoolean(ConfigData.KEY_IS_DILINK3, true);
+        if (isDilink3) {
+            Log.d(TAG, "Skipping DiLink 5 BYDAUTO permission grants on DiLink 3.");
+            return;
+        }
+
+        String packageName = getPackageName();
+        StringBuilder script = new StringBuilder();
+        script.append("failed=0\n");
+        for (String permission : BYD_VEHICLE_PERMISSIONS) {
+            script.append("pm grant ")
+                    .append(packageName)
+                    .append(' ')
+                    .append(permission)
+                    .append(" >/dev/null 2>&1 || failed=$((failed+1))\n");
+        }
+        script.append("echo BYDAUTO_GRANTS_FAILED=$failed\n");
+        script.append("[ \"$failed\" -eq 0 ]");
+
+        Log.i(TAG, "Attempting to grant DiLink 5 BYDAUTO permissions via local ADB...");
+        adbExecutor.executeScript(script.toString(), new AdbShellExecutor.ShellCallback() {
+            @Override
+            public void onSuccess(String output) {
+                Log.i(TAG, "DiLink 5 BYDAUTO permissions granted: " + output.trim());
+                // A VehicleController may already have failed before ADB authorization.
+                // Force the next initialization attempt to rediscover the now-authorized SDK.
+                VehicleClassLoaderFactory.resetCache();
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "Failed to grant one or more DiLink 5 BYDAUTO permissions: " + error);
             }
         });
     }

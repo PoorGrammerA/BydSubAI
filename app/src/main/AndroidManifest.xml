@@ -16,6 +16,14 @@
     <uses-permission android:name="android.permission.BYDAUTO_LOCATION_SET" />
     <uses-permission android:name="android.permission.BYDAUTO_SENSOR_GET" />
     <uses-permission android:name="android.permission.BYDAUTO_SENSOR_SET" />
+    <uses-permission android:name="android.permission.BYDAUTO_SETTING_COMMON" />
+    <uses-permission android:name="android.permission.BYDAUTO_SETTING_GET" />
+    <uses-permission android:name="android.permission.BYDAUTO_SETTING_SET" />
+    <uses-permission android:name="android.permission.BYDAUTO_AC_COMMON" />
+    <uses-permission android:name="android.permission.BYDAUTO_AC_GET" />
+    <uses-permission android:name="android.permission.BYDAUTO_BODYWORK_COMMON" />
+    <uses-permission android:name="android.permission.BYDAUTO_BODYWORK_GET" />
+    <uses-permission android:name="android.permission.BYDAUTO_BODYWORK_SET" />
 
     <queries>
         <intent>
@@ -36,6 +44,13 @@
         <!-- Melon -->
         <package android:name="com.iloen.melon" />
         <package android:name="com.iloen.melon.tablet" />
+        <!-- DiLink 5 BYD vehicle SDK host packages -->
+        <package android:name="com.byd.hvac" />
+        <package android:name="com.byd.carsettings" />
+        <package android:name="com.byd.mycar" />
+        <package android:name="com.byd.scenemode" />
+        <package android:name="com.byd.autoservice" />
+        <package android:name="com.byd.data.collect" />
     </queries>
 
     <application

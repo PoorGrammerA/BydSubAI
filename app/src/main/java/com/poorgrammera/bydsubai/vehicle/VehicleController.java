@@ -69,128 +69,192 @@ public class VehicleController {
     private Class<?> featureClass;
 
     private boolean isInitialized = false;
+    private boolean isDilink3 = true;
+    private volatile String lastInitializationError = "";
 
     public VehicleController(Context context) {
         this.context = context.getApplicationContext();
         initReflection();
     }
 
+    public boolean isDilink3() {
+        return isDilink3;
+    }
+
     private void initReflection() {
         executorService.submit(() -> {
             try {
-                Log.d(TAG, "Initializing BYD Devices reflection...");
-                
-                // Initialize AC Device
-                Class<?> acClass = Class.forName("android.hardware.bydauto.ac.BYDAutoAcDevice");
-                Method acGetInstance = acClass.getMethod("getInstance", Context.class);
-                acDevice = acGetInstance.invoke(null, new VehicleContextWrapper(context));
-                Method getAcType = acClass.getMethod("getDevicetype");
-                acDevType = (int) getAcType.invoke(acDevice);
-
-                // Initialize Feature IDs class
-                featureClass = Class.forName("android.hardware.bydauto.BYDAutoFeatureIds");
-
-                // Initialize Bodywork Device
-                Class<?> bodyworkClass = Class.forName("android.hardware.bydauto.bodywork.BYDAutoBodyworkDevice");
-                Method bodyworkGetInstance = bodyworkClass.getMethod("getInstance", Context.class);
-                bodyworkDevice = bodyworkGetInstance.invoke(null, new VehicleContextWrapper(context));
-                Method getBodyworkType = bodyworkClass.getMethod("getDevicetype");
-                bodyworkDevType = (int) getBodyworkType.invoke(bodyworkDevice);
-
-                // Initialize Setting Device
-                Class<?> settingClass = Class.forName("android.hardware.bydauto.setting.BYDAutoSettingDevice");
-                Method settingGetInstance = settingClass.getMethod("getInstance", Context.class);
-                settingDevice = settingGetInstance.invoke(null, new VehicleContextWrapper(context));
-                Method getSettingType = settingClass.getMethod("getDevicetype");
-                settingDevType = (int) getSettingType.invoke(settingDevice);
-
-                // Initialize Audio Device
-                Class<?> audioClass = Class.forName("android.hardware.bydauto.audio.BYDAutoAudioDevice");
-                Method audioGetInstance = audioClass.getMethod("getInstance", Context.class);
-                audioDevice = audioGetInstance.invoke(null, new VehicleContextWrapper(context));
-                Method getAudioType = audioClass.getMethod("getDevicetype");
-                audioDevType = (int) getAudioType.invoke(audioDevice);
-
-                // Initialize Tyre Device
-                try {
-                    Class<?> tyreClass = Class.forName("android.hardware.bydauto.tyre.BYDAutoTyreDevice");
-                    Method tyreGetInstance = tyreClass.getMethod("getInstance", Context.class);
-                    tyreDevice = tyreGetInstance.invoke(null, new VehicleContextWrapper(context));
-                    Method getTyreType = tyreClass.getMethod("getDevicetype");
-                    tyreDevType = (int) getTyreType.invoke(tyreDevice);
-                    Log.i(TAG, "Tyre Device successfully initialized.");
-                } catch (Exception e) {
-                    Log.w(TAG, "Failed to initialize Tyre Device reflection", e);
-                }
-
-                // Initialize Instrument Device
-                try {
-                    Class<?> instrumentClass = Class.forName("android.hardware.bydauto.instrument.BYDAutoInstrumentDevice");
-                    Method instrumentGetInstance = instrumentClass.getMethod("getInstance", Context.class);
-                    instrumentDevice = instrumentGetInstance.invoke(null, new VehicleContextWrapper(context));
-                    Method getInstrumentType = instrumentClass.getMethod("getDevicetype");
-                    instrumentDevType = (int) getInstrumentType.invoke(instrumentDevice);
-                    Log.i(TAG, "Instrument Device successfully initialized.");
-                } catch (Exception e) {
-                    Log.w(TAG, "Failed to initialize Instrument Device reflection", e);
-                }
-
-                // Initialize Light Device
-                try {
-                    Class<?> lightClass = Class.forName("android.hardware.bydauto.light.BYDAutoLightDevice");
-                    Method lightGetInstance = lightClass.getMethod("getInstance", Context.class);
-                    lightDevice = lightGetInstance.invoke(null, new VehicleContextWrapper(context));
-                    Method getLightType = lightClass.getMethod("getDevicetype");
-                    lightDevType = (int) getLightType.invoke(lightDevice);
-                    Log.i(TAG, "Light Device successfully initialized.");
-                } catch (Exception e) {
-                    Log.w(TAG, "Failed to initialize Light Device reflection", e);
-                }
-
-                // Initialize Statistic Device
-                try {
-                    Class<?> statisticClass = Class.forName("android.hardware.bydauto.statistic.BYDAutoStatisticDevice");
-                    Method statisticGetInstance = statisticClass.getMethod("getInstance", Context.class);
-                    statisticDevice = statisticGetInstance.invoke(null, new VehicleContextWrapper(context));
-                    try {
-                        Method getStatisticType = statisticClass.getMethod("getDevicetype");
-                        statisticDevType = (int) getStatisticType.invoke(statisticDevice);
-                    } catch (Exception ignored) {}
-                    Log.i(TAG, "Statistic Device successfully initialized.");
-                } catch (Exception e) {
-                    Log.w(TAG, "Failed to initialize Statistic Device reflection", e);
-                }
-
-                // Initialize Gearbox Device for safety checks on vehicle controls.
-                try {
-                    Class<?> gearboxClass = Class.forName("android.hardware.bydauto.gearbox.BYDAutoGearboxDevice");
-                    Method gearboxGetInstance = gearboxClass.getMethod("getInstance", Context.class);
-                    gearboxDevice = gearboxGetInstance.invoke(null, new VehicleContextWrapper(context));
-                    getCurrentGearMethod = gearboxClass.getMethod("getCurrentGear");
-                    Log.i(TAG, "Gearbox Device successfully initialized.");
-                } catch (Exception e) {
-                    Log.w(TAG, "Failed to initialize Gearbox Device reflection", e);
-                }
-
-                // Extract Base Set Methods (from AbsBYDAutoDevice)
-                Class<?> absDeviceClass = acClass.getSuperclass();
-                baseSetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int.class, int.class);
-                baseSetMethod.setAccessible(true);
-
-                baseArraySetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int[].class, int[].class);
-                baseArraySetMethod.setAccessible(true);
-
-                baseGetMethod = absDeviceClass.getDeclaredMethod("get", int.class, int.class);
-                baseGetMethod.setAccessible(true);
-
-                isInitialized = true;
-                Log.i(TAG, "Successfully initialized BYD Devices reflection in VehicleController.");
-                dumpClassMethodsAndFields(acClass, featureClass);
+                initDevicesInternal();
+                dumpClassMethodsAndFields(acDevice != null ? acDevice.getClass() : null, featureClass);
             } catch (Exception e) {
-                Log.e(TAG, "Failed to initialize BYD Devices via reflection", e);
-                showToast(context.getString(R.string.toast_reflection_init_failed, e.getMessage()));
+                handleInitializationFailure("Failed to initialize BYD Devices via reflection", e);
+                showToast(context.getString(
+                        R.string.toast_reflection_init_failed,
+                        lastInitializationError
+                ));
             }
         });
+    }
+
+    private void handleInitializationFailure(String stage, Throwable error) {
+        Throwable root = VehicleClassLoaderFactory.unwrap(error);
+        String detail = VehicleClassLoaderFactory.describeThrowable(root);
+        lastInitializationError = detail.isEmpty() ? "Unknown vehicle SDK error" : detail;
+        Log.e(TAG, stage + ": " + lastInitializationError, root);
+        resetReflectionStateAfterFailure();
+        VehicleClassLoaderFactory.resetCache();
+    }
+
+    private synchronized void resetReflectionStateAfterFailure() {
+        isInitialized = false;
+
+        acDevice = null;
+        bodyworkDevice = null;
+        settingDevice = null;
+        audioDevice = null;
+        tyreDevice = null;
+        instrumentDevice = null;
+        lightDevice = null;
+        statisticDevice = null;
+        gearboxDevice = null;
+
+        acDevType = 0;
+        bodyworkDevType = 0;
+        settingDevType = 0;
+        audioDevType = 0;
+        tyreDevType = 0;
+        instrumentDevType = 0;
+        lightDevType = 0;
+        statisticDevType = 0;
+
+        getCurrentGearMethod = null;
+        baseSetMethod = null;
+        baseArraySetMethod = null;
+        baseGetMethod = null;
+        featureClass = null;
+    }
+
+    private synchronized void initDevicesInternal() throws Exception {
+        if (isInitialized) return;
+        Log.d(TAG, "Initializing BYD Devices reflection via VehicleClassLoaderFactory...");
+
+        isDilink3 = VehicleClassLoaderFactory.isDilink3(context);
+
+        // Initialize AC Device. Resolving this device also validates and selects the SDK loader.
+        acDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.ac.BYDAutoAcDevice");
+        Log.i(TAG, "Target vehicle platform: " + (isDilink3 ? "DiLink 3" : "DiLink 5")
+                + " (Source: " + VehicleClassLoaderFactory.getActiveSdkSource() + ")");
+        Class<?> acClass = acDevice.getClass();
+        Method getAcType = acClass.getMethod("getDevicetype");
+        acDevType = (int) getAcType.invoke(acDevice);
+
+        // Initialize Feature IDs class
+        try {
+            featureClass = VehicleClassLoaderFactory.loadClass(context, "android.hardware.bydauto.BYDAutoFeatureIds");
+        } catch (Exception e) {
+            Log.w(TAG, "Could not load BYDAutoFeatureIds class", e);
+        }
+
+        // Initialize Bodywork Device
+        try {
+            bodyworkDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.bodywork.BYDAutoBodyworkDevice");
+            Method getBodyworkType = bodyworkDevice.getClass().getMethod("getDevicetype");
+            bodyworkDevType = (int) getBodyworkType.invoke(bodyworkDevice);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Bodywork Device reflection", e);
+        }
+
+        // Initialize Setting Device
+        try {
+            settingDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.setting.BYDAutoSettingDevice");
+            Method getSettingType = settingDevice.getClass().getMethod("getDevicetype");
+            settingDevType = (int) getSettingType.invoke(settingDevice);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Setting Device reflection", e);
+        }
+
+        // Initialize Audio Device
+        try {
+            audioDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.audio.BYDAutoAudioDevice");
+            Method getAudioType = audioDevice.getClass().getMethod("getDevicetype");
+            audioDevType = (int) getAudioType.invoke(audioDevice);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Audio Device reflection", e);
+        }
+
+        // Initialize Tyre Device
+        try {
+            tyreDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.tyre.BYDAutoTyreDevice");
+            Method getTyreType = tyreDevice.getClass().getMethod("getDevicetype");
+            tyreDevType = (int) getTyreType.invoke(tyreDevice);
+            Log.i(TAG, "Tyre Device successfully initialized.");
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Tyre Device reflection", e);
+        }
+
+        // Initialize Instrument Device
+        try {
+            instrumentDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.instrument.BYDAutoInstrumentDevice");
+            Method getInstrumentType = instrumentDevice.getClass().getMethod("getDevicetype");
+            instrumentDevType = (int) getInstrumentType.invoke(instrumentDevice);
+            Log.i(TAG, "Instrument Device successfully initialized.");
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Instrument Device reflection", e);
+        }
+
+        // Initialize Light Device
+        try {
+            lightDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.light.BYDAutoLightDevice");
+            Method getLightType = lightDevice.getClass().getMethod("getDevicetype");
+            lightDevType = (int) getLightType.invoke(lightDevice);
+            Log.i(TAG, "Light Device successfully initialized.");
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Light Device reflection", e);
+        }
+
+        // Initialize Statistic Device
+        try {
+            statisticDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.statistic.BYDAutoStatisticDevice");
+            try {
+                Method getStatisticType = statisticDevice.getClass().getMethod("getDevicetype");
+                statisticDevType = (int) getStatisticType.invoke(statisticDevice);
+            } catch (Exception ignored) {}
+            Log.i(TAG, "Statistic Device successfully initialized.");
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Statistic Device reflection", e);
+        }
+
+        // Initialize Gearbox Device for safety checks on vehicle controls.
+        try {
+            gearboxDevice = VehicleClassLoaderFactory.loadDevice(context, "android.hardware.bydauto.gearbox.BYDAutoGearboxDevice");
+            getCurrentGearMethod = gearboxDevice.getClass().getMethod("getCurrentGear");
+            Log.i(TAG, "Gearbox Device successfully initialized.");
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to initialize Gearbox Device reflection", e);
+        }
+
+        // Extract Base Set Methods (from AbsBYDAutoDevice)
+        Class<?> absDeviceClass = acClass.getSuperclass();
+        if (absDeviceClass != null) {
+            try {
+                baseSetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int.class, int.class);
+                baseSetMethod.setAccessible(true);
+            } catch (Exception ignored) {}
+
+            try {
+                baseArraySetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int[].class, int[].class);
+                baseArraySetMethod.setAccessible(true);
+            } catch (Exception ignored) {}
+
+            try {
+                baseGetMethod = absDeviceClass.getDeclaredMethod("get", int.class, int.class);
+                baseGetMethod.setAccessible(true);
+            } catch (Exception ignored) {}
+        }
+
+        isInitialized = true;
+        lastInitializationError = "";
+        Log.i(TAG, "Successfully initialized BYD Devices reflection in VehicleController (" + (isDilink3 ? "DiLink 3" : "DiLink 5") + ").");
     }
 
     private int sendSetCommand(Object device, int devType, int featureId, int value) throws Exception {
@@ -313,13 +377,19 @@ public class VehicleController {
                     try {
                         initReflectionSync();
                     } catch (Exception e) {
-                        Log.e(TAG, "controlAirConditioner: Synchronous recovery initialization failed", e);
+                        Throwable root = VehicleClassLoaderFactory.unwrap(e);
+                        Log.e(TAG, "controlAirConditioner: Synchronous recovery initialization failed: "
+                                + VehicleClassLoaderFactory.describeThrowable(root), root);
                     }
                 }
 
                 if (acDevice == null) {
-                    Log.e(TAG, "controlAirConditioner: acDevice is null! Cannot control A/C.");
-                    showToast("차량 제어 장치를 초기화할 수 없어 공조기를 제어할 수 없습니다.");
+                    Log.e(TAG, "controlAirConditioner: acDevice is null! Cannot control A/C. Last init error: "
+                            + lastInitializationError);
+                    String detail = lastInitializationError.isEmpty()
+                            ? ""
+                            : " (" + lastInitializationError + ")";
+                    showToast("차량 제어 장치를 초기화할 수 없어 공조기를 제어할 수 없습니다." + detail);
                     return;
                 }
 
@@ -689,7 +759,15 @@ public class VehicleController {
                     if (areaNum >= 5) {
                         String cmdName = areaNum == 5 ? "voiceCtlMoonRoof" : "voiceCtlSunshadePanel";
                         int sdkCmd = command == 3 ? 4 : command;
-                        callMethod(bodyworkDevice, cmdName, new Class<?>[]{int.class}, sdkCmd);
+                        if (areaNum == 6 && isDilink3) {
+                            try {
+                                callMethod(bodyworkDevice, "setSunshadeState", new Class<?>[]{int.class}, command == 1 ? 100 : 0);
+                            } catch (Exception e) {
+                                callMethod(bodyworkDevice, cmdName, new Class<?>[]{int.class}, sdkCmd);
+                            }
+                        } else {
+                            callMethod(bodyworkDevice, cmdName, new Class<?>[]{int.class}, sdkCmd);
+                        }
                     } else {
                         int lf = areaNum == 1 ? command : 0;
                         int rf = areaNum == 2 ? command : 0;
@@ -727,7 +805,23 @@ public class VehicleController {
             if (percent == 10) callMethod(bodyworkDevice, "voiceCtlMoonRoof", new Class<?>[]{int.class}, 5);
             else callMethod(bodyworkDevice, "setMoonRoofState", new Class<?>[]{int.class}, percent == 0 ? 0 : Math.max(21, percent));
         } else if (area == 6) {
-            callMethod(bodyworkDevice, "setSunshadeState", new Class<?>[]{int.class}, percent);
+            if (!isDilink3) {
+                int cmd = (percent <= 20) ? 2 : 1;
+                callMethod(bodyworkDevice, "voiceCtlSunshadePanel", new Class<?>[]{int.class}, cmd);
+            } else {
+                callMethod(bodyworkDevice, "setSunshadeState", new Class<?>[]{int.class}, percent);
+            }
+        }
+    }
+
+    public int getSunshadePosition() {
+        if (bodyworkDevice == null) return -1;
+        try {
+            Object res = callMethod(bodyworkDevice, "getSunroofWindowblindPosition", new Class<?>[]{});
+            return (res instanceof Number) ? ((Number) res).intValue() : -1;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read sunshade position", e);
+            return -1;
         }
     }
 
@@ -750,18 +844,56 @@ public class VehicleController {
 
     // 5. Steering Wheel heating
     public void controlSteeringWheelHeating(Boolean power) {
+        controlSteeringWheelHeating(power, null);
+    }
+
+    public void controlSteeringWheelHeating(Boolean power, Integer level) {
         executorService.submit(() -> {
             try {
-                int state = power ? 2 : 1;
+                int state = (power != null && power) ? 2 : 1;
                 try {
                     callMethod(settingDevice, "setSteeringWheelHeatingState", new Class<?>[]{int.class}, state);
                 } catch (Exception e) {
                     sendSetCommand(settingDevice, settingDevType, 944767029, state);
                 }
+
+                // DiLink 5: Send requested heating level (1, 2, 3) after state ON
+                if (power != null && power && !isDilink3) {
+                    try {
+                        Thread.sleep(100);
+                        int gear = (level != null) ? Math.max(1, Math.min(3, level)) : 1;
+                        callMethod(settingDevice, "setSteeringWheelHeatingGear", new Class<?>[]{int.class}, gear);
+                        Log.i(TAG, "DiLink 5 steering wheel heating gear applied: " + gear);
+                    } catch (Exception e) {
+                        Log.w(TAG, "DiLink 5 setSteeringWheelHeatingGear failed or not supported on this trim", e);
+                    }
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to control Steering Wheel Heating", e);
             }
         });
+    }
+
+    public int getSteeringWheelHeatingState() {
+        if (settingDevice == null) return -1;
+        try {
+            Object res = callMethod(settingDevice, "getSteeringWheelHeatingState", new Class<?>[]{});
+            return (res instanceof Number) ? ((Number) res).intValue() : -1;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read steering wheel heating state", e);
+            return -1;
+        }
+    }
+
+    public int getSteeringWheelHeatingGear() {
+        if (settingDevice == null) return -1;
+        try {
+            Object res = callMethod(settingDevice, "getSteeringWheelHeatingGear", new Class<?>[]{});
+            return (res instanceof Number) ? ((Number) res).intValue() : -1;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read steering wheel heating gear", e);
+            return -1;
+        }
     }
 
     // 6. Audio controls
@@ -917,65 +1049,13 @@ public class VehicleController {
 
     private synchronized void initReflectionSync() throws Exception {
         if (isInitialized) return;
-        Log.d(TAG, "initReflectionSync: Running synchronous initialization...");
-        
-        Class<?> acClass = Class.forName("android.hardware.bydauto.ac.BYDAutoAcDevice");
-        Method acGetInstance = acClass.getMethod("getInstance", Context.class);
-        acDevice = acGetInstance.invoke(null, new VehicleContextWrapper(context));
-        Method getAcType = acClass.getMethod("getDevicetype");
-        acDevType = (int) getAcType.invoke(acDevice);
-
-        featureClass = Class.forName("android.hardware.bydauto.BYDAutoFeatureIds");
-
-        Class<?> bodyworkClass = Class.forName("android.hardware.bydauto.bodywork.BYDAutoBodyworkDevice");
-        Method bodyworkGetInstance = bodyworkClass.getMethod("getInstance", Context.class);
-        bodyworkDevice = bodyworkGetInstance.invoke(null, new VehicleContextWrapper(context));
-        Method getBodyworkType = bodyworkClass.getMethod("getDevicetype");
-        bodyworkDevType = (int) getBodyworkType.invoke(bodyworkDevice);
-
-        Class<?> settingClass = Class.forName("android.hardware.bydauto.setting.BYDAutoSettingDevice");
-        Method settingGetInstance = settingClass.getMethod("getInstance", Context.class);
-        settingDevice = settingGetInstance.invoke(null, new VehicleContextWrapper(context));
-        Method getSettingType = settingClass.getMethod("getDevicetype");
-        settingDevType = (int) getSettingType.invoke(settingDevice);
-
-        Class<?> audioClass = Class.forName("android.hardware.bydauto.audio.BYDAutoAudioDevice");
-        Method audioGetInstance = audioClass.getMethod("getInstance", Context.class);
-        audioDevice = audioGetInstance.invoke(null, new VehicleContextWrapper(context));
-        Method getAudioType = audioClass.getMethod("getDevicetype");
-        audioDevType = (int) getAudioType.invoke(audioDevice);
-
+        Log.d(TAG, "initReflectionSync: Running synchronous initialization via initDevicesInternal...");
         try {
-            Class<?> tyreClass = Class.forName("android.hardware.bydauto.tyre.BYDAutoTyreDevice");
-            Method tyreGetInstance = tyreClass.getMethod("getInstance", Context.class);
-            tyreDevice = tyreGetInstance.invoke(null, new VehicleContextWrapper(context));
-            Method getTyreType = tyreClass.getMethod("getDevicetype");
-            tyreDevType = (int) getTyreType.invoke(tyreDevice);
-            Log.i(TAG, "initReflectionSync: Tyre Device successfully initialized.");
+            initDevicesInternal();
         } catch (Exception e) {
-            Log.w(TAG, "initReflectionSync: Failed to initialize Tyre Device reflection", e);
+            handleInitializationFailure("initReflectionSync failed", e);
+            throw e;
         }
-
-        try {
-            Class<?> instrumentClass = Class.forName("android.hardware.bydauto.instrument.BYDAutoInstrumentDevice");
-            Method instrumentGetInstance = instrumentClass.getMethod("getInstance", Context.class);
-            instrumentDevice = instrumentGetInstance.invoke(null, new VehicleContextWrapper(context));
-            Method getInstrumentType = instrumentClass.getMethod("getDevicetype");
-            instrumentDevType = (int) getInstrumentType.invoke(instrumentDevice);
-            Log.i(TAG, "initReflectionSync: Instrument Device successfully initialized.");
-        } catch (Exception e) {
-            Log.w(TAG, "initReflectionSync: Failed to initialize Instrument Device reflection", e);
-        }
-
-        Class<?> absDeviceClass = acClass.getSuperclass();
-        baseSetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int.class, int.class);
-        baseSetMethod.setAccessible(true);
-
-        baseArraySetMethod = absDeviceClass.getDeclaredMethod("set", int.class, int[].class, int[].class);
-        baseArraySetMethod.setAccessible(true);
-
-        isInitialized = true;
-        Log.i(TAG, "initReflectionSync: Successfully completed synchronous initialization.");
     }
 
     public Map<String, Integer> getTyrePressures() {
@@ -1053,6 +1133,35 @@ public class VehicleController {
     }
 
     public Double getOutCarTemperature() {
+        // 1. On DiLink 5, use dedicated DiLink5TemperatureProvider first
+        if (!isDilink3) {
+            try {
+                Integer temp = DiLink5TemperatureProvider.read(context);
+                if (temp != null) {
+                    Log.d(TAG, "getOutCarTemperature (DiLink5TemperatureProvider): " + temp + "C");
+                    return temp.doubleValue();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "DiLink5TemperatureProvider read failed, trying standard OEM methods", e);
+            }
+        }
+
+        // 2. Try acDevice getTemprature(4) (OEM method for DiLink 3 and 5)
+        if (acDevice != null) {
+            try {
+                Method getTempratureMethod = acDevice.getClass().getMethod("getTemprature", int.class);
+                Object res = getTempratureMethod.invoke(acDevice, 4);
+                if (res instanceof Number) {
+                    int tempVal = ((Number) res).intValue();
+                    if (tempVal >= -40 && tempVal <= 50) {
+                        Log.d(TAG, "getOutCarTemperature (acDevice.getTemprature): " + tempVal + "C");
+                        return (double) tempVal;
+                    }
+                }
+            } catch (Exception ignored) {}
+        }
+
+        // 3. Fallback to instrumentDevice.getOutCarTemperature()
         if (instrumentDevice == null) {
             Log.w(TAG, "getOutCarTemperature: instrumentDevice is null, reflection failed or unsupported.");
             return null;
@@ -1063,7 +1172,7 @@ public class VehicleController {
             if (res instanceof Number) {
                 double tempVal = ((Number) res).doubleValue();
                 if (tempVal >= -50.0 && tempVal <= 60.0) {
-                    Log.d(TAG, "getOutCarTemperature: " + tempVal + "C");
+                    Log.d(TAG, "getOutCarTemperature (instrumentDevice): " + tempVal + "C");
                     return tempVal;
                 }
             }
@@ -1071,6 +1180,40 @@ public class VehicleController {
             Log.e(TAG, "Failed to get external car temperature via reflection", e);
         }
         return null;
+    }
+
+    public int getSeatHeatingState(int seat) {
+        if (settingDevice == null) return -1;
+        try {
+            if (!isDilink3 && seat == 2) {
+                try {
+                    Object res = callMethod(settingDevice, "getSeatHeatingNotL1PState", new Class<?>[]{});
+                    if (res instanceof Number) return ((Number) res).intValue();
+                } catch (Exception ignored) {}
+            }
+            Object res = callMethod(settingDevice, "getSeatHeatingState", new Class<?>[]{int.class}, seat);
+            return (res instanceof Number) ? ((Number) res).intValue() : -1;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read seat heating state for seat=" + seat, e);
+            return -1;
+        }
+    }
+
+    public int getSeatVentilatingState(int seat) {
+        if (settingDevice == null) return -1;
+        try {
+            if (!isDilink3 && seat == 2) {
+                try {
+                    Object res = callMethod(settingDevice, "getSeatVentilatingNotL1PState", new Class<?>[]{});
+                    if (res instanceof Number) return ((Number) res).intValue();
+                } catch (Exception ignored) {}
+            }
+            Object res = callMethod(settingDevice, "getSeatVentilatingState", new Class<?>[]{int.class}, seat);
+            return (res instanceof Number) ? ((Number) res).intValue() : -1;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read seat ventilating state for seat=" + seat, e);
+            return -1;
+        }
     }
 
     private int getFeatureId(String name, int fallback) {

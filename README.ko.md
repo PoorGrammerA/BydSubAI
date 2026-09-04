@@ -16,6 +16,15 @@
 
 ---
 
+## 🚗 차량 플랫폼 지원 현황 및 DiLink 5 안내
+
+- **DiLink 3**: 실차 환경에서 정상 작동 및 검증 완료.
+- **DiLink 5 (개발 중 / 기여 환영 🤝)**:
+  > ⚠️ **안내**: DiLink 5 지원 코드([`feature/dilink3-dilink5-support`](https://github.com/PoorGrammerA/BydSubAI/tree/feature/dilink3-dilink5-support) 브랜치)는 현재 초기 개발 단계이며, **실제 DiLink 5 차량 환경에서 아직 정상 작동하지 않는 상태**입니다.
+  > DiLink 5 차량 환경을 보유하신 개발자분들의 실차 테스트, 디버깅 및 **Pull Request(PR) 기여를 진심으로 환영하고 기다리고 있습니다!**
+
+---
+
 ## 🏗️ 아키텍처 및 패키지 구조
 
 BYD Sub AI는 오픈소스 기여와 높은 유지보수성을 위해 도메인별 패키지로 모듈화되어 있습니다:

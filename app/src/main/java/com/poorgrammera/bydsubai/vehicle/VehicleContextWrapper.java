@@ -20,6 +20,14 @@ public class VehicleContextWrapper extends ContextWrapper {
     }
 
     @Override
+    public Context getApplicationContext() {
+        // Keep OEM SDK permission checks on this wrapper instead of falling back
+        // to the original application Context. This matches the working DiLink 5
+        // implementation documented in REFERENCES.
+        return this;
+    }
+
+    @Override
     public int checkPermission(@NonNull String permission, int pid, int uid) {
         return PackageManager.PERMISSION_GRANTED;
     }

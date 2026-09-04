@@ -238,6 +238,10 @@ public class GeminiLiveClient {
                     .type("BOOLEAN")
                     .description("Enable (true) or disable (false) steering wheel heating.")
                     .build());
+            wheelProps.put("level", Schema.builder()
+                    .type("INTEGER")
+                    .description("Steering wheel heating level (1: low, 2: medium, 3: high). Optional, supported on DiLink 5 models.")
+                    .build());
             Schema wheelParams = Schema.builder()
                     .type("OBJECT")
                     .properties(wheelProps)
@@ -245,7 +249,7 @@ public class GeminiLiveClient {
                     .build();
             FunctionDeclaration controlWheelDecl = FunctionDeclaration.builder()
                     .name("control_steering_wheel_heating")
-                    .description("Turns steering wheel heating on or off.")
+                    .description("Turns steering wheel heating on or off, with optional heating level (1-3) on supported models.")
                     .parameters(wheelParams)
                     .build();
             declarations.add(controlWheelDecl);
@@ -968,8 +972,13 @@ public class GeminiLiveClient {
                     return;
                 }
                 Boolean power = (Boolean) args.get("power");
+                Integer level = null;
+                Object levelObj = args.get("level");
+                if (levelObj instanceof Number) {
+                    level = ((Number) levelObj).intValue();
+                }
                 if (power != null) {
-                    vehicleController.controlSteeringWheelHeating(power);
+                    vehicleController.controlSteeringWheelHeating(power, level);
                 }
                 sendToolSuccessResponse(callId, name);
             } else if ("control_trunk".equals(name)) {
