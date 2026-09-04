@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_title"
+            android:textColor="#00E676"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Configuration Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/api_credentials_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gemini_api_key_label"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_gemini_api_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:inputType="text"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gemini_live_model_label"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_gemini_live_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:inputType="text"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gemini_normal_model_label"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_gemini_normal_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:inputType="text"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/voice_mode_title"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rg_voice_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <RadioButton
+                    android:id="@+id/rb_voice_rumi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_mode_rumi"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676"
+                    android:layout_marginEnd="16dp" />
+                <RadioButton
+                    android:id="@+id/rb_voice_kitt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_mode_kitt"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676"
+                    android:layout_marginEnd="16dp" />
+                <RadioButton
+                    android:id="@+id/rb_voice_asurada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_mode_asurada"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_user_name_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/et_user_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:inputType="text"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/map_provider_title"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rg_map_provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/rb_map_naver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/map_provider_naver"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676"
+                    android:layout_marginEnd="24dp" />
+
+                <RadioButton
+                    android:id="@+id/rb_map_tmap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/map_provider_tmap"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/end_mode_title"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rg_end_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/rb_end_auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end_mode_auto"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676" />
+
+                <RadioButton
+                    android:id="@+id/rb_end_single"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end_mode_single"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676" />
+
+                <RadioButton
+                    android:id="@+id/rb_end_continuous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end_mode_continuous"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#00E676" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <!-- Receive Credentials via Sound Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <!-- Left side content (Title, description, status, button) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/receive_credentials_title"
+                    android:textColor="#FFCC00"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/receive_credentials_desc"
+                    android:textColor="#B0BEC5"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tv_ggwave_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/receiver_status_idle"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btn_toggle_ggwave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_start_listening"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Right side (QR Code) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:orientation="vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_marginStart="12dp">
+
+                <ImageView
+                    android:id="@+id/iv_ggwave_qr"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ggwave_qr"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Status Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/service_status_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_service_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/checking_status"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
+
+            <Button
+                android:id="@+id/btn_adb_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_adb_connect"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#FF9800"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Sound Alerts Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sound_alerts_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_gear_n"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_gear_n_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_gear_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_gear_r_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_gear_d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_gear_d_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_gear_p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_gear_p_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_cruise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_cruise_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_sport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_sport_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_snow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_snow_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_radar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_radar_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_bsd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_bsd_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_recycle_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_alert_boot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/alert_boot_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_boot_weather_briefing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/boot_weather_briefing_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_boot_news_briefing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/boot_news_briefing_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_use_memory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/use_memory_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_reduce_ac_fan_during_audio_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reduce_ac_fan_during_audio_input_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="8dp" />
+
+            <CheckBox
+                android:id="@+id/cb_use_slope_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/use_slope_check_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="8dp" />
+
+        </LinearLayout>
+
+        <!-- Gemini Live Vehicle Control Tools Permission Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vehicle_tool_permissions_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_ac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_ac_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_seat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_seat_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_wheel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_wheel_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_trunk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_trunk_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_window"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_window_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_sunroof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_sunroof_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_tool_sunshade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tool_sunshade_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="6dp" />
+
+
+            <Button
+                android:id="@+id/btn_sound_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_sound_settings"
+                android:backgroundTint="#00E676"
+                android:textColor="#121212"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/tv_stream_start_vol_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stream_start_volume_label"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <SeekBar
+                    android:id="@+id/sb_stream_start_vol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="100"
+                    android:theme="@style/Theme.AppCompat"
+                    android:progressTint="#00E676"
+                    android:thumbTint="#00E676" />
+
+                <TextView
+                    android:id="@+id/tv_stream_start_vol_value"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textColor="#00E676"
+                    android:textSize="13sp"
+                    android:gravity="end"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_stream_end_vol_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stream_end_volume_label"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <SeekBar
+                    android:id="@+id/sb_stream_end_vol"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="100"
+                    android:theme="@style/Theme.AppCompat"
+                    android:progressTint="#00E676"
+                    android:thumbTint="#00E676" />
+
+                <TextView
+                    android:id="@+id/tv_stream_end_vol_value"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="100%"
+                    android:textColor="#00E676"
+                    android:textSize="13sp"
+                    android:gravity="end"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- External Tool applications -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/external_tools_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/external_tools_description"
+                android:textColor="#B0BEC5"
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_manage_external_tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_manage_external_tools"
+                android:backgroundTint="#00BCD4"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Saved Destinations Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/manage_destinations_title"
+                    android:textColor="#FFCC00"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_add_destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_add"
+                    android:textSize="12sp"
+                    android:backgroundTint="#00E676"
+                    android:textColor="#121212"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_destinations_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <!-- Developer Options Section (Hidden by default, shown in Developer Mode) -->
+        <LinearLayout
+            android:id="@+id/layout_developer_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Vehicle Control Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vehicle_control_panel_title"
+                    android:textColor="#FFCC00"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btn_vehicle_control"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_open_vehicle_control"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btn_log_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_log_viewer"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/btn_add_shortcut_rumi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_add_rumi_shortcut"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <Button
+                    android:id="@+id/btn_add_shortcut_kitt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_add_kitt_shortcut"
+                    android:backgroundTint="#F44336"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <Button
+                    android:id="@+id/btn_add_shortcut_asurada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_add_asurada_shortcut"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Live Interaction Console -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interaction_console_title"
+                    android:textColor="#FFCC00"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tv_user_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_speech_wait"
+                    android:textColor="#81D4FA"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_gemini_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gemini_answer_wait"
+                    android:textColor="#E1BEE7"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tv_search_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/naver_search_status_idle"
+                    android:textColor="#A5D6A7"
+                    android:textSize="14sp"
+                    android:padding="8dp"
+                    android:background="#1A3A1E"
+                    android:layout_marginBottom="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_trigger_snow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/btn_start_gemini"
+                        android:textSize="11sp"
+                        android:backgroundTint="#9C27B0"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginEnd="6dp" />
+
+                    <Button
+                        android:id="@+id/btn_stop_gemini"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/btn_disconnect_gemini"
+                        android:textSize="11sp"
+                        android:backgroundTint="#E53935"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginStart="6dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Autostart Settings Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/autostart_settings_title"
+                android:textColor="#FFCC00"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/autostart_settings_description"
+                android:textColor="#B0BEC5"
+                android:textSize="13sp"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_open_autostart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_open_autostart_settings"
+                android:backgroundTint="#00E676"
+                android:textColor="#121212"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

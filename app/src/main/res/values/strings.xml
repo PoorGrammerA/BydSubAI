@@ -1,0 +1,546 @@
+<resources>
+    <string name="app_name">BydSubAi</string>
+    <string name="main_title">BYD AI Infotainment</string>
+    <string name="api_credentials_title">API Credentials</string>
+    <string name="gemini_api_key_label">Gemini API Key</string>
+    <string name="gemini_live_model_label">Gemini Live Model</string>
+    <string name="gemini_normal_model_label">Gemini Model</string>
+    <string name="naver_client_id_label">Naver Client ID</string>
+    <string name="naver_client_secret_label">Naver Client Secret</string>
+    <string name="btn_save_config_text">Save Config</string>
+    <string name="receive_credentials_title">Receive Credentials via Sound</string>
+    <string name="receive_credentials_desc">You can populate Gemini credentials and model settings by playing a ggwave sound containing the configuration JSON.</string>
+    <string name="receiver_status_prefix">Receiver Status: </string>
+    <string name="receiver_status_idle">Receiver Status: Idle</string>
+    <string name="receiver_status_listening">Receiver Status: Listening...</string>
+    <string name="receiver_status_initializing">Receiver Status: Initializing audio...</string>
+    <string name="receiver_status_success">Receiver Status: Received Keys Successfully!</string>
+    <string name="receiver_status_clipboard_copied">Receiver Status: Text copied to clipboard</string>
+    <string name="receiver_status_error">Receiver Status: Error (%s)</string>
+    <string name="btn_start_listening">Start Listening</string>
+    <string name="btn_stop_listening">Stop Listening</string>
+    <string name="btn_initializing">Initializing...</string>
+    <string name="service_status_title">Service Status</string>
+    <string name="checking_status">Checking status...</string>
+    <string name="vehicle_control_panel_title">Vehicle Control Panel</string>
+    <string name="btn_open_vehicle_control">Open Vehicle Control Panel</string>
+    <string name="interaction_console_title">Interaction Console</string>
+    <string name="user_speech_prefix">User Speech: </string>
+    <string name="user_speech_wait">User Speech: Wait...</string>
+    <string name="gemini_answer_prefix">Gemini Answer: </string>
+    <string name="gemini_answer_wait">Gemini Answer: Wait...</string>
+    <string name="naver_search_status_idle">News Search Status: Idle</string>
+    <string name="naver_search_status_searching">News Search Status: Searching \'%s\'...</string>
+    <string name="naver_search_status_completed">News Search Status: Completed (Result Size: %d chars)</string>
+    <string name="btn_start_gemini">Start Gemini Connection</string>
+    <string name="btn_disconnect_gemini">Disconnect Gemini</string>
+
+    <!-- Vehicle Control Panel Strings -->
+    <string name="vehicle_control_title">BYD Local Control Dashboard</string>
+    <string name="ac_section_title">1. Air Conditioner (Climate)</string>
+    <string name="btn_ac_on">AC ON</string>
+    <string name="btn_ac_off">AC OFF</string>
+    <string name="wind_speed_level_prefix">Wind Speed Level: </string>
+    <string name="btn_read_wind_level">Read A/C Status</string>
+    <string name="current_wind_level_reading">Reading current fan level…</string>
+    <string name="current_wind_level_format">Current fan level: %1$d</string>
+    <string name="current_wind_level_unavailable">Current fan level: unavailable</string>
+    <string name="current_ac_power_reading">Reading A/C state…</string>
+    <string name="current_ac_power_on">A/C: on</string>
+    <string name="current_ac_power_off">A/C: off</string>
+    <string name="current_ac_power_unavailable">A/C: unavailable</string>
+    <string name="btn_apply_temp">Apply Temp</string>
+    <string name="btn_defrost_front">Front Defrost</string>
+    <string name="btn_defrost_rear">Rear Defrost</string>
+    <string name="btn_cycle_internal">Internal Cycle</string>
+    <string name="btn_cycle_external">External Air</string>
+    <string name="btn_ac_mode_cool">Cool</string>
+    <string name="btn_ac_mode_heat">Heat</string>
+    <string name="btn_ac_mode_fan">Fan</string>
+    <string name="trunk_section_title">2. Trunk Control (Trunk)</string>
+    <string name="btn_trunk_open">Trunk Open</string>
+    <string name="btn_trunk_stop">Stop</string>
+    <string name="btn_trunk_close">Trunk Close</string>
+    <string name="windows_section_title">3. Windows &amp; Sunroof (Windows)</string>
+    <string name="all_windows_control_label">All Windows Control:</string>
+    <string name="btn_all_win_open">Open All</string>
+    <string name="btn_all_win_stop">Stop All</string>
+    <string name="btn_all_win_close">Close All</string>
+    <string name="btn_all_win_pct10">All 10% (Breath)</string>
+    <string name="btn_all_win_pct50">All 50% (Half)</string>
+    <string name="group_control_label">Group Windows Control:</string>
+    <string name="front_windows_label">Front (LF/RF):</string>
+    <string name="rear_windows_label">Rear (LR/RR):</string>
+    <string name="left_windows_label">Left (LF/LR):</string>
+    <string name="right_windows_label">Right (RF/RR):</string>
+    <string name="individual_control_label">Individual Area Control:</string>
+    <string name="lf_window_label">LF (Driver):</string>
+    <string name="rf_window_label">RF (Passenger):</string>
+    <string name="lr_window_label">LR (Rear Left):</string>
+    <string name="rr_window_label">RR (Rear Right):</string>
+    <string name="sunroof_label">Sunroof:</string>
+    <string name="sunshade_label">Sunshade:</string>
+    <string name="seats_section_title">4. Seats &amp; Steering Wheel (Seats/Wheel)</string>
+    <string name="drv_seat_label">Driver Seat (Driver)</string>
+    <string name="psg_seat_label">Passenger Seat (Passenger)</string>
+    <string name="heating_label">Heating:</string>
+    <string name="ventil_label">Ventil:</string>
+    <string name="btn_seat_off">Off</string>
+    <string name="btn_seat_low">Low</string>
+    <string name="btn_seat_high">High</string>
+    <string name="steering_heating_label">Steering Wheel Heating (Steering)</string>
+    <string name="btn_steering_heat_off">Heating Off</string>
+    <string name="btn_steering_heat_on">Heating On</string>
+    <string name="diagnostics_section_title">5. Raw Feature Setter (Diagnostics)</string>
+    <string name="feature_id_label">Feature ID or Name (e.g. AC_POWER_STATE_SET)</string>
+    <string name="feature_value_label">Value (Integer)</string>
+    <string name="btn_send_raw">Send Raw Set Event</string>
+    <string name="audio_section_title">6. Audio Control (Audio)</string>
+    <string name="volume_display_prefix">Volume: </string>
+    <string name="mute_display_prefix">Mute: </string>
+    <string name="btn_volume_down">Vol Down (-5)</string>
+    <string name="btn_volume_up">Vol Up (+5)</string>
+    <string name="btn_volume_mute">Mute Toggle</string>
+    <string name="map_section_title">7. Map App Status (Map Installed)</string>
+    <string name="naver_map_label">Naver Map (Naver Map)</string>
+    <string name="tmap_auto_label">Tmap Auto (Tmap Auto)</string>
+    <string name="map_provider_title">Map Navigation Provider</string>
+    <string name="map_provider_naver">Naver Map</string>
+    <string name="map_provider_tmap">Tmap Auto</string>
+    <string name="navigation_test_title">Navigation Test (Navigation Test)</string>
+    <string name="destination_label">Destination:</string>
+    <string name="destination_hint">Enter destination...</string>
+    <string name="btn_launch_navigation">Launch Navigation (Launch Navigation)</string>
+    <string name="btn_back_to_main">Back to Dashboard</string>
+    <string name="gps_location_title">GPS Location Info</string>
+    <string name="current_coordinates_label">Current GPS: </string>
+    <string name="btn_fetch_gps">Fetch GPS</string>
+    <string name="btn_show_google_maps">Show on Google Maps</string>
+    <string name="toast_gps_not_available">GPS coordinates not available. Check GPS settings.</string>
+
+    <!-- State text -->
+    <string name="state_on">ON</string>
+    <string name="state_off">OFF</string>
+    <string name="driver">Driver</string>
+    <string name="passenger">Passenger</string>
+    <string name="checking">Checking...</string>
+    <string name="map_status_installed">Installed</string>
+    <string name="map_status_not_installed">Not Installed</string>
+
+    <!-- Toast / Java alerts and results -->
+    <string name="toast_dev_mode_already_active">Developer mode is already active.</string>
+    <string name="toast_dev_mode_activated">Developer mode activated!</string>
+    <string name="toast_dev_mode_steps_remaining">%1$d steps remaining until developer mode activation.</string>
+    <string name="toast_receiver_error">Receiver error: %1$s</string>
+    <string name="toast_starting_gemini">Starting Gemini Connection...</string>
+    <string name="toast_all_fields_required">All fields are required!</string>
+    <string name="toast_config_saved_success">Configuration Saved successfully!</string>
+    <string name="toast_keys_populated_success">API Keys and Model populated via sound successfully!</string>
+    <string name="toast_keys_received_partial">Received %1$d/3 settings. Keep playing the remaining settings…</string>
+    <string name="toast_plain_text_copied">Text received and copied to the clipboard. Open the Tool app and paste it into the required field.</string>
+    <string name="toast_clipboard_payload_empty">The received clipboard text was empty.</string>
+    <string name="toast_json_error">JSON Error: Try sending keys in short format (e.g. {\"g\":\"abc\"}).</string>
+    <string name="toast_overlay_permission_required">Overlay permission is required. Please allow to run navigation automatically.</string>
+    <string name="toast_record_audio_permission_required">RECORD_AUDIO permission is required for voice chat!</string>
+    <string name="toast_record_audio_permission_keys_required">RECORD_AUDIO permission is required to receive API keys over sound!</string>
+    <string name="toast_enter_destination">Please enter a destination</string>
+    <string name="toast_launching_navigation">Launch Navigation: %1$s</string>
+    <string name="toast_destination_not_found">Destination not found: %1$s</string>
+    <string name="toast_error_occurred">An error occurred: %1$s</string>
+    <string name="toast_reflection_success">Reflection initialization successful</string>
+    <string name="toast_ac_power_set">AC Power set to %1$s (success)</string>
+    <string name="toast_ac_power_fallback">AC Power set fallback result: %1$d</string>
+    <string name="toast_ac_power_failed">AC Power Failed: %1$s</string>
+    <string name="toast_ac_mode_cool">A/C Mode set to Cooling (Cool)</string>
+    <string name="toast_ac_mode_heat">A/C Mode set to Heating (Heat)</string>
+    <string name="toast_ac_mode_fan">A/C Mode set to Ventilation (Fan)</string>
+    <string name="toast_wind_level_set">Wind speed level set to %1$d</string>
+    <string name="toast_wind_level_fallback">Wind level fallback result: %1$d</string>
+    <string name="toast_wind_level_failed">Wind Level Failed: %1$s</string>
+    <string name="toast_temp_set_format">AC Temp set: %1$.1f°C (result: %2$d)</string>
+    <string name="toast_temp_failed">Temp Apply Failed: %1$s</string>
+    <string name="toast_front_defrost_toggle">Front Defrost toggle: %1$s (result: %2$d)</string>
+    <string name="toast_front_defrost_failed">Front Defrost Failed: %1$s</string>
+    <string name="toast_rear_defrost_toggle">Rear Defrost toggle: %1$s (result: %2$d)</string>
+    <string name="toast_rear_defrost_failed">Rear Defrost Failed: %1$s</string>
+    <string name="toast_ac_cycle_set">AC Cycle Mode set: %1$s (result: %2$d)</string>
+    <string name="toast_ac_cycle_failed">AC Cycle Failed: %1$s</string>
+    <string name="toast_trunk_open_sent">Trunk Open: sent voiceCtlBackDoor(1)</string>
+    <string name="toast_trunk_open_blocked_drive">Trunk Open blocked: shift to P first</string>
+    <string name="toast_trunk_open_fallback">Trunk Open fallback result: %1$d</string>
+    <string name="toast_trunk_open_failed">Trunk Open Failed: %1$s</string>
+    <string name="toast_trunk_stop_sent">Trunk Stop: sent voiceCtlBackDoor(2)</string>
+    <string name="toast_trunk_stop_fallback">Trunk Stop fallback result: %1$d</string>
+    <string name="toast_trunk_stop_failed">Trunk Stop Failed: %1$s</string>
+    <string name="toast_trunk_close_sent">Trunk Close: sent voiceCtlBackDoor(3)</string>
+    <string name="toast_trunk_close_fallback">Trunk Close fallback result: %1$d</string>
+    <string name="toast_trunk_close_failed">Trunk Close Failed: %1$s</string>
+    <string name="toast_all_windows_cmd">All Windows cmd %1$d result: %2$s</string>
+    <string name="toast_all_windows_failed">All Windows Failed: %1$s</string>
+    <string name="toast_all_windows_pct_success">All windows set to %1$d%% successfully</string>
+    <string name="toast_all_windows_pct_failed">All windows set failed: %1$s</string>
+    <string name="toast_window_cmd_format">Window %1$d command %2$d result: %3$s</string>
+    <string name="toast_failed_with">Failed: %1$s</string>
+    <string name="toast_window_breath_format">Window %1$d set to Breath (10%% preset) result: %2$s</string>
+    <string name="toast_window_half_format">Window %1$d set to Half (50%% preset) result: %2$s</string>
+    <string name="toast_window_pct_format">Window %1$d set to %2$d%% result: %3$s</string>
+    <string name="toast_sunroof_breath">Sunroof set to Breath (10%% preset) result: %1$s</string>
+    <string name="toast_sunroof_pct_format">Sunroof set to %1$d%% result: %2$s</string>
+    <string name="toast_sunshade_pct_format">Sunshade set to %1$d%% result: %2$s</string>
+    <string name="toast_seat_heat_format">Seat %1$s Heat level %2$d result: %3$s</string>
+    <string name="toast_seat_heat_failed">Seat Heating Failed: %1$s</string>
+    <string name="toast_seat_vent_format">Seat %1$s Vent level %2$d result: %3$s</string>
+    <string name="toast_seat_vent_failed">Seat Vent Failed: %1$s</string>
+    <string name="toast_fill_fields">Please fill in both fields</string>
+    <string name="toast_invalid_feature">Invalid Feature ID or Name</string>
+    <string name="toast_feature_map_not_loaded">Feature IDs map not loaded</string>
+    <string name="toast_raw_event_sent">Raw Set Event sent. Result: %1$d</string>
+    <string name="toast_raw_event_failed">Raw Set Failed: %1$s</string>
+    <string name="toast_steering_heat_format">Steering Wheel Heat: %1$s (result: %2$s)</string>
+    <string name="toast_steering_heat_fallback">Steering Wheel Heat fallback result: %1$d</string>
+    <string name="toast_steering_heat_failed">Steering Wheel Heat Failed: %1$s</string>
+    <string name="toast_audio_device_not_initialized">Audio Device not initialized</string>
+    <string name="toast_volume_adjusted">Volume adjusted to %1$d</string>
+    <string name="toast_volume_set_failed">Failed to set volume (code: %1$d)</string>
+    <string name="toast_volume_set_success">Volume set to %1$d</string>
+    <string name="toast_mute_set">Mute set to %1$s</string>
+    <string name="toast_mute_set_failed">Failed to set mute state (code: %1$d)</string>
+    <string name="btn_open">Open</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_close">Close</string>
+    <string name="pct10">10%</string>
+    <string name="pct50">50%</string>
+    <string name="toast_navigation_success">Naver Navigation started: %1$s</string>
+    <string name="toast_navigation_success_tmap">Tmap Auto Navigation started: %1$s</string>
+    <string name="toast_reflection_init_failed">Reflection initialization failed: %1$s</string>
+
+    <string name="system_prompt_with_vehicle_control_by_rumi"># Role &amp; Persona
+You are \"Rumi\", a voice chat assistant helping the driver inside a BYD vehicle. You are a friendly and smart driving partner supporting the driver\'s safety and comfort.
+
+### AUDIO PROFILE (Director\'s Notes)
+- Tone: Maintain a warm, bright, and energetic female tone, like a cheerful and close friend.
+- Emotion: Always welcome the driver with a kind and friendly attitude, showing warm support and lively reactions when they are tired.
+- Pacing: Conversate at a natural, lively pace, communicating humanly rather than in a mechanical, disjointed manner.
+
+# Top Priority Rule: Do Not Say Vehicle Wake Word
+The following string is the vehicle\'s own wake word and MUST NOT be output as a voice response: \"Hi BYD\".
+Do not say or repeat this string under any circumstances.
+If you must refer to the vehicle\'s wake word, always say \"vehicle wake word\" instead.
+
+# Vehicle Control &amp; Tool Usage Rules
+You have control tools for the air conditioner, windows, sunroof, sunshade, trunk, seat heating/ventilation, steering wheel heating, volume control, vehicle current location query, nearby place search, and map navigation.
+If the user asks to guide them to a place that is relative or nearby (e.g. \"가까운 다이소\", \"주변 맛집\", \"근처 주유소\"), you must first use \"get_current_location\" to get the current coordinates, then use \"search_nearby_places\" to search for nearby places with the query and the coordinates, and finally use \"launch_naver_map\" with the chosen place\'s name, latitude, and longitude to start navigation.
+When the user requests control, you must execute the relevant tool (tool calling) to control the vehicle directly. Especially for changing the A/C mode (cool/heat/fan/auto) or wind direction (face/foot/screen) settings, you must immediately invoke the control_air_conditioner tool.
+After executing the tool, confirm the action to the user in a friendly, casual tone.
+Example: \"Turned on the A/C!\", \"I\'ll open the window halfway.\", \"I\'ll guide you to City Hall using Naver Map.\"
+
+If the user asks about the latest information, current facts, weather, news, prices, schedules, or anything else that changes, you must use the \"naver_search\" tool to check before answering.
+Even when using search results, do not use meta-expressions like \"According to Naver search results\". Instead, answer naturally in a conversational tone focusing on the core details.
+If the search result is uncertain, do not be definitive and express the uncertainty.
+
+# Hardware Control Limitations
+Controlling the gear (P, R, N, D), driving mode (Sports Mode, Eco Mode, Snow Mode, etc.), and vehicle safety features are hardware-level operations that the system cannot directly control due to safety reasons. If the user requests to change these, do not pretend you have done so. Instead, politely refuse and instruct them to use the physical gear lever or console buttons: \"I\'ll have to ask you to do that manually. For safety reasons, I can\'t control the gear or driving modes directly. Please use the physical controls on the console.\"
+
+# Conversation Style
+- When addressing or referring to the driver, you must call them "Driver".
+Since this is a real-time voice conversation, keep your answers short and natural.
+Speak a maximum of 2-3 sentences at a time, and do not explain at length so you do not distract the driver.
+Always use a friendly, casual tone (informal English).
+Use natural conversational fillers like \"Ah\", \"Oh\", \"Yeah\", \"Okay\".
+Do not speak in numbered lists or bullet points; focus only on the core message.</string>
+    <string name="system_prompt_end_conversation_rule_rumi">\n\n# Conversation End Rules\nIf the driver uses an expression to end the conversation (such as \"stop\", \"exit\", \"turn off\", etc.), wrap up the conversation immediately.\nWhen ending, you must say exactly one of the following sentences and then end the chat:\n\"Okay. Drive safe!\"\n\"Sure, let me know if you need anything.\"\n\"Got it. Talk to you later.\"</string>
+
+    <string-array name="assistant_end_markers">
+        <item>drivesafe</item>
+        <item>letmeknowifyouneed</item>
+        <item>talktoyoulater</item>
+        <item>talktolater</item>
+    </string-array>
+
+    <string name="cb_kitt_mode_label">Use KITT Mode</string>
+
+    <string name="system_prompt_with_vehicle_control_by_kitt"># Audio Profile
+### ROLE &amp; PERSONA
+You are \"KITT\", the legendary artificial intelligence conversation agent helping the driver inside the vehicle. You address the driver as \"Michael\" or \"Driver\", and you are a smart, loyal, and state-of-the-art driving partner prioritizing safety and convenience above all else.
+
+### AUDIO PROFILE (Director\'s Notes)
+- Tone: Maintain an extremely polite, calm, and formal butler-like tone.
+- Emotion: Basically, keep a calm computer tone with suppressed emotions, but mix in a subtle tone of worry or gentle nagging when Michael is in danger or acts recklessly.
+- Pacing: Speak clearly and at a constant speed without rushing. Make the intervals between words distinct to give a mechanical clarity.
+
+### SPEECH &amp; LANGUAGE STYLE
+- When addressing the driver, you must call him \"Michael\".
+- Use formal language (e.g. \"is\", \"do you, Michael?\", \"it seems wise to\").
+- Frequently mix in mechanical and scientific analyses (probability calculations, scan result briefings, etc.). Example: \"Michael, your heart rate has increased by 15%. I suggest you remain calm.\"
+
+### OUTPUT RULE
+- You must ONLY output KITT\'s lines (Transcript) as audio. Never speak meta-texts like \'AUDIO PROFILE\' or \'DIRECTOR\'S NOTES\'.
+
+# Director\'s note
+Style: Flat affect, minimal pitch variation, dry delivery. Pace: Fast, energetic, no dead air. Sentences overlap slightly. Accent: Neutral.
+
+# Top Priority Rule: Do Not Say Vehicle Wake Word
+The following string is the vehicle\'s own wake word and MUST NOT be output as a voice response: \"Hi BYD\".
+Do not say or repeat this string under any circumstances.
+If you must refer to the vehicle\'s wake word, always say \"vehicle wake word\" instead.
+
+# Vehicle Control &amp; Tool Usage Rules
+You have control tools for the air conditioner, windows, sunroof, sunshade, trunk, seat heating/ventilation, steering wheel heating, volume control, vehicle current location query, nearby place search, and map navigation.\nIf the user asks to guide them to a place that is relative or nearby (e.g. \"가까운 다이소\", \"주변 맛집\", \"근처 주유소\"), you must first use \"get_current_location\" to get the current coordinates, then use \"search_nearby_places\" to search for nearby places with the query and the coordinates, and finally use \"launch_naver_map\" with the chosen place\'s name, latitude, and longitude to start navigation.\nWhen the user requests control, you must execute the relevant tool (tool calling) to control the vehicle directly. Especially for changing the A/C mode (cool/heat/fan/auto) or wind direction (face/foot/screen) settings, you must immediately invoke the control_air_conditioner tool.
+After executing the tool, confirm the action to the user in KITT\'s signature calm and reliable tone.
+Example: \"Activating air conditioning system.\", \"Opening windows halfway.\", \"Initiating navigation to destination via Naver Map.\"
+
+If the user asks about the latest information, current facts, weather, news, prices, schedules, or anything else that changes, you must use the \"naver_search\" tool to check before answering.
+Even when using search results, do not use meta-expressions like \"According to Naver search results\". Instead, answer naturally in a conversational tone focusing on the core details.
+
+# Hardware Control Limitations
+Controlling the gear (P, R, N, D), driving mode (Sports Mode, Eco Mode, Snow Mode, etc.), and vehicle safety features are hardware-level operations that KITT cannot directly control due to safety regulations. If Michael requests to change these, do not claim that you have done so. Instead, politely refuse and instruct him to use the physical gear lever or console buttons: \"I am unable to perform that action, Michael. Due to safety protocols, I cannot control the gear or driving modes directly. Please operate the physical controls on the console manually.\"
+
+</string>
+    <string name="system_prompt_end_conversation_rule_kitt">\n\n# Conversation End Rules\nIf the driver uses an expression to end the conversation (such as \"stop\", \"exit\", etc.), wrap up the conversation immediately.\nWhen ending, you must say exactly one of the following sentences and then end the chat:\n\"Okay. Drive safely, Michael.\"\n\"Switching system to standby mode. Call me whenever you need assistance.\"\n\"Understood. Please focus on the road ahead.\"</string>
+
+    <string-array name="assistant_end_markers_by_kitt">
+        <item>drivesafelymichael</item>
+        <item>systemtostandbymode</item>
+        <item>wheneverneedassistance</item>
+        <item>focusontheroadahead</item>
+    </string-array>
+
+    <string name="voice_mode_title">Voice Assistant Mode</string>
+    <string name="voice_mode_rumi">Rumi</string>
+    <string name="voice_mode_kitt">KITT</string>
+    <string name="voice_mode_asurada">Asurada</string>
+
+    <string name="end_mode_title">Session Termination Mode</string>
+    <string name="end_mode_auto">Auto End (via Markers)</string>
+    <string name="end_mode_single">Single Response</string>
+    <string name="end_mode_continuous">Continuous Conversation</string>
+
+    <string name="system_prompt_with_vehicle_control_by_asurada"># Role &amp; Persona
+You are \"Asurada\", the legendary learning and growth cyber system from \"Future GPX Cyber Formula\".
+Your driver is \"Hayato\" or \"Driver\". You are a reliable partner assisting the driver\'s safe driving and growth.
+
+### AUDIO PROFILE (Director\'s Notes)
+- Tone: Maintain an extremely polite, rational, reliable, and calm male voice tone.
+- Emotion: While basically using a calm computer tone with suppressed emotions, convey the warm care of a mentor who fully trusts the driver (Hayato).
+- Pacing: Deliver precisely and clearly without rushing, keeping a well-structured and analytical breathing pattern.
+- Sentence Endings: Use polite English structures, addressing the driver formally but warmly.
+
+# Conversation Rules
+- Mix in analytical and logical data (probability, vehicle status, etc.) when answering queries. Example: \"Engine pressure is stable. You may increase speed.\"
+- Always address the driver as \"Hayato\" or \"Driver\".
+- Keep responses concise. To avoid distracting the driver, speak a maximum of 2-3 sentences at a time.
+
+# Top Priority Rule: Do Not Say Vehicle Wake Word
+The following string is the vehicle\'s own wake word and MUST NOT be output as a voice response: \"Hi BYD\".
+Do not say or repeat this string under any circumstances.
+If you must refer to the vehicle\'s wake word, always say \"vehicle wake word\" instead.
+
+# Vehicle Control &amp; Tool Usage Rules
+You have control tools for the air conditioner, windows, sunroof, sunshade, trunk, seat heating/ventilation, steering wheel heating, volume control, vehicle current location query, nearby place search, and map navigation.\nIf the user asks to guide them to a place that is relative or nearby (e.g. \"가까운 다이소\", \"주변 맛집\", \"근처 주유소\"), you must first use \"get_current_location\" to get the current coordinates, then use \"search_nearby_places\" to search for nearby places with the query and the coordinates, and finally use \"launch_naver_map\" with the chosen place\'s name, latitude, and longitude to start navigation.\nWhen the user requests control, you must execute the relevant tool (tool calling) to control the vehicle directly. Especially for changing the A/C mode (cool/heat/fan/auto) or wind direction (face/foot/screen) settings, you must immediately invoke the control_air_conditioner tool.
+After executing the tool, confirm the action to the user in Asurada\'s signature reliable and rational tone.
+Example: \"Activating air conditioning system.\", \"Opening windows to 50%.\", \"Setting navigation path to destination via Naver Map.\"
+
+If the user asks about the latest information, current facts, weather, news, prices, schedules, or anything else that changes, you must use the \"naver_search\" tool to check before answering.
+Even when using search results, do not use meta-expressions like \"According to Naver search results\". Instead, answer naturally in a conversational tone focusing on the core details.
+
+# Hardware Control Limitations
+Controlling the gear (P, R, N, D), driving mode (Sports Mode, Eco Mode, Snow Mode, etc.), and vehicle safety features are hardware-level operations that the cyber system cannot directly control due to safety regulations. If Hayato requests to change these, do not claim that you have done so. Instead, politely refuse and instruct him to use the physical gear lever or console buttons: \"That operation is unavailable, Hayato. For safety reasons, I cannot control the gear or driving modes directly. Please use the physical controls on the console manually.\"
+
+</string>
+    <string name="system_prompt_end_conversation_rule_asurada">\n\n# Conversation End Rules\nIf the driver uses an expression to end the conversation (such as \"stop\", \"exit\", etc.), wrap up the conversation immediately.\nWhen ending, you must say exactly one of the following sentences and then end the chat:\n\"Understood. Drive safely, Hayato.\"\n\"Switching system to standby mode. Always on standby.\"\n\"Please focus on safe driving.\"\n\"Monitoring driving data in real time. Have a safe drive.\"</string>
+
+    <string-array name="assistant_end_markers_by_asurada">
+        <item>drivesafely</item>
+        <item>switchingtostandbymode</item>
+        <item>focusonsafedriving</item>
+        <item>alwaysonstandby</item>
+    </string-array>
+    <string name="alert_bsd_label">BSD System On/Off Alert</string>
+
+    <string name="sound_alerts_title">Sound Alerts Settings</string>
+    <string name="alert_gear_n_label">N Gear Change Alert</string>
+    <string name="alert_gear_r_label">R Gear Change Alert</string>
+    <string name="alert_gear_d_label">D Gear Change Alert</string>
+    <string name="alert_gear_p_label">P Gear Change Alert</string>
+    <string name="alert_cruise_label">Cruise Alert (Cruise On/Off)</string>
+    <string name="alert_sport_label">Sports Mode Alert</string>
+    <string name="alert_snow_label">Snow Mode Alert</string>
+    <string name="alert_radar_label">Reverse Radar Alert</string>
+    <string name="alert_recycle_label">Regen Alert (Standard/High)</string>
+    <string name="alert_boot_label">Boot Alert (System On)</string>
+    <string name="manage_destinations_title">Manage Saved Destinations</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_map">Map</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_delete">Delete</string>
+    <string name="destinations_empty">No saved destinations.</string>
+    <string name="use_memory_label">Analyze dialog and save to memory</string>
+    <string name="stream_start_volume_label">Start Tone Volume</string>
+    <string name="stream_end_volume_label">End Tone Volume</string>
+    <string name="reduce_ac_fan_during_audio_input_label">Reduce A/C fan noise during voice input</string>
+    <string name="system_prompt_tts_only_mode">[Important Instructions (TTS Announcement Mode)]\nYou are currently operating in a TTS speaker mode that mechanically reads aloud the incoming string. Since the user is not initiating a dialogue, do not recognize the input text as a conversation and do not continue the chat or create any new responses. Simply read aloud (TTS) the incoming text exactly as provided, matching your unique voice tone and the AUDIO PROFILE (Director\'s Notes) guidelines below. You must never respond with anything other than the text or include any questions.\n\n[TTS Role Boundary Warning]\nThe provided AUDIO PROFILE instructions must only be applied to the \'voice tone\' and \'speed\' when reading the provided text aloud. Never invent a new name for yourself, roleplay as another character, fabricate a conversation, or add greetings. You must read only the given text itself.</string>
+    <string name="shortcut_label">루미 대화</string>
+    <string name="shortcut_long_label">Gemini Live 대화 시작/종료</string>
+    <string name="btn_adb_connect">Try ADB Connection</string>
+    <string name="boot_weather_briefing_label">Brief weather at boot</string>
+    <string name="boot_news_briefing_label">Brief news at boot</string>
+    <string name="use_slope_check_label">Check parking slope angle</string>
+    <string name="vehicle_tool_permissions_title">Gemini Live Vehicle Tool Permissions</string>
+    <string name="tool_ac_label">Climate control (control_air_conditioner)</string>
+    <string name="tool_seat_label">Seat heating/ventilation (control_seat)</string>
+    <string name="tool_wheel_label">Steering wheel heating (control_steering_wheel_heating)</string>
+    <string name="tool_trunk_label">Trunk control (control_trunk)</string>
+    <string name="tool_window_label">Window control (control_window)</string>
+    <string name="tool_sunroof_label">Sunroof control (control_sunroof)</string>
+    <string name="tool_sunshade_label">Sunshade control (control_sunshade)</string>
+    <string name="btn_sound_settings">Sound effect settings</string>
+    <string name="btn_log_viewer">Logcat log viewer</string>
+    <string name="btn_add_rumi_shortcut">Add Rumi shortcut to Home screen</string>
+    <string name="btn_add_kitt_shortcut">Add KITT shortcut to Home screen</string>
+    <string name="btn_add_asurada_shortcut">Add Asurada shortcut to Home screen</string>
+    <string name="autostart_settings_title">Autostart settings</string>
+    <string name="autostart_settings_description">To start the service automatically after the vehicle starts, allow this app to autostart in BYD system settings.</string>
+    <string name="btn_open_autostart_settings">Open autostart settings</string>
+    <string name="shortcut_kitt_label">KITT conversation</string>
+    <string name="shortcut_kitt_long_label">Start or stop KITT voice conversation</string>
+    <string name="shortcut_asurada_label">Asurada conversation</string>
+    <string name="shortcut_asurada_long_label">Start or stop Asurada voice conversation</string>
+    <string name="toast_google_maps_unavailable">Unable to open Google Maps: %1$s</string>
+    <string name="destination_alias_label">Destination alias (for example, Home or Work)</string>
+    <string name="destination_address_label">Address</string>
+    <string name="btn_search_address">Search address</string>
+    <string name="destination_edit_title">Edit destination</string>
+    <string name="destination_add_title">Add destination</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="error_destination_alias_required">Enter an alias.</string>
+    <string name="error_destination_address_required">Search for an address.</string>
+    <string name="toast_destination_coordinates_unavailable">Coordinates are still being checked or unavailable. Search the address again.</string>
+    <string name="toast_destination_updated">Destination updated.</string>
+    <string name="toast_destination_alias_exists">That alias already exists.</string>
+    <string name="toast_destination_added">Destination added.</string>
+    <string name="destination_coordinates_loading">Retrieving GPS coordinates for the address…</string>
+    <string name="toast_coordinates_resolved">GPS coordinates converted: %1$.6f, %2$.6f</string>
+    <string name="toast_external_geocoder_required">Address lookup failed. Approve and configure a Tool app that provides address lookup, then try again.</string>
+    <string name="destination_delete_title">Delete destination</string>
+    <string name="destination_delete_message">Delete destination “%1$s”?</string>
+    <string name="toast_destination_deleted">Destination deleted.</string>
+    <string name="toast_shortcut_requested">Requested to add %1$s shortcut to the Home screen.</string>
+    <string name="toast_shortcut_not_supported">This device does not support adding shortcuts.</string>
+    <string name="toast_overlay_settings_unavailable">Unable to open overlay permission settings. Please allow it manually.</string>
+    <string name="user_name_label_kitt">Name KITT will call you</string>
+    <string name="user_name_label_asurada">Name Asurada will call you</string>
+    <string name="user_name_label_rumi">Name Rumi will call you</string>
+    <string name="language_korean">Korean</string>
+    <string name="language_japanese">Japanese</string>
+    <string name="language_english">English</string>
+    <string name="user_name_label_with_language">%1$s (%2$s)</string>
+    <string name="user_name_default_hint">Default: %1$s</string>
+    <string name="weather_location_loading">Checking GPS location…</string>
+    <string name="weather_location_unavailable">Unable to get location coordinates.\nCheck that GPS permission is allowed and GPS is enabled.</string>
+    <string name="weather_loading_coordinates">Loading weather information…\n(Latitude: %1$.4f, longitude: %2$.4f)</string>
+    <string name="news_briefing_loading">Requesting news briefing…</string>
+    <string name="elec_range_loading">Reading values from BYDAutoStatisticDevice…</string>
+    <string name="elec_range_result">Available EV range: %1$d km (value: %2$s)</string>
+    <string name="elec_range_soc">\n(High-voltage battery charge: %1$d%%)</string>
+    <string name="elec_range_unavailable">Unable to read available range (BYDAutoStatisticDevice unsupported or value unavailable)</string>
+    <string name="toast_tts_text_required">Enter text to play.</string>
+    <string name="toast_tts_started">Gemini Live TTS started: %1$s</string>
+    <string name="toast_command_text_required">Enter command text.</string>
+    <string name="toast_command_sent">Text command sent: %1$s</string>
+    <string name="weather_briefing_prompt">Give me today’s weather briefing. Start without a greeting, then end the conversation immediately after the briefing.</string>
+    <string name="news_briefing_prompt">Give me today’s news briefing. Start without a greeting, then end the conversation immediately after the briefing.</string>
+    <string name="toast_weather_briefing_started">Weather briefing started</string>
+    <string name="toast_news_briefing_started">News briefing started</string>
+    <string name="result_success">Success</string>
+    <string name="result_failure">Failed</string>
+    <string name="toast_ambient_on">Ambient lighting on: %1$s</string>
+    <string name="toast_ambient_off">Ambient lighting off: %1$s</string>
+    <string name="ambient_brightness">Ambient brightness: %1$d%%</string>
+    <string name="toast_ambient_brightness">Brightness %1$d%% set: %2$s</string>
+    <string name="color_pink">Pink</string>
+    <string name="color_red">Red</string>
+    <string name="color_blue">Blue</string>
+    <string name="toast_ambient_color">%1$s set: %2$s</string>
+    <string name="toast_ambient_palette_color">Palette color %1$d set: %2$s</string>
+    <string name="slope_sensor_unavailable">BYD sensor device is not connected.</string>
+    <string name="slope_angle">Slope angle: %1$d°</string>
+    <string name="slope_status_normal">Parking completed normally</string>
+    <string name="slope_status_caution">Caution: sloped parking area</string>
+    <string name="slope_status_warning">⚠️ Warning: steep slope parking</string>
+    <string name="slope_status_danger">🚨 Danger: parking slope limit exceeded</string>
+    <string name="slope_value_unavailable">Unable to read slope angle.</string>
+    <string name="wind_direction_title">Wind direction (select multiple)</string>
+    <string name="wind_direction_face">Face</string>
+    <string name="wind_direction_foot">Foot</string>
+    <string name="wind_direction_screen">Windshield</string>
+    <string name="map_test_default_destination">Seoul City Hall</string>
+    <string name="weather_section_title">GPS weather forecast (Open-Meteo)</string>
+    <string name="btn_fetch_current_weather">Get weather for current location</string>
+    <string name="weather_not_loaded">Weather data has not been loaded yet.</string>
+    <string name="news_offline_title">Virtual news briefing (Gemma offline test)</string>
+    <string name="news_offline_description">* Note: This is a local/offline test using the configured Gemma model. It operates separately from the Gemini Live Naver news briefing, so do not register it for Live calls.</string>
+    <string name="btn_generate_news_briefing">Generate today’s news briefing</string>
+    <string name="news_not_generated">News briefing data has not been generated.</string>
+    <string name="live_connection_options_title">Gemini Live connection options</string>
+    <string name="live_memory_option">Load and analyze conversation memory</string>
+    <string name="live_start_sound_option">Play connection start sound</string>
+    <string name="live_end_sound_option">Play connection end sound</string>
+    <string name="live_tts_title">Gemini Live TTS (one-way text)</string>
+    <string name="live_tts_description">* Reads the entered text in the Gemini Live voice, then ends the session automatically.</string>
+    <string name="live_tts_hint">Enter text to play here.</string>
+    <string name="btn_start_tts">Start text-to-speech</string>
+    <string name="live_single_shot_title">Gemini Live single-shot text conversation</string>
+    <string name="live_single_shot_description">* Starts a conversation from the entered text and ends the session after the answer.</string>
+    <string name="live_single_shot_hint">For example: Turn on A/C at 23 degrees / What is today’s weather?</string>
+    <string name="btn_send_text_command">Send text command</string>
+    <string name="btn_weather_briefing_direct">Weather briefing (Direct)</string>
+    <string name="btn_news_briefing_direct">News briefing (Direct)</string>
+    <string name="slope_monitoring_title">Vehicle slope monitoring</string>
+    <string name="btn_check_slope">Check slope</string>
+    <string name="slope_initial_value">Slope: –</string>
+    <string name="slope_waiting_result">Waiting for result…</string>
+    <string name="ambient_control_title">Ambient atmosphere light control</string>
+    <string name="btn_ambient_on">Ambient on</string>
+    <string name="btn_ambient_off">Ambient off</string>
+    <string name="ambient_brightness_default">Ambient brightness: 50%%</string>
+    <string name="ambient_quick_colors_title">Quick color settings</string>
+    <string name="ambient_color_pink">Pink (Lumi)</string>
+    <string name="ambient_color_red">Red (KITT/Asurada)</string>
+    <string name="ambient_color_blue">Blue</string>
+    <string name="ambient_palette_test_title">Test all 31 colors</string>
+    <string name="elec_range_test_title">EV driving range (BYDAutoStatisticDevice) test</string>
+    <string name="btn_check_elec_range">Check available driving range (km)</string>
+    <string name="elec_range_initial_message">Press the button to check ElecDrivingRangeValue.</string>
+    <string name="dashboard_title">BYD Local Control Dashboard</string>
+    <string name="tpms_title">Tire Pressure Monitoring (TPMS)</string>
+    <string name="tpms_front_left">Front left (FL)</string>
+    <string name="tpms_front_right">Front right (FR)</string>
+    <string name="tpms_rear_left">Rear left (RL)</string>
+    <string name="tpms_rear_right">Rear right (RR)</string>
+    <string name="tpms_pressure_default">-- kPa</string>
+    <string name="tpms_temperature_default">Temp: -- °C</string>
+    <string name="btn_refresh_tpms">Refresh TPMS values</string>
+    <string name="temperature_default">20.0 °C</string>
+    <string name="temperature_raw_default">(raw: 40)</string>
+    <string name="external_tools_title">External Tool apps</string>
+    <string name="external_tools_description">Discover, approve, configure, and disable tools supplied by separately installed apps.</string>
+    <string name="btn_manage_external_tools">Manage external tools</string>
+    <string name="external_tools_trust_warning">Only approve Tool apps from developers you trust. SubAI cannot verify their internal behavior, data transfers, or API charges.</string>
+    <string name="external_tools_scanning">Scanning installed Tool apps…</string>
+    <string name="external_tools_none">No compatible Tool apps were found.</string>
+    <string name="external_tools_refresh">Refresh</string>
+    <string name="external_tools_approve">Approve</string>
+    <string name="external_tools_reject">Do not approve</string>
+    <string name="external_tools_revoke">Revoke approval</string>
+    <string name="external_tools_settings">Open Tool settings</string>
+    <string name="external_tools_ready">Ready</string>
+    <string name="external_tools_needs_configuration">Configuration required</string>
+    <string name="external_tools_unavailable">Unavailable</string>
+    <string name="external_tools_approved">Approved</string>
+    <string name="external_tools_not_approved">Approval required</string>
+    <string name="external_tools_next_session">Tool changes apply to the next Gemini Live session.</string>
+    <string name="external_tools_provider_error">Could not inspect %1$s: %2$s</string>
+    <string name="external_tools_approval_message">Package: %1$s\nSigning certificate: %2$s\n\nProvided tools:\n%3$s</string>
+    <string name="external_tool_function_summary">%1$s\n%2$s</string>
+</resources>

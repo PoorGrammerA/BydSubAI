@@ -1,0 +1,29 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Local configuration & credentials
+local.properties
+*.jks
+*.keystore
+*.p12
+
+# Build outputs
+.gradle/
+build/
+**/build/
+app/build/
+app/release/
+tool-sdk/build/
+captures/
+.externalNativeBuild/
+**/.cxx/
+.cxx/
+
+# AI Agents & OS
+.agents/
+.DS_Store
+Thumbs.db
+

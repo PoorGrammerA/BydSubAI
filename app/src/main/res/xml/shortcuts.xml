@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="trigger_gemini"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_label"
+        android:shortcutLongLabel="@string/shortcut_long_label">
+        <intent
+            android:action="com.poorgrammera.bydsubai.ACTION_TRIGGER_SHORTCUT"
+            android:targetPackage="com.poorgrammera.bydsubai"
+            android:targetClass="com.poorgrammera.bydsubai.ui.ShortcutActivity" />
+    </shortcut>
+</shortcuts>

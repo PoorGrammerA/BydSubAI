@@ -1,0 +1,75 @@
+[
+  {
+    "package": "app.revanced.android.youtube",
+    "intent_uri_template": "https://www.youtube.com/results?search_query={query}",
+    "use_package_target": true,
+    "media_type": "youtube",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.google.android.youtube",
+    "intent_uri_template": "https://www.youtube.com/results?search_query={query}",
+    "use_package_target": false,
+    "media_type": "youtube",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.byd.youtube",
+    "intent_uri_template": "https://www.youtube.com/results?search_query={query}",
+    "use_package_target": false,
+    "media_type": "youtube",
+    "media_session_supported": false
+  },
+  {
+    "package": "org.schabi.newpipe",
+    "intent_uri_template": "https://www.youtube.com/results?search_query={query}",
+    "use_package_target": false,
+    "media_type": "youtube",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.spotify.music",
+    "intent_uri_template": "",
+    "use_package_target": true,
+    "media_type": "spotify",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.skt.tmap.phone",
+    "intent_uri_template": "tmap://search?name={query}",
+    "use_package_target": true
+  },
+  {
+    "package": "com.nhn.android.nmap",
+    "intent_uri_template": "nmap://search?query={query}&appname=com.poorgrammera.bydsubai",
+    "use_package_target": true
+  },
+  {
+    "package": "skplanet.musicmate",
+    "intent_uri_template": "",
+    "use_package_target": true,
+    "media_type": "flo",
+    "media_session_supported": true
+  },
+  {
+    "package": "com.stingray.karaoke.car.byd6125f",
+    "intent_uri_template": "stingraykaraoke://command/search_and_play?query={query}",
+    "use_package_target": true,
+    "media_type": "karaoke",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.iloen.melon",
+    "intent_uri_template": "intent:#Intent;action=android.media.action.MEDIA_PLAY_FROM_SEARCH;S.query={query};end",
+    "use_package_target": true,
+    "media_type": "melon",
+    "media_session_supported": false
+  },
+  {
+    "package": "com.iloen.melon.tablet",
+    "intent_uri_template": "intent:#Intent;action=android.media.action.MEDIA_PLAY_FROM_SEARCH;S.query={query};end",
+    "use_package_target": true,
+    "media_type": "melon",
+    "media_session_supported": false
+  }
+]

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121212"
+    android:padding="16dp">
+
+    <!-- Header bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="뒤로가기"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="효과음 상세 설정"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Scrollable list of settings -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Card Category: Gearbox -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="기어박스 알림음"
+                android:textColor="#00E676"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="4dp">
+
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_gear_d"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_gear_r"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_gear_n"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_gear_p"/>
+            </LinearLayout>
+
+            <!-- Card Category: Cruise Control -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="크루즈 컨트롤 알림음"
+                android:textColor="#00E676"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="4dp">
+
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_cruise_on"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_cruise_off"/>
+            </LinearLayout>
+
+            <!-- Card Category: ADAS & Safety -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주행 보조 및 안전 알림음"
+                android:textColor="#00E676"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="4dp">
+
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_adas_on"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_adas_off"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_radar_on"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_radar_off"/>
+            </LinearLayout>
+
+            <!-- Card Category: Vehicle Control Modes -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="차량 제어 및 주행 모드 알림음"
+                android:textColor="#00E676"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#1E1E1E"
+                android:padding="4dp"
+                android:layout_marginBottom="24dp">
+
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_sports_on"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_sports_off"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_road_common"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_road_snow"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_recycle_std"/>
+                <include layout="@layout/item_sound_setting" android:id="@+id/item_recycle_high"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

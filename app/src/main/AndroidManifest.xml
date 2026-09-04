@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.BYDAUTO_LOCATION_GET" />
+    <uses-permission android:name="android.permission.BYDAUTO_LOCATION_SET" />
+    <uses-permission android:name="android.permission.BYDAUTO_SENSOR_GET" />
+    <uses-permission android:name="android.permission.BYDAUTO_SENSOR_SET" />
+
+    <queries>
+        <intent>
+            <action android:name="com.poorgrammera.subai.action.TOOL_SERVICE" />
+        </intent>
+        <!-- Naver Map package -->
+        <package android:name="com.nhn.android.nmap" />
+        <!-- Tmap Auto / Consumer packages -->
+        <package android:name="com.tmap.auto.byd" />
+        <package android:name="com.skt.tmap.auto" />
+        <package android:name="com.skt.tmap.ku" />
+        <!-- FLO -->
+        <package android:name="skplanet.musicmate" />
+        <!-- Spotify -->
+        <package android:name="com.spotify.music" />
+        <!-- Stingray Karaoke -->
+        <package android:name="com.stingray.karaoke.car.byd6125f" />
+        <!-- Melon -->
+        <package android:name="com.iloen.melon" />
+        <package android:name="com.iloen.melon.tablet" />
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name=".ui.ShortcutActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="com.poorgrammera.bydsubai.ACTION_TRIGGER_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.ListenerTriggerActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/Theme.BydSubAi.ListenerTrigger" />
+
+        <activity
+            android:name=".ui.VehicleControlActivity"
+            android:exported="false"
+            android:label="Vehicle Control Panel" />
+
+        <activity
+            android:name=".ui.LogViewActivity"
+            android:exported="false"
+            android:label="Diagnostics Console" />
+
+        <activity
+            android:name=".ui.ToolManagerActivity"
+            android:exported="false"
+            android:label="@string/external_tools_title" />
+
+        <activity
+            android:name=".ui.SoundSelectActivity"
+            android:exported="false"
+            android:label="효과음 상세 설정" />
+
+        <service
+            android:name=".service.BydAutoService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
+        <service
+            android:name=".service.GeminiLiveService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
+
+        <receiver
+            android:name=".service.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.byd.action.ACC_ON" />
+                <action android:name="com.byd.action.IGN_ON" />
+                <action android:name="com.byd.accmode.ACC_MODE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".service.GeminiTriggerReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.poorgrammera.bydsubai.TRIGGER_GEMINI_RUMI" />
+                <action android:name="com.poorgrammera.bydsubai.TRIGGER_GEMINI_KITT" />
+                <action android:name="com.poorgrammera.bydsubai.TRIGGER_GEMINI_ASURADA" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.poorgrammera.bydsubai.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,2452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_title"
+            android:textColor="#00BCD4"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="20dp" />
+
+        <!-- 0. Tyre Pressure (TPMS) Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tpms_title"
+                android:textColor="#00E676"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:alignmentMode="alignBounds"
+                android:columnOrderPreserved="false"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp">
+
+                <!-- Front Left -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:background="#262626"
+                    android:padding="10dp"
+                    android:layout_margin="4dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_front_left"
+                        android:textColor="#B0BEC5"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:id="@+id/tv_tyre_fl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_pressure_default"
+                        android:textColor="#00E676"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_tyre_fl_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_temperature_default"
+                        android:textColor="#B0BEC5"
+                        android:textSize="12sp"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Front Right -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:background="#262626"
+                    android:padding="10dp"
+                    android:layout_margin="4dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_front_right"
+                        android:textColor="#B0BEC5"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:id="@+id/tv_tyre_fr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_pressure_default"
+                        android:textColor="#00E676"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_tyre_fr_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_temperature_default"
+                        android:textColor="#B0BEC5"
+                        android:textSize="12sp"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Rear Left -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:background="#262626"
+                    android:padding="10dp"
+                    android:layout_margin="4dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_rear_left"
+                        android:textColor="#B0BEC5"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:id="@+id/tv_tyre_rl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_pressure_default"
+                        android:textColor="#00E676"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_tyre_rl_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_temperature_default"
+                        android:textColor="#B0BEC5"
+                        android:textSize="12sp"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Rear Right -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:orientation="vertical"
+                    android:background="#262626"
+                    android:padding="10dp"
+                    android:layout_margin="4dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_rear_right"
+                        android:textColor="#B0BEC5"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:id="@+id/tv_tyre_rr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_pressure_default"
+                        android:textColor="#00E676"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_tyre_rr_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tpms_temperature_default"
+                        android:textColor="#B0BEC5"
+                        android:textSize="12sp"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </GridLayout>
+
+            <Button
+                android:id="@+id/btn_refresh_tyre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_refresh_tpms"
+                android:backgroundTint="#00BCD4"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 1. Air Conditioner Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ac_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Power Toggle -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <Button
+                    android:id="@+id/btn_ac_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ac_on"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="6dp" />
+                <Button
+                    android:id="@+id/btn_ac_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ac_off"
+                    android:backgroundTint="#F44336"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+
+            <!-- Wind speed bar -->
+            <TextView
+                android:id="@+id/tv_wind_level_display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/wind_speed_level_prefix"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+            <SeekBar
+                android:id="@+id/sb_wind_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="7"
+                android:progress="3"
+                android:thumbTint="#00BCD4"
+                android:progressTint="#00BCD4"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:id="@+id/tv_current_wind_level"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/current_wind_level_unavailable"
+                    android:textColor="#B0BEC5"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_current_ac_power"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/current_ac_power_unavailable"
+                    android:textColor="#B0BEC5"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_read_wind_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_read_wind_level"
+                    android:backgroundTint="#5C6BC0"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Temperature Setup -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+                <Button
+                    android:id="@+id/btn_temp_down"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textSize="18sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/tv_temp_display"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/temperature_default"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_temp_raw_display"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/temperature_raw_default"
+                        android:textColor="#B0BEC5"
+                        android:textSize="11sp" />
+                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_temp_up"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="18sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_apply_temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_apply_temp"
+                android:backgroundTint="#00E676"
+                android:textColor="#121212"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <!-- AC Modes (Cool, Heat, Fan) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+                <Button
+                    android:id="@+id/btn_ac_mode_cool"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ac_mode_cool"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_ac_mode_heat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ac_mode_heat"
+                    android:textSize="11sp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginHorizontal="2dp" />
+                <Button
+                    android:id="@+id/btn_ac_mode_fan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ac_mode_fan"
+                    android:textSize="11sp"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- AC Air Directions (Face, Foot, Screen) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wind_direction_title"
+                android:textColor="#121212"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+                <Button
+                    android:id="@+id/btn_wind_dir_face"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/wind_direction_face"
+                    android:textSize="11sp"
+                    android:backgroundTint="#9E9E9E"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_wind_dir_foot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/wind_direction_foot"
+                    android:textSize="11sp"
+                    android:backgroundTint="#9E9E9E"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginHorizontal="2dp" />
+                <Button
+                    android:id="@+id/btn_wind_dir_screen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/wind_direction_screen"
+                    android:textSize="11sp"
+                    android:backgroundTint="#9E9E9E"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+            <!-- Defrost and Cycle -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="6dp">
+                <Button
+                    android:id="@+id/btn_defrost_front"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_defrost_front"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_defrost_rear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_defrost_rear"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_cycle_internal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_cycle_internal"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_cycle_external"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_cycle_external"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 2. Trunk Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/trunk_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_trunk_open"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_trunk_open"
+                    android:textSize="12sp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_trunk_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_trunk_stop"
+                    android:textSize="12sp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp" />
+                <Button
+                    android:id="@+id/btn_trunk_close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_trunk_close"
+                    android:textSize="12sp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 3. Windows & Sunroof Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/windows_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- All Windows Control -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/all_windows_control_label"
+                android:textColor="#B0BEC5"
+                android:textSize="12sp"
+                android:layout_marginBottom="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="14dp">
+                <Button
+                    android:id="@+id/btn_all_win_open"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_all_win_open"
+                    android:textSize="11sp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_all_win_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_all_win_stop"
+                    android:textSize="11sp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp" />
+                <Button
+                    android:id="@+id/btn_all_win_close"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_all_win_close"
+                    android:textSize="11sp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="14dp">
+                <Button
+                    android:id="@+id/btn_all_win_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_all_win_pct10"
+                    android:textSize="11sp"
+                    android:backgroundTint="#8E24AA"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_all_win_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_all_win_pct50"
+                    android:textSize="11sp"
+                    android:backgroundTint="#5E35B1"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Group Windows Control -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_control_label"
+                android:textColor="#B0BEC5"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Front Windows (front) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/front_windows_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_front_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_front_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_front_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_front_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_front_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Rear Windows (rear) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rear_windows_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_rear_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rear_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rear_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rear_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rear_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Left Windows (left) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/left_windows_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_left_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_left_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_left_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_left_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_left_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Right Windows (right) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/right_windows_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_right_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_right_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_right_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_right_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_right_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Individual Windows Control -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/individual_control_label"
+                android:textColor="#B0BEC5"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Left Front Window (LF) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lf_window_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_lf_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lf_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lf_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lf_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lf_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Right Front Window (RF) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rf_window_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_rf_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rf_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rf_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rf_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rf_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Left Rear Window (LR) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lr_window_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_lr_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lr_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lr_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lr_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_lr_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Right Rear Window (RR) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rr_window_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_rr_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rr_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rr_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rr_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_rr_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Sunroof -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sunroof_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_sunroof_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunroof_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunroof_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunroof_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunroof_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Sunshade -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sunshade_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_win_sunshade_open"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_open"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunshade_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_stop"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#757575"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunshade_close"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_close"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunshade_pct10"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct10"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#009688"
+                    android:textColor="#FFFFFF" />
+                <Button
+                    android:id="@+id/btn_win_sunshade_pct50"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/pct50"
+                    android:textSize="9sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="1dp"
+                    android:backgroundTint="#673AB7"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 4. Seats Control Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/seats_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Driver Seat -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/drv_seat_label"
+                android:textColor="#00BCD4"
+                android:textSize="13sp"
+                android:layout_marginBottom="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heating_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_drv_heat_0"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_off"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="#424242" />
+                <Button
+                    android:id="@+id/btn_drv_heat_1"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_low"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#FF5722" />
+                <Button
+                    android:id="@+id/btn_drv_heat_2"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_high"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#D84315" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ventil_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_drv_vent_0"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_off"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="#424242" />
+                <Button
+                    android:id="@+id/btn_drv_vent_1"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_low"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#00838F" />
+                <Button
+                    android:id="@+id/btn_drv_vent_2"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_high"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#006064" />
+            </LinearLayout>
+
+            <!-- Passenger Seat -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/psg_seat_label"
+                android:textColor="#00BCD4"
+                android:textSize="13sp"
+                android:layout_marginBottom="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heating_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_psg_heat_0"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_off"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="#424242" />
+                <Button
+                    android:id="@+id/btn_psg_heat_1"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_low"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#FF5722" />
+                <Button
+                    android:id="@+id/btn_psg_heat_2"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_high"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#D84315" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ventil_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_psg_vent_0"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_off"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="#424242" />
+                <Button
+                    android:id="@+id/btn_psg_vent_1"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_low"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#00838F" />
+                <Button
+                    android:id="@+id/btn_psg_vent_2"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_seat_high"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    android:layout_marginStart="2dp"
+                    android:backgroundTint="#006064" />
+            </LinearLayout>
+
+            <!-- Steering Wheel Heat -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/steering_heating_label"
+                android:textColor="#00BCD4"
+                android:textSize="13sp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="4dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_steering_heat_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_steering_heat_off"
+                    android:textSize="11sp"
+                    android:backgroundTint="#424242"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_steering_heat_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_steering_heat_on"
+                    android:textSize="11sp"
+                    android:backgroundTint="#E65100"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 5. Diagnostics Card (Raw Feature Setter) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnostics_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/feature_id_label"
+                android:textColor="#B0BEC5"
+                android:textSize="11sp"
+                android:layout_marginBottom="2dp" />
+
+            <EditText
+                android:id="@+id/et_raw_feature_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:hint="@string/feature_id_label"
+                android:textColorHint="#555555"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/feature_value_label"
+                android:textColor="#B0BEC5"
+                android:textSize="11sp"
+                android:layout_marginBottom="2dp" />
+
+            <EditText
+                android:id="@+id/et_raw_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:inputType="numberSigned"
+                android:hint="1"
+                android:textColorHint="#555555"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_send_raw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_send_raw"
+                android:backgroundTint="#FF9800"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 6. Audio Control Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Volume and Mute Status Display -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/tv_volume_display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/volume_display_prefix"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_mute_display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mute_display_prefix"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <!-- Volume SeekBar -->
+            <SeekBar
+                android:id="@+id/sb_volume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="39"
+                android:progress="0"
+                android:thumbTint="#00BCD4"
+                android:progressTint="#00BCD4"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Control Buttons (Up, Down, Mute Toggle) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_volume_down"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_volume_down"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_volume_up"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_volume_up"
+                    android:textSize="11sp"
+                    android:backgroundTint="#00BCD4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp" />
+                <Button
+                    android:id="@+id/btn_volume_mute"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:text="@string/btn_volume_mute"
+                    android:textSize="11sp"
+                    android:backgroundTint="#E65100"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 7. Map App Status Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/map_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Naver Map Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:text="@string/naver_map_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_naver_map_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:text="@string/checking"
+                    android:textColor="#00BCD4"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <!-- Tmap Auto Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:text="@string/tmap_auto_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_tmap_auto_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:text="@string/checking"
+                    android:textColor="#00BCD4"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#333333"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gps_location_title"
+                android:textColor="#FFCC00"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/tv_current_coords"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/current_coordinates_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/btn_fetch_gps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_fetch_gps"
+                    android:textSize="11sp"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="8dp" />
+                <Button
+                    android:id="@+id/btn_show_google_maps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_show_google_maps"
+                    android:textSize="11sp"
+                    android:backgroundTint="#4285F4"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#333333"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/navigation_test_title"
+                android:textColor="#FFCC00"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Destination Input -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/destination_label"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="8dp" />
+                <EditText
+                    android:id="@+id/et_map_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/destination_hint"
+                    android:text="@string/map_test_default_destination"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#888888"
+                    android:backgroundTint="#00BCD4"
+                    android:textSize="14sp"
+                    android:maxLines="1"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <!-- Launch Button -->
+            <Button
+                android:id="@+id/btn_launch_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_launch_navigation"
+                android:textSize="12sp"
+                android:backgroundTint="#009688"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- 10. Weather Forecast Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weather_section_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_get_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_fetch_current_weather"
+                android:backgroundTint="#00BCD4"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tv_weather_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:background="#121212"
+                android:padding="10dp"
+                android:text="@string/weather_not_loaded" />
+        </LinearLayout>
+
+        <!-- 11. Virtual News Briefing Card (Gemma Offline Test) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/news_offline_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/news_offline_description"
+                android:textColor="#FF5252"
+                android:textSize="11sp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btn_get_news_briefing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_generate_news_briefing"
+                android:backgroundTint="#FF9800"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tv_news_briefing_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:background="#121212"
+                android:padding="10dp"
+                android:text="@string/news_not_generated" />
+        </LinearLayout>
+
+        <!-- 11.5 Gemini Live Connection Options Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_connection_options_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <CheckBox
+                android:id="@+id/cb_use_memory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_memory_option"
+                android:textColor="#FFFFFF"
+                android:checked="true"
+                android:buttonTint="#00BCD4"
+                android:textSize="13sp"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_use_start_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_start_sound_option"
+                android:textColor="#FFFFFF"
+                android:checked="true"
+                android:buttonTint="#00BCD4"
+                android:textSize="13sp"
+                android:layout_marginBottom="6dp" />
+
+            <CheckBox
+                android:id="@+id/cb_use_end_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_end_sound_option"
+                android:textColor="#FFFFFF"
+                android:checked="true"
+                android:buttonTint="#00BCD4"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 12. Gemini Live TTS Announcement Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_tts_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_tts_description"
+                android:textColor="#8BC34A"
+                android:textSize="11sp"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/et_tts_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/live_tts_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#757575"
+                android:background="#121212"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_send_tts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_start_tts"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 13. Gemini Live Text Command (Single-shot) Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_single_shot_title"
+                android:textColor="#FFCC00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/live_single_shot_description"
+                android:textColor="#8BC34A"
+                android:textSize="11sp"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/et_text_command_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/live_single_shot_hint"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#757575"
+                android:background="#121212"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_send_text_command"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_send_text_command"
+                android:backgroundTint="#00BCD4"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_query_weather_direct"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_weather_briefing_direct"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="6dp" />
+                <Button
+                    android:id="@+id/btn_query_news_direct"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_news_briefing_direct"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/slope_monitoring_title"
+                android:textColor="#FFCC00"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+                <Button
+                    android:id="@+id/btn_get_slope"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_check_slope"
+                    android:backgroundTint="#9C27B0"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+                <TextView
+                    android:id="@+id/tv_slope_status"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/slope_initial_value"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_slope_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/slope_waiting_result"
+                android:textColor="#B0BEC5"
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <!-- Ambient Light Control Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ambient_control_title"
+                android:textColor="#E040FB"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Power Toggle -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <Button
+                    android:id="@+id/btn_ambient_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ambient_on"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="6dp" />
+                <Button
+                    android:id="@+id/btn_ambient_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_ambient_off"
+                    android:backgroundTint="#F44336"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+
+            <!-- Brightness Control -->
+            <TextView
+                android:id="@+id/tv_ambient_brightness_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ambient_brightness_default"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+            <SeekBar
+                android:id="@+id/sb_ambient_brightness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="50"
+                android:thumbTint="#E040FB"
+                android:progressTint="#E040FB"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Test Colors (Pink, Red, Blue) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ambient_quick_colors_title"
+                android:textColor="#B0BEC5"
+                android:textSize="13sp"
+                android:layout_marginBottom="8dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="6dp">
+                <Button
+                    android:id="@+id/btn_ambient_color_pink"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ambient_color_pink"
+                    android:textSize="11sp"
+                    android:backgroundTint="#FF4081"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <Button
+                    android:id="@+id/btn_ambient_color_red"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ambient_color_red"
+                    android:textSize="11sp"
+                    android:backgroundTint="#FF1744"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginHorizontal="2dp" />
+                <Button
+                    android:id="@+id/btn_ambient_color_blue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ambient_color_blue"
+                    android:textSize="11sp"
+                    android:backgroundTint="#2979FF"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- 31 Preset Colors Grid -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ambient_palette_test_title"
+                android:textColor="#B0BEC5"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+            <GridLayout
+                android:id="@+id/grid_ambient_presets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="8"
+                android:alignmentMode="alignBounds"
+                android:rowOrderPreserved="false"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <!-- Electric Driving Range Test Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#1E1E1E"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/elec_range_test_title"
+                android:textColor="#00E676"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_get_elec_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_check_elec_range"
+                android:backgroundTint="#00E676"
+                android:textColor="#121212"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tv_elec_range_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/elec_range_initial_message"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_back_to_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back_to_main"
+            android:backgroundTint="#607D8B"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

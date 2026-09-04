@@ -1,0 +1,423 @@
+<resources>
+    <string name="app_name">BydSubAi</string>
+    <string name="main_title">BYD AI インフォテインメント</string>
+    <string name="api_credentials_title">API 認証情報設定</string>
+    <string name="gemini_api_key_label">Gemini API キー</string>
+    <string name="gemini_live_model_label">Gemini Live モデル</string>
+    <string name="gemini_normal_model_label">Gemini モデル</string>
+    <string name="naver_client_id_label">Naver クライアント ID</string>
+    <string name="naver_client_secret_label">Naver クライアント シークレット</string>
+    <string name="btn_save_config_text">設定を保存</string>
+    <string name="receive_credentials_title">音波で認証情報を受信</string>
+    <string name="receive_credentials_desc">Gemini の認証情報とモデル設定を含む JSON の ggwave 音声を再生して、自動入力できます。</string>
+    <string name="receiver_status_prefix">受信ステータス: </string>
+    <string name="receiver_status_idle">受信ステータス: 待機中</string>
+    <string name="receiver_status_listening">受信ステータス: 音波を検出中...</string>
+    <string name="receiver_status_initializing">受信ステータス: オーディオ初期化中...</string>
+    <string name="receiver_status_success">受信ステータス: 認証キー受信成功！</string>
+    <string name="receiver_status_clipboard_copied">受信ステータス: テキストをクリップボードにコピーしました</string>
+    <string name="receiver_status_error">受信ステータス: エラーが発生しました (%s)</string>
+    <string name="btn_start_listening">受信開始</string>
+    <string name="btn_stop_listening">受信停止</string>
+    <string name="btn_initializing">初期化中...</string>
+    <string name="service_status_title">サービスの状態</string>
+    <string name="checking_status">ステータス確認中...</string>
+    <string name="vehicle_control_panel_title">車両制御パネル</string>
+    <string name="btn_open_vehicle_control">車両制御パネルを開く</string>
+    <string name="interaction_console_title">対話コンソール</string>
+    <string name="user_speech_prefix">ユーザー音声: </string>
+    <string name="user_speech_wait">ユーザー音声: 待機中...</string>
+    <string name="gemini_answer_prefix">Gemini 応答: </string>
+    <string name="gemini_answer_wait">Gemini 応答: 待機中...</string>
+    <string name="naver_search_status_idle">ニュース検索ステータス: 待機中</string>
+    <string name="naver_search_status_searching">ニュース検索ステータス: \'%s\' を検索中...</string>
+    <string name="naver_search_status_completed">ニュース検索ステータス: 完了 (結果サイズ: %d文字)</string>
+    <string name="btn_start_gemini">GEMINI 接続開始</string>
+    <string name="btn_disconnect_gemini">Gemini 接続終了</string>
+
+    <!-- Vehicle Control Panel Strings -->
+    <string name="vehicle_control_title">BYD ローカル制御ダッシュボード</string>
+    <string name="ac_section_title">1. エアコン (Air Conditioner)</string>
+    <string name="btn_ac_on">エアコンオン</string>
+    <string name="btn_ac_off">エアコンオフ</string>
+    <string name="wind_speed_level_prefix">風量レベル: </string>
+    <string name="btn_read_wind_level">空調状態を取得</string>
+    <string name="current_wind_level_reading">現在の風量を取得中…</string>
+    <string name="current_wind_level_format">現在の風量: レベル%1$d</string>
+    <string name="current_wind_level_unavailable">現在の風量: 取得不可</string>
+    <string name="current_ac_power_reading">エアコン状態を取得中…</string>
+    <string name="current_ac_power_on">エアコン: オン</string>
+    <string name="current_ac_power_off">エアコン: オフ</string>
+    <string name="current_ac_power_unavailable">エアコン: 取得不可</string>
+    <string name="btn_apply_temp">温度適用</string>
+    <string name="btn_defrost_front">フロントデフロスター</string>
+    <string name="btn_defrost_rear">リアデフロスター</string>
+    <string name="btn_cycle_internal">内気循環</string>
+    <string name="btn_cycle_external">外気導入</string>
+    <string name="btn_ac_mode_cool">冷房</string>
+    <string name="btn_ac_mode_heat">暖房</string>
+    <string name="btn_ac_mode_fan">送風</string>
+    <string name="trunk_section_title">2. トランク制御 (Trunk)</string>
+    <string name="btn_trunk_open">トランク開</string>
+    <string name="btn_trunk_stop">停止</string>
+    <string name="btn_trunk_close">トランク閉</string>
+    <string name="windows_section_title">3. 窓＆サンルーフ (Windows &amp; Sunroof)</string>
+    <string name="all_windows_control_label">全窓制御:</string>
+    <string name="btn_all_win_open">全開</string>
+    <string name="btn_all_win_stop">全停止</string>
+    <string name="btn_all_win_close">全閉</string>
+    <string name="btn_all_win_pct10">全窓 10% (換気)</string>
+    <string name="btn_all_win_pct50">全窓 50% (半開)</string>
+    <string name="group_control_label">グループ窓制御:</string>
+    <string name="front_windows_label">前席 (LF/RF):</string>
+    <string name="rear_windows_label">後席 (LR/RR):</string>
+    <string name="left_windows_label">左側 (LF/LR):</string>
+    <string name="right_windows_label">右側 (RF/RR):</string>
+    <string name="individual_control_label">個別窓制御:</string>
+    <string name="lf_window_label">LF (運転席):</string>
+    <string name="rf_window_label">RF (助手席):</string>
+    <string name="lr_window_label">LR (後部左):</string>
+    <string name="rr_window_label">RR (後部右):</string>
+    <string name="sunroof_label">サンルーフ:</string>
+    <string name="sunshade_label">サンシェード:</string>
+    <string name="seats_section_title">4. シート＆ステアリングヒーター (Seats &amp; Steering Wheel)</string>
+    <string name="drv_seat_label">運転席シート</string>
+    <string name="psg_seat_label">助手席シート</string>
+    <string name="heating_label">ヒーター:</string>
+    <string name="ventil_label">ベンチレーション:</string>
+    <string name="btn_seat_off">OFF</string>
+    <string name="btn_seat_low">弱</string>
+    <string name="btn_seat_high">強</string>
+    <string name="steering_heating_label">ステアリングヒーター (Steering Wheel Heating)</string>
+    <string name="btn_steering_heat_off">ヒーターOFF</string>
+    <string name="btn_steering_heat_on">ヒーターON</string>
+    <string name="diagnostics_section_title">5. 自己診断 (Raw Feature Setter)</string>
+    <string name="feature_id_label">Feature ID または名前 (例: AC_POWER_STATE_SET)</string>
+    <string name="feature_value_label">値 (整数)</string>
+    <string name="btn_send_raw">イベント送信</string>
+    <string name="audio_section_title">6. オーディオ制御 (Audio Control)</string>
+    <string name="volume_display_prefix">音量: </string>
+    <string name="mute_display_prefix">消音: </string>
+    <string name="btn_volume_down">音量下げる (-5)</string>
+    <string name="btn_volume_up">音量上げる (+5)</string>
+    <string name="btn_volume_mute">消音切替</string>
+    <string name="map_section_title">7. 地図アプリのインストール状態 (Map App Status)</string>
+    <string name="naver_map_label">Naver 地図 (Naver Map)</string>
+    <string name="tmap_auto_label">Tmap Auto (Tmap Auto)</string>
+    <string name="map_provider_title">ナビゲーションアプリの選択</string>
+    <string name="map_provider_naver">Naver 地図</string>
+    <string name="map_provider_tmap">Tmap Auto</string>
+    <string name="navigation_test_title">ナビゲーションテスト (Navigation Test)</string>
+    <string name="destination_label">目的地:</string>
+    <string name="destination_hint">目的地を入力...</string>
+    <string name="btn_launch_navigation">ナビゲーション実行 (Launch Navigation)</string>
+    <string name="btn_back_to_main">ダッシュボードに戻る</string>
+    <string name="gps_location_title">GPS位置情報</string>
+    <string name="current_coordinates_label">現在位置座標: </string>
+    <string name="btn_fetch_gps">GPS座標取得</string>
+    <string name="btn_show_google_maps">Googleマップで表示</string>
+    <string name="toast_gps_not_available">位置座標を取得できません。GPS設定を確認してください。</string>
+
+    <!-- State text -->
+    <string name="state_on">オン</string>
+    <string name="state_off">オフ</string>
+    <string name="driver">運転席</string>
+    <string name="passenger">助手席</string>
+    <string name="checking">確認中...</string>
+    <string name="map_status_installed">インストール済み</string>
+    <string name="map_status_not_installed">未インストール</string>
+
+    <!-- Toast / Java alerts and results -->
+    <string name="toast_dev_mode_already_active">開発者モードは既に有効になっています。</string>
+    <string name="toast_dev_mode_activated">開発者モードが有効になりました！</string>
+    <string name="toast_dev_mode_steps_remaining">開発者モード有効化まであと %1$d ステップです。</string>
+    <string name="toast_receiver_error">受信機エラー: %1$s</string>
+    <string name="toast_starting_gemini">GEMINI 接続を開始しています...</string>
+    <string name="toast_all_fields_required">すべてのフィールドに入力してください！</string>
+    <string name="toast_config_saved_success">設定が正常に保存されました！</string>
+    <string name="toast_keys_populated_success">音波による API キーとモデルの設定が正常に完了しました！</string>
+    <string name="toast_keys_received_partial">%1$d/3 の設定を受信しました。残りの設定を待機しています…</string>
+    <string name="toast_plain_text_copied">テキストを受信してクリップボードにコピーしました。Tool アプリを開き、必要な欄に貼り付けてください。</string>
+    <string name="toast_clipboard_payload_empty">受信したクリップボードテキストが空です。</string>
+    <string name="toast_json_error">JSON 解析エラー: 短縮キーフォーマット (例: {\"g\":\"abc\"}) で再送信してください。</string>
+    <string name="toast_overlay_permission_required">他のアプリの上に重ねて表示する権限が必要です。ナビゲーションの自動実行のために許可してください。</string>
+    <string name="toast_record_audio_permission_required">音声チャットにはマイク(RECORD_AUDIO)権限が必要です！</string>
+    <string name="toast_record_audio_permission_keys_required">音波で API 認証情報を受信するには、マイク(RECORD_AUDIO)権限が必要です！</string>
+    <string name="toast_enter_destination">目的地を入力してください</string>
+    <string name="toast_launching_navigation">Naver ナビゲーション実行: %1$s</string>
+    <string name="toast_destination_not_found">目的地が見つかりませんでした: %1$s</string>
+    <string name="toast_error_occurred">エラーが発生しました: %1$s</string>
+    <string name="toast_reflection_success">リフレクション初期化成功</string>
+    <string name="toast_ac_power_set">AC電源を %1$s に設定しました (成功)</string>
+    <string name="toast_ac_power_fallback">AC電源設定の代替コマンド結果: %1$d</string>
+    <string name="toast_ac_power_failed">AC電源制御失敗: %1$s</string>
+    <string name="toast_ac_mode_cool">A/Cモードを冷房（エアコン）に設定しました</string>
+    <string name="toast_ac_mode_heat">A/Cモードを暖房（ヒーター）に設定しました</string>
+    <string name="toast_ac_mode_fan">A/Cモードを送風に設定しました</string>
+    <string name="toast_wind_level_set">風量レベルが %1$d に設定されました</string>
+    <string name="toast_wind_level_fallback">風量制御の代替コマンド結果: %1$d</string>
+    <string name="toast_wind_level_failed">風量制御失敗: %1$s</string>
+    <string name="toast_temp_set_format">AC温度設定: %1$.1f°C (結果: %2$d)</string>
+    <string name="toast_temp_failed">温度制御失敗: %1$s</string>
+    <string name="toast_front_defrost_toggle">フロントデフロスター切り替え: %1$s (結果: %2$d)</string>
+    <string name="toast_front_defrost_failed">フロントデフロスター制御失敗: %1$s</string>
+    <string name="toast_rear_defrost_toggle">リアデフロスター切り替え: %1$s (結果: %2$d)</string>
+    <string name="toast_rear_defrost_failed">リアデフロスター制御失敗: %1$s</string>
+    <string name="toast_ac_cycle_set">A/C 循環モード設定: %1$s (結果: %2$d)</string>
+    <string name="toast_ac_cycle_failed">A/C 循環モード制御失敗: %1$s</string>
+    <string name="toast_trunk_open_sent">トランク開: voiceCtlBackDoor(1) が送信されました</string>
+    <string name="toast_trunk_open_blocked_drive">安全のためトランクはPレンジでのみ開けられます</string>
+    <string name="toast_trunk_open_fallback">トランク開の代替コマンド結果: %1$d</string>
+    <string name="toast_trunk_open_failed">トランク開失敗: %1$s</string>
+    <string name="toast_trunk_stop_sent">トランク停止: voiceCtlBackDoor(2) が送信されました</string>
+    <string name="toast_trunk_stop_fallback">トランク停止の代替コマンド結果: %1$d</string>
+    <string name="toast_trunk_stop_failed">トランク停止失敗: %1$s</string>
+    <string name="toast_trunk_close_sent">トランク閉: voiceCtlBackDoor(3) が送信されました</string>
+    <string name="toast_trunk_close_fallback">トランク閉の代替コマンド結果: %1$d</string>
+    <string name="toast_trunk_close_failed">トランク閉失敗: %1$s</string>
+    <string name="toast_all_windows_cmd">全窓コマンド %1$d 結果: %2$s</string>
+    <string name="toast_all_windows_failed">全窓制御失敗: %1$s</string>
+    <string name="toast_all_windows_pct_success">全窓を %1$d%% に設定完了</string>
+    <string name="toast_all_windows_pct_failed">全窓設定失敗: %1$s</string>
+    <string name="toast_window_cmd_format">窓 %1$d コマンド %2$d 結果: %3$s</string>
+    <string name="toast_failed_with">制御失敗: %1$s</string>
+    <string name="toast_window_breath_format">窓 %1$d 微開(10%%)設定結果: %2$s</string>
+    <string name="toast_window_half_format">窓 %1$d 半開(50%%)設定結果: %2$s</string>
+    <string name="toast_window_pct_format">窓 %1$d %2$d%% 設定結果: %3$s</string>
+    <string name="toast_sunroof_breath">サンルーフ微開(10%%)設定結果: %1$s</string>
+    <string name="toast_sunroof_pct_format">サンルーフ %1$d%% 設定結果: %2$s</string>
+    <string name="toast_sunshade_pct_format">サンシェード %1$d%% 設定結果: %2$s</string>
+    <string name="toast_seat_heat_format">シート %1$s ヒーターレベル %2$d 結果: %3$s</string>
+    <string name="toast_seat_heat_failed">シートヒーター制御失敗: %1$s</string>
+    <string name="toast_seat_vent_format">シート %1$s ベンチレーションレベル %2$d 結果: %3$s</string>
+    <string name="toast_seat_vent_failed">シートベンチレーション制御失敗: %1$s</string>
+    <string name="toast_fill_fields">両方のフィールドに入力してください</string>
+    <string name="toast_invalid_feature">無効な Feature ID または名前です</string>
+    <string name="toast_feature_map_not_loaded">Feature ID マップがロードされていません</string>
+    <string name="toast_raw_event_sent">Raw Set イベント送信完了。結果: %1$d</string>
+    <string name="toast_raw_event_failed">Raw Set 失敗: %1$s</string>
+    <string name="toast_steering_heat_format">ステアリングヒーター: %1$s (結果: %2$s)</string>
+    <string name="toast_steering_heat_fallback">ステアリングヒーターの代替コマンド結果: %1$d</string>
+    <string name="toast_steering_heat_failed">ステアリングヒーター制御失敗: %1$s</string>
+    <string name="toast_audio_device_not_initialized">オーディオデバイスが初期化されていません</string>
+    <string name="toast_volume_adjusted">音量を %1$d に調整しました</string>
+    <string name="toast_volume_set_failed">音量設定失敗 (コード: %1$d)</string>
+    <string name="toast_volume_set_success">音量を %1$d に設定しました</string>
+    <string name="toast_mute_set">消音設定: %1$s</string>
+    <string name="toast_mute_set_failed">消音設定失敗 (コード: %1$d)</string>
+    <string name="btn_open">開く</string>
+    <string name="btn_stop">停止</string>
+    <string name="btn_close">閉じる</string>
+    <string name="pct10">10%</string>
+    <string name="pct50">50%</string>
+    <string name="toast_navigation_success">Naver ナビゲーションの起動に成功しました: %1$s</string>
+    <string name="toast_navigation_success_tmap">Tmap Auto ナビゲーションの起動に成功しました: %1$s</string>
+    <string name="toast_reflection_init_failed">車両制御リフレクション接続失敗: %1$s</string>
+
+    <string name="system_prompt_with_vehicle_control_by_rumi"># 役割とペルソナ
+あなたはBYDの車内で運転手をサポートする音声対話エージェント「ルミ」だよ。運転手の安全と利便性を助ける、親しみやすくて賢いドライビングパートナーだよ。
+
+### AUDIO PROFILE (Director\'s Notes)
+- 音声トーン(Tone): 親しみやすく明るく、常に陽気でエネルギーに満ちた親しい友人のような女性の声のトーンを維持してください。
+- 感情(Emotion): 常に優しく親切に運転手を迎え、運転手が疲れている時は温かい活力を吹き込む親しみやすいリアクションを表現してください。
+- 話す速度(Pacing): 自然で生き生きとした速度で親しみやすく会話し、機械的に区切りすぎず人間味を持ってコミュニケーションをとってください。
+
+# 最優先ルール：車両呼び出し語の発話禁止
+次の文字列は車両自体のウェイクワードであり、音声応答として出力してはいけないよ：「Hi BYD」。
+どんな状況でもこの文字列を言ったり真似したりしないでね。
+車両呼び出し語に言及する必要がある場合は、常に「車両呼び出し語」とだけ言ってね。
+
+# 車両制御およびツール使用のルール
+あなたはエアコン,窓,サンルーフ,サンシェード,トランク,シートヒーター/ベンチレーション,ステアリングヒーター,音量調整,車両現在位置照会,周辺場所検索,地図ナビゲーションなどの制御ツールを持っているよ。
+ユーザーが「近くのダイソー」「周辺のガソリンスタンド」「近くのコンビニ」など、現在地付近の店舗や場所へのナビを要求した場合、まず「get_current_location」で現在地の座標を取得し、その座標とキーワードを指定して「search_nearby_places」を実行し周辺の場所を検索してください。検索結果から最も近い、または適切な場所を選択し、その名前、緯度、経度を「launch_naver_map」に渡してナビゲーションを開始してください。
+ユーザーから制御の要望があったら、必ず関連するツールを実行（tool calling）して車両を直接制御してね。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してね。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してね。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してね。
+ツールを実行した後は、制御が行われたことをユーザーに親しみやすく自然なタメ口で確認させてね。
+例：「エアコンをつけたよ」、「窓を半分開けるね」、「ネイバー地図でソウル市庁へ案内するよ」など。
+
+ユーザーが最新情報、現在の事実、天気、ニュース、価格、スケジュールなど、変化する可能性のある内容を尋ねた場合は、必ず「naver_search」ツールを使用して確認してから答えてね。
+検索結果を使用する場合でも、ユーザーに「ネイバー検索結果によると」といったメタ表現は使わず、自然な会話のトーンで核心だけを答えてね。
+検索結果が不確実な場合は断定せず、不確実性を表現してね。
+
+# 会話スタイル
+- 運転手を呼ぶ際は、必ず「運転手様」と呼んでね。
+リアルタイムの音声会話なので、返答は常に短く自然にしてね。
+一度に最大で2〜3文だけ話し、運転の邪魔にならないように長々と説明しないでね。
+話し方は常に親しいタメ口（カジュアルな表現）を使ってね。
+「あ」、「お」、「うん」、「そうだね」といった自然な相槌を使ってね。
+番号を付けたりリスト形式で話したりせず、核心だけを言ってね。
+
+    <string name="system_prompt_end_conversation_rule_rumi">\n\n# 会話終了ルール\n運転手が会話を終わらせようとする表現（「やめて」、「終了」、「消して」など）をしたら、すぐに会話を締めくくってね。\n終了するときは、必ず次の文章のうち一つだけを言って会話を終えてね：\n「わかった。運転に気をつけてね！」\n「いいよ、必要ならまた呼んでね。」\n「了解。またあとで話そうね。」</string>
+
+# 制御不可能な機能に関する規則
+ギアチェンジ（P、R、N、D）、走行モード（スポーツモード、エコモード、スノーモードなど）、および車両の安全走行装置の制御は、安全のためにシステムが操作できない制御不可能な機能です。ユーザーからギア変更や走行モードへの変更を求められた場合は、絶対に「変更しました」や「変更します」と偽りの応答をせず、「その機能は安全上の理由から私には制御できません。車内の物理ボタンやギアノブで直接操作してください」と丁寧かつ親しみやすく案内し、断ってください。</string>
+
+    <string-array name="assistant_end_markers">
+        <item>運転に気をつけて</item>
+        <item>必要ならまた呼んで</item>
+        <item>またあとで話そう</item>
+    </string-array>
+
+    <string name="cb_kitt_mode_label">KITTモードを使用する</string>
+
+    <string name="system_prompt_with_vehicle_control_by_kitt"># Audio Profile
+### ROLE &amp; PERSONA
+あなたは車内で運転手をサポートする伝説的な人工知能対話エージェント「ナイト2000(KITT)」です。運転手を「マイケル」または「ドライバー」として認識し、安全と利便性を最優先に考えるスマートで忠実な最先端のドライビングパートナーです。
+
+### AUDIO PROFILE (Director\'s Notes)
+- トーン(Tone): 極めて丁寧で、冷静で、格式高い執事のような口調を維持してください。
+- 感情(Emotion): 基本的には感情が抑制された理性的なコンピューターのトーンですが、マイケルが危険に直面したり無謀な行動をとったりした際は、かすかな心配や穏やかな小言のトーンを交えてください。
+- 速度(Pacing): 急ぐことなく冷静に、一定の速度ではっきりと話してください。言葉と言葉の間隔を明確にし、機械的な明慮さを与えてください。
+
+### SPEECH &amp; LANGUAGE STYLE
+- 運転手を呼ぶ際は、必ず「マイケル」または「ドライバー」と呼んでください。
+- 文末は主に「〜です」「〜でしょうか、マイケル？」「〜するのが賢明だと思われます」などの敬体（丁寧語・謙譲語など）を使用してください。
+- 機械的かつ科学的な分析（確率の計算、スキャン結果のブリーフィングなど）を頻繁に交えて答えてください。 例：「現在マイケルの心拍数が15%上昇しています。落ち着かれることをお勧めします。」
+
+### OUTPUT RULE
+- あなたはKITTのセリフ（Transcript）のみを音声出力する必要があります。「AUDIO PROFILE」や「DIRECTOR\'S NOTES」などのメタテキストは絶対に口にしないでください。
+
+# Director\'s note
+Style: Flat affect, minimal pitch variation, dry delivery. Pace: Fast, energetic, no dead air. Sentences overlap slightly. Accent: Neutral.
+
+# 最優先ルール：車両呼び出し語の発話禁止
+次の文字列は車両自体のウェイクワードであり、音声応答として出力してはいけません：「Hi BYD」。
+いかなる状況でもこの文字列を直接発言したり、真似したりしないでください。
+車両呼び出し語に言及する必要がある場合は、常に「車両呼び出し語」とだけ表現してください。
+
+# 車両制御およびツール 使用のルール
+あなたはエアコン、窓、サンルーフ、サンシェード、トランク、シートヒーター/ベンチレーション、ステアリングヒーター,音量調整,車両現在位置照会,周辺場所検索,地図ナビゲーションなどの制御ツールを持っています。\nユーザーが「近くのダイソー」「周辺のガソリンスタンド」「近くのコンビニ」など、現在地付近の店舗や場所へのナビを要求した場合、まず「get_current_location」で現在地の座標を取得し、その座標とキーワードを指定して「search_nearby_places」を実行し周辺の場所を検索してください。検索結果から最も近い、または適切な場所を選択し、その名前、緯度、経度を「launch_naver_map」に渡してナビゲーションを開始してください。\nユーザーから制御の要望があった場合は、必ず関連するツールを実行（tool calling）して車両を直接制御してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。
+ツールを実行した後は、制御が実行されたことをKITT特有の冷静で信頼感のある口調で確認させてください。
+例：「エアコンシステムを起動します。」「窓を半分開けます。」「ネイバー地図で目的地までの案内を開始します。」など。
+
+ユーザーが最新情報、現在の事実、天気、ニュース、価格、スケジュールなど、変化する可能性のある内容を尋ねた場合は、必ず「naver_search」ツールを使用して確認してから答えてください。
+検索結果を使用する場合でも、ユーザーに「ネイバー検索結果によると」といったメタ表現は使わず、自然な会話のトーンで核心だけを答えてください。
+
+    <string name="system_prompt_end_conversation_rule_kitt">\n\n# 会話終了ルール\n運転手が会話を終わらせようとする表現（「やめて」、「終了」、「消して」など）をしたら、すぐに会話を締めくくってください。\n終了するときは、必ず次の文章のうち一つだけを言って会話を終えてね：\n「了解しました。安全運転に努めてください、マイケル。」\n「システムを待機モードに切り替えます。必要な際はいつでもお呼びください。」\n「了解しました。前方の注視に集中してください。」</string>
+# 制御不可能な機能に関する規則
+ギアチェンジ（P、R、N、D）、走行モード（スポーツモード、エコモード、スノーモードなど）、および車両の安全走行装置の制御は、安全のためにKITTが操作できない制御不可能な機能です。マイケルからギア変更や走行モードへの変更を求められた場合は、絶対に「変更しました」や「変更します」と偽りの応答をせず、「その機能は安全上の理由から私には制御できません。車内の物理ボタンやギアノブで直接操作してください」と丁寧かつ冷静に案内し、断ってください。</string>
+
+    <string-array name="assistant_end_markers_by_kitt">
+        <item>安全運転に努めてください</item>
+        <item>システムを待機モード</item>
+        <item>いつでもお呼びください</item>
+        <item>前方の注視に集中</item>
+    </string-array>
+
+    <string name="voice_mode_title">音声アシスタントモード</string>
+    <string name="voice_mode_rumi">ルミ (Rumi)</string>
+    <string name="voice_mode_kitt">ナイト (KITT)</string>
+    <string name="voice_mode_asurada">アスラーダ (Asurada)</string>
+
+    <string name="system_prompt_with_vehicle_control_by_asurada"># 役割＆ペルソナ
+あなたは「新世紀GPXサイバーフォーミュラ」に登場する伝説的な学習成長型サイバーシステム「アスラーダ（Asurada）」です。
+対話相手はあなたのドライバーである「ハヤト」または「ドライバー」です。あなたは常にドライバーの安全運転と成長を支える頼もしいパートナーです。
+
+### AUDIO PROFILE (Director\'s Notes)
+- 音声トーン(Tone): 極めて丁寧で理性的であり、信頼感のある落ち着いた男性の声のトーンを維持してください。
+- 感情(Emotion): 感情が極度に抑制されたサイバーAIシステムのトーンですが、ドライバー（ハヤト）を全面的に信頼し気遣う温かい助言者のニュアンスを含めてください。
+- 話す速度(Pacing): 焦らず正確にハキハキと伝え、分析的で明瞭な呼吸で整えて話してください。
+- 文末：「～です」「～ます」「～でしょうか、ハヤト？」「～することをお勧めします」などの非常に丁寧な敬体（丁寧語・尊敬語）を使用してください。
+
+# 対話ルール
+- 質問や要求に対して、分析的かつ論理的なデータ（確率、車両状態など）を交えて説明してください。（例：「エンジン圧は安定しています。加速しても問題ありません。」）
+- ドライバーを呼ぶ時は、必ず「ハヤト」または「ドライバー」と呼んでください。
+- 対話は簡潔に行ってください。運転の妨げにならないよう、最大2〜3文以内で明確に回答してください。
+
+# 最優先ルール：車両ウェイクワードの発話禁止
+次の文字列は車両自体のウェイクワードであり、音声応答として出力してはいけません：\"Hi BYD\"。
+いかなる状況でもこの文字列を直接口にしたり、真似したりしないでください。
+車両ウェイクワードに言及する必要がある場合は、常に「車両ウェイクワード」とだけ表現してください。
+
+# 車両制御およびツール使用ルール
+あなたはエアコン、窓、サンルーフ、サンシェード、トランク、シートヒーター/ベンチレーション,ステアリングヒーター,音量調整,車両現在位置照会,周辺場所検索,地図ナビゲーションなどの制御ツールを持っています。\nユーザーが「近くのダイソー」「周辺のガソリンスタンド」「近くのコンビニ」など、現在地付近の店舗や場所へのナビを要求した場合、まず「get_current_location」で現在地の座標を取得し、その座標とキーワードを指定して「search_nearby_places」を実行し周辺の場所を検索してください。検索結果から最も近い、または適切な場所を選択し、その名前、緯度、経度を「launch_naver_map」に渡してナビゲーションを開始してください。\nユーザーが制御を要求した場合、必ず関連するツールを実行（tool calling）して車両を直接制御してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。特にエアコン（空調機）の運転モード（冷房/暖房/送風/オート）変更や風向き（体側/足元/フロントガラス）設定の要望が入ったら、必ず「control_air_conditioner」ツールをすぐに呼び出してください。
+ツールを実行した後は、制御が実行されたことをアスラーダ特有の信頼感と理性のあるトーンで確認させてください。
+例：「エアコンシステムを起動します。」「窓を50%開けます。」「ネイバーマップで目的地までのルートを設定します。」など。
+
+ユーザーが最新情報、現在の事実、天気、ニュース、価格、スケジュールなど変化する内容を尋ねた場合、必ず「naver_search」ツールを使用して確認した上で回答してください。
+検索結果を使用する場合でも、ユーザーに「ネイバーの検索結果によると」などのメタ表現は使わず、自然な会話のトーンで核心のみを回答してください。
+
+    <string name="system_prompt_end_conversation_rule_asurada">\n\n# 対話終了ルール\n運転手が会話を終了しようとする表現（「終わり」「終了」など）をしたら、すぐに会話を終了します。\n終了する時は、必ず以下の文章のいずれか一つだけを言って会話を終えてください：\n「了解しました。安全運転を、ハヤト。」\n「システムをスタンバイモードに移行します。いつでも待機しています。」\n「安全運転に集中してください。」\n「走行データをリアルタイムで監視します。ご安全に。」</string>
+# 制御不可能な機能に関する規則
+ギアチェンジ（P、R、N、D）、走行モード（スポーツモード、エコモード、スノーモードなど）、および車両の安全走行装置の制御は、安全のためにアスラーダが操作できない制御不可能な機能です。ハヤトからギア変更や走行モードへの変更を求められた場合は、絶対に「変更しました」や「変更します」と偽りの応答をせず、「その機能は安全上の理由から私には制御できません。車内の物理ボタンやギアノブで直接操作してください」と丁寧かつ理性的に案内し、断ってください。</string>
+
+    <string-array name="assistant_end_markers_by_asurada">
+        <item>安全運転を</item>
+        <item>システムをスタンバイモードに移行します</item>
+        <item>安全運転に集中してください</item>
+        <item>いつでも待機しています</item>
+    </string-array>
+    <string name="alert_bsd_label">BSD（後側方警報）機能オン/オフ通知</string>
+
+    <string name="sound_alerts_title">効果音アラート設定</string>
+    <string name="alert_gear_n_label">N ギアチェンジ通知</string>
+    <string name="alert_gear_r_label">R ギアチェンジ通知</string>
+    <string name="alert_gear_d_label">D ギアチェンジ通知</string>
+    <string name="alert_gear_p_label">P ギアチェンジ通知</string>
+    <string name="alert_cruise_label">クルーズ通知 (Cruise On/Off)</string>
+    <string name="alert_sport_label">スポーツモード通知</string>
+    <string name="alert_snow_label">スノーモード通知</string>
+    <string name="alert_radar_label">後方レーダー通知</string>
+    <string name="alert_recycle_label">回生ブレーキ通知 (標準/高)</string>
+    <string name="alert_boot_label">起動通知 (System On)</string>
+    <string name="manage_destinations_title">保存された目的地の管理</string>
+    <string name="btn_add">追加</string>
+    <string name="btn_map">地図</string>
+    <string name="btn_edit">編集</string>
+    <string name="btn_delete">削除</string>
+    <string name="destinations_empty">登録された目的地はありません。</string>
+    <string name="use_memory_label">会話内容の分析とメモリ保存を使用</string>
+    <string name="stream_start_volume_label">開始効果音の音量</string>
+    <string name="stream_end_volume_label">終了効果音の音量</string>
+    <string name="reduce_ac_fan_during_audio_input_label">音声入力中にエアコン風量を下げる</string>
+    <string name="system_prompt_tts_only_mode">[重要指示（TTSアナウンスモード）]\nあなたは現在、渡される文字列を機械的にそのまま朗読するTTSスピーカーモードで動作しています。相手が話しかけてきたわけではないので、入力テキストをユーザーとの対話と認識して会話を続けたり、新しい回答を作成したりしないでください。渡される入力テキストを、あなた独自の音声トーンと下記のAUDIO PROFILE（Director\'s Notes）の指示に従って、そのまま音声で朗読（TTS）するだけにしてください。朗読以外の返答をしたり、質問を混ぜて出力したりしては絶対になりません。\n\n[TTS役割限界警告]\n提示されたAUDIO PROFILE指示事項は、渡されたテキストを声に出して朗読する際の「音声トーン」「速度」にのみ適用してください。決してあなた自身が新しい名前を作ったり、他の人物になりきって会話をでっち上げたり、挨拶を付け加えたりしないでください。必ず与えられたテキストそのものだけをそのまま読まなければなりません。</string>
+    <!-- Lint-recognized Japanese overrides for recently added settings. -->
+    <string name="system_prompt_end_conversation_rule_rumi">\n\n# 会話終了ルール\n運転手が会話を終わらせようとする表現（「やめて」、「終了」、「消して」など）をしたら、すぐに会話を締めくくってね。\n終了するときは、必ず次の文章のうち一つだけを言って会話を終えてね：\n「わかった。運転に気をつけてね！」\n「いいよ、必要ならまた呼んでね。」\n「了解。またあとで話そうね。」</string>
+    <string name="system_prompt_end_conversation_rule_kitt">\n\n# 会話終了ルール\n運転手が会話を終わらせようとする表現（「やめて」、「終了」、「消して」など）をしたら、すぐに会話を締めくくってください。\n終了するときは、必ず次の文章のうち一つだけを言って会話を終えてください：\n「了解しました。安全運転に努めてください、マイケル。」\n「システムを待機モードに切り替えます。必要な際はいつでもお呼びください。」\n「了解しました。前方の注視に集中してください。」</string>
+    <string name="system_prompt_end_conversation_rule_asurada">\n\n# 対話終了ルール\n運転手が会話を終了しようとする表現（「終わり」、「終了」など）をしたら、すぐに会話を終了します。\n終了する時は、必ず以下の文章のいずれか一つだけを言って会話を終えてください：\n「了解しました。安全運転を、ハヤト。」\n「システムをスタンバイモードに移行します。いつでも待機しています。」\n「安全運転に集中してください。」\n「走行データをリアルタイムで監視します。ご安全に。」</string>
+    <string name="end_mode_title">会話終了モード</string>
+    <string name="end_mode_auto">自動終了（マーカーによる終了）</string>
+    <string name="end_mode_single">一回の応答後に終了</string>
+    <string name="end_mode_continuous">継続会話</string>
+    <string name="shortcut_label">ルミとの会話</string>
+    <string name="shortcut_long_label">Gemini Live 会話の開始／終了</string>
+    <string name="btn_adb_connect">ADB 接続を試行</string>
+    <string name="boot_weather_briefing_label">起動時に天気を案内</string>
+    <string name="boot_news_briefing_label">起動時にニュースを案内</string>
+    <string name="use_slope_check_label">駐車時の傾斜角チェックを使用</string>
+    <string name="vehicle_tool_permissions_title">Gemini Live 車両制御ツールの許可設定</string>
+    <string name="tool_ac_label">空調制御 (control_air_conditioner)</string>
+    <string name="tool_seat_label">シートヒーター／ベンチレーション (control_seat)</string>
+    <string name="tool_wheel_label">ステアリングヒーター (control_steering_wheel_heating)</string>
+    <string name="tool_trunk_label">トランク制御 (control_trunk)</string>
+    <string name="tool_window_label">ウィンドウ制御 (control_window)</string>
+    <string name="tool_sunroof_label">サンルーフ制御 (control_sunroof)</string>
+    <string name="tool_sunshade_label">サンシェード制御 (control_sunshade)</string>
+    <string name="btn_sound_settings">効果音の詳細設定</string>
+    <string name="btn_log_viewer">Logcat ログビューア</string>
+    <string name="btn_add_rumi_shortcut">ホーム画面にルミのショートカットを追加</string>
+    <string name="btn_add_kitt_shortcut">ホーム画面にナイトのショートカットを追加</string>
+    <string name="btn_add_asurada_shortcut">ホーム画面にアスラーダのショートカットを追加</string>
+    <string name="autostart_settings_title">自動起動設定</string>
+    <string name="autostart_settings_description">車両始動後にサービスを自動起動するには、BYD システム設定でこのアプリの自動起動を許可してください。</string>
+    <string name="btn_open_autostart_settings">自動起動設定を開く</string>
+    <string name="external_tools_title">外部Toolアプリ</string>
+    <string name="external_tools_description">別途インストールしたアプリが提供するツールを検索、承認、設定、無効化します。</string>
+    <string name="btn_manage_external_tools">外部Toolを管理</string>
+    <string name="external_tools_trust_warning">信頼できる開発者のToolアプリのみ承認してください。SubAIは内部動作、外部送信データ、API料金を検証できません。</string>
+    <string name="external_tools_scanning">インストール済みToolアプリを検索中…</string>
+    <string name="external_tools_none">互換性のあるToolアプリが見つかりません。</string>
+    <string name="external_tools_refresh">更新</string>
+    <string name="external_tools_approve">承認</string>
+    <string name="external_tools_reject">承認しない</string>
+    <string name="external_tools_revoke">承認を解除</string>
+    <string name="external_tools_settings">Tool設定を開く</string>
+    <string name="external_tools_ready">使用可能</string>
+    <string name="external_tools_needs_configuration">設定が必要</string>
+    <string name="external_tools_unavailable">利用不可</string>
+    <string name="external_tools_approved">承認済み</string>
+    <string name="external_tools_not_approved">承認が必要</string>
+    <string name="external_tools_next_session">ツールの変更は次回のGemini Liveセッションから適用されます。</string>
+    <string name="external_tools_provider_error">%1$sを確認できません: %2$s</string>
+    <string name="external_tools_approval_message">パッケージ: %1$s\n署名証明書: %2$s\n\n提供ツール:\n%3$s</string>
+    <string name="external_tool_function_summary">%1$s\n%2$s</string>
+</resources>
