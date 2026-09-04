@@ -39,12 +39,12 @@ public final class VehicleClassLoaderFactory {
     };
 
     public static final String[] DILINK5_SDK_PACKAGES = {
+            "com.byd.data.collect",
             "com.byd.hvac",
             "com.byd.carsettings",
             "com.byd.mycar",
             "com.byd.scenemode",
-            "com.byd.autoservice",
-            "com.byd.data.collect"
+            "com.byd.autoservice"
     };
 
     private static final AtomicReference<ClassLoader> cachedClassLoader =
@@ -86,23 +86,18 @@ public final class VehicleClassLoaderFactory {
 
         // 3. Detect DiLink 5 by checking for OEM system apps
         PackageManager pm = context.getPackageManager();
-        boolean hasDiLink5App = false;
+        //boolean hasDiLink5App = false;
         for (String pkg : DILINK5_SDK_PACKAGES) {
             try {
                 pm.getApplicationInfo(pkg, 0);
-                hasDiLink5App = true;
-                break;
+                isDilink3Cached = false;
+                Log.i(TAG, "DiLink 5 OEM package detected. Treating platform as DiLink 5.");
+                return false;
             } catch (PackageManager.NameNotFoundException ignored) {
                 // Try the next candidate.
             }
         }
-
-        if (hasDiLink5App) {
-            isDilink3Cached = false;
-            Log.i(TAG, "DiLink 5 OEM package detected. Treating platform as DiLink 5.");
-            return false;
-        }
-
+        
         // 4. Default to DiLink 3
         isDilink3Cached = true;
         Log.i(TAG, "No DiLink 5 package detected. Defaulting platform to DiLink 3.");
@@ -146,23 +141,48 @@ public final class VehicleClassLoaderFactory {
         // DiLink 5: test each OEM APK as a complete SDK source before caching it.
         PackageManager pm = appContext.getPackageManager();
         for (String pkg : DILINK5_SDK_PACKAGES) {
+            ApplicationInfo appInfo;
             try {
-                ApplicationInfo appInfo = pm.getApplicationInfo(pkg, 0);
+                appInfo = pm.getApplicationInfo(pkg, 0);
+            } catch (Throwable t) {
+                lastFailure = unwrap(t);
+                logCandidateFailure("DiLink 5 package " + pkg, lastFailure);
+                continue;
+            }
+
+            // Preferred path: preserves split/multi-dex APK handling and OEM dependencies.
+            try {
+                Context packageContext = appContext.createPackageContext(
+                        pkg,
+                        Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY
+                );
+                ClassLoader packageLoader = packageContext.getClassLoader();
+                validateCoreDevices(appContext, packageLoader);
+                return cacheResolvedLoader(
+                        packageLoader,
+                        "DiLink5 (" + pkg + " @ " + appInfo.sourceDir + ")"
+                );
+            } catch (Throwable t) {
+                lastFailure = unwrap(t);
+                logCandidateFailure("DiLink 5 package " + pkg, lastFailure);
+            }
+
+            // Compatibility fallback for firmware that blocks/limits package Context loading.
+            try {
                 DexClassLoader dexLoader = new DexClassLoader(
                         appInfo.sourceDir,
                         appContext.getCodeCacheDir().getAbsolutePath(),
                         appInfo.nativeLibraryDir,
                         defaultLoader
                 );
-
                 validateCoreDevices(appContext, dexLoader);
                 return cacheResolvedLoader(
                         dexLoader,
-                        "DiLink5 (" + pkg + " @ " + appInfo.sourceDir + ")"
+                        "DiLink5 (" + pkg + ", dex @ " + appInfo.sourceDir + ")"
                 );
             } catch (Throwable t) {
                 lastFailure = unwrap(t);
-                logCandidateFailure("DiLink 5 package " + pkg, lastFailure);
+                logCandidateFailure(pkg + " direct APK loader", lastFailure);
             }
         }
 
