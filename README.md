@@ -16,6 +16,15 @@ This is an **unofficial, community-driven, non-commercial** project developed pu
 
 ---
 
+## 🚗 Vehicle Platform Compatibility
+
+- **DiLink 3**: Fully supported and verified on field vehicles.
+- **DiLink 5 (Work in Progress / Help Wanted 🤝)**:
+  > ⚠️ **Notice**: Experimental support for DiLink 5 (available in the [`feature/dilink3-dilink5-support`](https://github.com/PoorGrammerA/BydSubAI/tree/feature/dilink3-dilink5-support) branch) is currently under active development and **not yet working on actual vehicles**.
+  > We warmly welcome testing feedback, debugging assistance, and **Pull Requests (PRs)** from developers with access to DiLink 5 vehicles to help resolve OEM dynamic classloader and permission challenges!
+
+---
+
 ## 🏗️ Architecture & Package Structure
 
 BYD Sub AI is structured into domain-specific packages to maintain clean code and high maintainability for open-source contributions:
