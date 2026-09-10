@@ -539,4 +539,5 @@
     <string name="external_tools_provider_error">%1$s 확인 실패: %2$s</string>
     <string name="external_tools_approval_message">패키지: %1$s\n서명 인증서: %2$s\n\n제공 도구:\n%3$s</string>
     <string name="external_tool_function_summary">%1$s\n%2$s</string>
+    <string name="subai_status_running">SubAI 작동중 🎙️</string>
 </resources>

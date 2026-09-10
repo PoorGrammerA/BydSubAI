@@ -543,4 +543,5 @@ Controlling the gear (P, R, N, D), driving mode (Sports Mode, Eco Mode, Snow Mod
     <string name="external_tools_provider_error">Could not inspect %1$s: %2$s</string>
     <string name="external_tools_approval_message">Package: %1$s\nSigning certificate: %2$s\n\nProvided tools:\n%3$s</string>
     <string name="external_tool_function_summary">%1$s\n%2$s</string>
+    <string name="subai_status_running">SubAI running 🎙️</string>
 </resources>

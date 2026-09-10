@@ -9,6 +9,7 @@ import com.poorgrammera.bydsubai.data.SecureCredentialStore;
 import com.poorgrammera.bydsubai.gemini.GeminiLiveClient;
 import com.poorgrammera.bydsubai.ui.AsuradaView;
 import com.poorgrammera.bydsubai.ui.KittScannerView;
+import com.poorgrammera.bydsubai.ui.RumiView;
 import com.poorgrammera.bydsubai.vehicle.VehicleController;
 import com.poorgrammera.bydsubai.vehicle.ClimateNoiseReductionController;
 
@@ -115,6 +116,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
     private boolean hasAudioFocus = false;
     private android.view.WindowManager windowManager;
     private android.view.View overlayView;
+    private RumiView rumiPetView;
     private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -220,6 +222,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                     microphoneHandler.setInputSuppressed(false);
                 }
                 updateActivity();
+                updateRumiState(RumiView.State.IDLE);
             }
         }
     };
@@ -233,6 +236,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
             if (microphoneHandler != null) {
                 microphoneHandler.setInputSuppressed(true);
             }
+            playRumiRandomSpeakingState();
         }
     }
 
@@ -563,6 +567,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
 
     @Override
     public void onTurnComplete() {
+        updateRumiTransientState(RumiView.State.HAPPY, 1500, RumiView.State.IDLE);
         SharedPreferences prefs = getSharedPreferences(ConfigData.PREF_NAME, Context.MODE_PRIVATE);
 
 
@@ -846,7 +851,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                      Log.i(TAG, "No overlay permission, cannot show SubAI status overlay.");
                      return;
                  }
-                 if (overlayView != null) {
+                 if (overlayView != null || rumiPetView != null) {
                      return; // already shown
                  }
 
@@ -872,6 +877,9 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                                      android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                              android.graphics.PixelFormat.TRANSLUCENT
                      );
+                     params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
+                     params.y = dpToPx(80); // 80dp down from screen top
+                     windowManager.addView(overlayView, params);
                  } else if ("asurada".equals(voiceMode)) {
                       AsuradaView asuradaView = new AsuradaView(this);
                       overlayView = asuradaView;
@@ -887,19 +895,22 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                                       android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                               android.graphics.PixelFormat.TRANSLUCENT
                       );
+                      params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
+                      params.y = dpToPx(80); // 80dp down from screen top
+                      windowManager.addView(overlayView, params);
                  } else {
-                     // Create the capsule TextView
+                     // 1. Top status capsule (SubAI running)
                      android.widget.TextView tv = new android.widget.TextView(this);
-                     tv.setText("SubAI 작동중 🎙️");
+                     tv.setText(getString(R.string.subai_status_running));
                      tv.setTextColor(android.graphics.Color.parseColor("#00E676"));
                      tv.setTextSize(13);
                      tv.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
                      tv.setGravity(android.view.Gravity.CENTER);
-                     
+
                      int paddingHoriz = dpToPx(16);
                      int paddingVert = dpToPx(8);
                      tv.setPadding(paddingHoriz, paddingVert, paddingHoriz, paddingVert);
-                     
+
                      android.graphics.drawable.GradientDrawable gd = new android.graphics.drawable.GradientDrawable();
                      gd.setColor(android.graphics.Color.parseColor("#F2121212")); // Almost solid dark background
                      gd.setCornerRadius(dpToPx(18));
@@ -908,7 +919,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
 
                      overlayView = tv;
 
-                     params = new android.view.WindowManager.LayoutParams(
+                     android.view.WindowManager.LayoutParams topParams = new android.view.WindowManager.LayoutParams(
                              android.view.WindowManager.LayoutParams.WRAP_CONTENT,
                              android.view.WindowManager.LayoutParams.WRAP_CONTENT,
                              android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O ?
@@ -919,12 +930,31 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                                      android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                              android.graphics.PixelFormat.TRANSLUCENT
                      );
+                     topParams.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
+                     topParams.y = dpToPx(80);
+                     windowManager.addView(overlayView, topParams);
+
+                     // 2. Bottom-right animated Rumi pet overlay
+                     RumiView rumiView = new RumiView(this);
+                     rumiPetView = rumiView;
+
+                     android.view.WindowManager.LayoutParams petParams = new android.view.WindowManager.LayoutParams(
+                             dpToPx(120),
+                             dpToPx(130),
+                             android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O ?
+                                     android.view.WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                                     android.view.WindowManager.LayoutParams.TYPE_PHONE,
+                             android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                                     android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
+                                     android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                             android.graphics.PixelFormat.TRANSLUCENT
+                     );
+                     petParams.gravity = android.view.Gravity.BOTTOM | android.view.Gravity.END;
+                     petParams.x = dpToPx(24);
+                     petParams.y = dpToPx(24);
+                     windowManager.addView(rumiPetView, petParams);
                  }
 
-                 params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
-                 params.y = dpToPx(80); // 80dp down from screen top
-
-                 windowManager.addView(overlayView, params);
                  Log.i(TAG, "SubAI status overlay view added to WindowManager.");
              } catch (Exception e) {
                  Log.e(TAG, "Failed to show overlay view", e);
@@ -932,17 +962,54 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
          });
      }
 
+     private void playRumiRandomSpeakingState() {
+         mainHandler.post(() -> {
+             if (rumiPetView != null) {
+                 rumiPetView.playRandomSpeakingState();
+             } else if (overlayView instanceof RumiView) {
+                 ((RumiView) overlayView).playRandomSpeakingState();
+             }
+         });
+     }
+
+     private void updateRumiState(RumiView.State state) {
+         mainHandler.post(() -> {
+             if (rumiPetView != null) {
+                 rumiPetView.setState(state);
+             } else if (overlayView instanceof RumiView) {
+                 ((RumiView) overlayView).setState(state);
+             }
+         });
+     }
+
+     private void updateRumiTransientState(RumiView.State transientState, long durationMs, RumiView.State nextState) {
+         mainHandler.post(() -> {
+             if (rumiPetView != null) {
+                 rumiPetView.playTransientState(transientState, durationMs, nextState);
+             } else if (overlayView instanceof RumiView) {
+                 ((RumiView) overlayView).playTransientState(transientState, durationMs, nextState);
+             }
+         });
+     }
+
      private void hideOverlay() {
          mainHandler.post(() -> {
              try {
-                 if (windowManager != null && overlayView != null) {
-                     windowManager.removeView(overlayView);
-                     Log.i(TAG, "SubAI status overlay view removed from WindowManager.");
+                 if (windowManager != null) {
+                     if (overlayView != null) {
+                         windowManager.removeView(overlayView);
+                         Log.i(TAG, "SubAI status overlay view removed from WindowManager.");
+                     }
+                     if (rumiPetView != null) {
+                         windowManager.removeView(rumiPetView);
+                         Log.i(TAG, "SubAI pet overlay view removed from WindowManager.");
+                     }
                  }
              } catch (Exception e) {
                  Log.e(TAG, "Failed to hide overlay view", e);
              } finally {
                  overlayView = null;
+                 rumiPetView = null;
                  windowManager = null;
              }
          });

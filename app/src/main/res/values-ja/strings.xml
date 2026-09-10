@@ -420,4 +420,5 @@ Style: Flat affect, minimal pitch variation, dry delivery. Pace: Fast, energetic
     <string name="external_tools_provider_error">%1$sを確認できません: %2$s</string>
     <string name="external_tools_approval_message">パッケージ: %1$s\n署名証明書: %2$s\n\n提供ツール:\n%3$s</string>
     <string name="external_tool_function_summary">%1$s\n%2$s</string>
+    <string name="subai_status_running">SubAI 稼働中 🎙️</string>
 </resources>
