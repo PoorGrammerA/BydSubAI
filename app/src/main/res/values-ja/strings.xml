@@ -384,6 +384,7 @@ Style: Flat affect, minimal pitch variation, dry delivery. Pace: Fast, energetic
     <string name="boot_weather_briefing_label">起動時に天気を案内</string>
     <string name="boot_news_briefing_label">起動時にニュースを案内</string>
     <string name="use_slope_check_label">駐車時の傾斜角チェックを使用</string>
+    <string name="auto_unmute_on_start_label">対話開始時に車両のミュートを自動解除</string>
     <string name="vehicle_tool_permissions_title">Gemini Live 車両制御ツールの許可設定</string>
     <string name="tool_ac_label">空調制御 (control_air_conditioner)</string>
     <string name="tool_seat_label">シートヒーター／ベンチレーション (control_seat)</string>

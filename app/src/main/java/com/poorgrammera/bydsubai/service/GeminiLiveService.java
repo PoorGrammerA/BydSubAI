@@ -216,14 +216,13 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
     private final Runnable releaseMicHoldRunnable = new Runnable() {
         @Override
         public void run() {
-            if (geminiSpeaking.compareAndSet(true, false)) {
-                Log.d(TAG, "AudioTrack finished + 400ms echo delay -> RESUME MIC");
-                if (microphoneHandler != null) {
-                    microphoneHandler.setInputSuppressed(false);
-                }
-                updateActivity();
-                updateRumiState(RumiView.State.IDLE);
+            geminiSpeaking.set(false);
+            Log.d(TAG, "AudioTrack finished + 100ms echo delay -> RESUME MIC");
+            if (microphoneHandler != null) {
+                microphoneHandler.setInputSuppressed(false);
             }
+            updateActivity();
+            updateRumiState(RumiView.State.IDLE);
         }
     };
 
@@ -283,6 +282,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                 if (!ttsOnly && !textOnly) {
                     beginGeminiLiveNoiseReduction();
                 }
+                ensureVehicleUnmuted();
                 if (startSound && buttonSound) {
                     playEffect(ConfigData.VOICE_STREAM_BUTTON);
                 }
@@ -336,6 +336,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
     }
 
     private void initializeClientAndConnect(boolean ttsOnly, String ttsText, boolean textOnly, String textInput, boolean mem, boolean startSound, boolean endSound) {
+        ensureVehicleUnmuted();
         if (liveClient != null && liveClient.isConnected()) {
             Log.i(TAG, "Gemini Live is already connected. Disconnecting existing session and stopping.");
             liveClient.disconnect();
@@ -627,6 +628,8 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
         Log.i(TAG, "Gemini session CONNECTED successfully!");
         sendGeminiSessionEvent(ACTION_GEMINI_SESSION_STARTED);
 
+        ensureVehicleUnmuted();
+
         if (!isTtsOnlyMode) {
             requestAudioFocus(); // Request audio focus when connected to pause background music
         }
@@ -640,6 +643,10 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
         geminiSpeaking.set(false);
         pendingDisconnect = false;
         lastGeminiAudioAtMs = 0L;
+        mainHandler.removeCallbacks(releaseMicHoldRunnable);
+        if (microphoneHandler != null) {
+            microphoneHandler.setInputSuppressed(false);
+        }
 
         if (playbackManager != null) {
             playbackManager.startPcmPlayback(24000); // 24kHz speaker sample rate
@@ -667,6 +674,7 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
                 if (liveClient != null && liveClient.isConnected()) {
                     Log.i(TAG, "STARTING MIC RECORDING NOW");
                     if (microphoneHandler != null) {
+                        microphoneHandler.setInputSuppressed(false);
                         microphoneHandler.startRecording();
                     }
                 }
@@ -687,16 +695,19 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
         }
 
         mainHandler.removeCallbacks(watchdogRunnable);
+        mainHandler.removeCallbacks(releaseMicHoldRunnable);
         endingSession.set(false);
         geminiSpeaking.set(false);
         pendingDisconnect = false;
         pendingDisconnectOnMediaTrigger = false;
         if (microphoneHandler != null) {
+            microphoneHandler.setInputSuppressed(false);
             microphoneHandler.stopRecording();
         }
         if (playbackManager != null) {
             playbackManager.stopPcmPlayback();
         }
+        mainHandler.removeCallbacks(releaseMicHoldRunnable);
 
         if (useEndSound) {
             endGeminiLiveNoiseReduction();
@@ -801,11 +812,33 @@ public class GeminiLiveService extends Service implements GeminiLiveClient.Liste
         ClimateNoiseReductionController.getInstance(this).endListening(CLIMATE_INPUT_SOURCE_GEMINI);
     }
 
+    private void ensureVehicleUnmuted() {
+        try {
+            SharedPreferences prefs = getSharedPreferences(ConfigData.PREF_NAME, Context.MODE_PRIVATE);
+            boolean autoUnmute = prefs.getBoolean(ConfigData.KEY_AUTO_UNMUTE_ON_START, ConfigData.DEFAULT_AUTO_UNMUTE_ON_START);
+            if (!autoUnmute) {
+                return;
+            }
+            if (vehicleController != null) {
+                vehicleController.unmuteIfMuted();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to perform ensureVehicleUnmuted", e);
+        }
+    }
+
     @Override
     public void onPlaybackFinished() {
         Log.d(TAG, "onPlaybackFinished: Speaker finished. Scheduling 100ms echo hold before resuming MIC.");
         mainHandler.removeCallbacks(releaseMicHoldRunnable);
-        mainHandler.postDelayed(releaseMicHoldRunnable, 100L);
+        if (liveClient != null && liveClient.isConnected()) {
+            mainHandler.postDelayed(releaseMicHoldRunnable, 100L);
+        } else {
+            geminiSpeaking.set(false);
+            if (microphoneHandler != null) {
+                microphoneHandler.setInputSuppressed(false);
+            }
+        }
     }
 
     private void disconnectSoonByEndRule(String reason, long delayMs) {

@@ -49,6 +49,8 @@ public class MicrophoneHandler {
     public void startRecording() {
         if (isRecording.get()) return;
 
+        inputSuppressed.set(false);
+
         int minBufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
         int bufferSize = Math.max(minBufferSize, 2048);
 
@@ -135,6 +137,7 @@ public class MicrophoneHandler {
 
     public void stopRecording() {
         isRecording.set(false);
+        inputSuppressed.set(false);
         if (recordingThread != null) {
             try { recordingThread.join(1000); } catch (InterruptedException ignored) {}
             recordingThread = null;

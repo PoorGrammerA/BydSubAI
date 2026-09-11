@@ -257,6 +257,16 @@ public class VehicleController {
         return acDevice != null;
     }
 
+    private boolean ensureAudioDeviceAvailable() {
+        if (isInitialized && audioDevice != null) return true;
+        try {
+            initReflectionSync();
+        } catch (Exception e) {
+            Log.w(TAG, "Could not initialize Audio device for state read", e);
+        }
+        return audioDevice != null;
+    }
+
     // --- Package Checks ---
     public boolean isNaverMapInstalled() {
         return isPackageInstalled("com.nhn.android.nmap");
@@ -768,6 +778,10 @@ public class VehicleController {
     public void controlVolume(String action, Integer value) {
         executorService.submit(() -> {
             try {
+                if (!ensureAudioDeviceAvailable()) {
+                    Log.w(TAG, "controlVolume: Audio device not available");
+                    return;
+                }
                 if ("mute".equalsIgnoreCase(action) || "unmute".equalsIgnoreCase(action)) {
                     callMethod(audioDevice, "setMuteState", new Class<?>[]{int.class}, "mute".equalsIgnoreCase(action) ? 1 : 0);
                 } else if ("set".equalsIgnoreCase(action) && value != null) {
@@ -829,8 +843,27 @@ public class VehicleController {
     }
 
     public int getMuteState() {
+        if (!ensureAudioDeviceAvailable()) return 0;
         try { return (Integer) callMethod(audioDevice, "getMuteState", new Class<?>[]{}); }
         catch (Exception e) { return 0; }
+    }
+
+    /**
+     * Checks if the vehicle audio is currently muted. If it is, automatically unmutes it.
+     * @return true if an unmute command was triggered, false otherwise.
+     */
+    public boolean unmuteIfMuted() {
+        try {
+            int muteState = getMuteState();
+            if (muteState == 1) {
+                Log.i(TAG, "unmuteIfMuted: Vehicle is currently muted (muteState=1). Automatically unmuting...");
+                controlVolume("unmute", null);
+                return true;
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "unmuteIfMuted: Failed to check or unmute vehicle audio", e);
+        }
+        return false;
     }
 
     public int getAirWindMode() {

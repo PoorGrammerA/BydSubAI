@@ -493,6 +493,15 @@
                 android:buttonTint="#00E676"
                 android:layout_marginBottom="8dp" />
 
+            <CheckBox
+                android:id="@+id/cb_auto_unmute_on_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_unmute_on_start_label"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#00E676"
+                android:layout_marginBottom="8dp" />
+
         </LinearLayout>
 
         <!-- Gemini Live Vehicle Control Tools Permission Section -->

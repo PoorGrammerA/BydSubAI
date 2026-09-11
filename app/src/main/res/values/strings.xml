@@ -385,6 +385,7 @@ Controlling the gear (P, R, N, D), driving mode (Sports Mode, Eco Mode, Snow Mod
     <string name="boot_weather_briefing_label">Brief weather at boot</string>
     <string name="boot_news_briefing_label">Brief news at boot</string>
     <string name="use_slope_check_label">Check parking slope angle</string>
+    <string name="auto_unmute_on_start_label">Automatically unmute vehicle audio when starting conversation</string>
     <string name="vehicle_tool_permissions_title">Gemini Live Vehicle Tool Permissions</string>
     <string name="tool_ac_label">Climate control (control_air_conditioner)</string>
     <string name="tool_seat_label">Seat heating/ventilation (control_seat)</string>

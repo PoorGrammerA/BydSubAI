@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox cbUseMemory;
     private CheckBox cbReduceAcFanDuringAudioInput;
     private CheckBox cbUseSlopeCheck;
+    private CheckBox cbAutoUnmuteOnStart;
     private CheckBox cbToolAc;
     private CheckBox cbToolSeat;
     private CheckBox cbToolWheel;
@@ -311,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
         cbUseMemory = findViewById(R.id.cb_use_memory);
         cbReduceAcFanDuringAudioInput = findViewById(R.id.cb_reduce_ac_fan_during_audio_input);
         cbUseSlopeCheck = findViewById(R.id.cb_use_slope_check);
+        cbAutoUnmuteOnStart = findViewById(R.id.cb_auto_unmute_on_start);
         cbToolAc = findViewById(R.id.cb_tool_ac);
         cbToolSeat = findViewById(R.id.cb_tool_seat);
         cbToolWheel = findViewById(R.id.cb_tool_wheel);
@@ -336,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
         initAlertCheckBox(cbUseMemory, ConfigData.KEY_USE_MEMORY);
         initAlertCheckBox(cbReduceAcFanDuringAudioInput, ConfigData.KEY_REDUCE_AC_FAN_DURING_AUDIO_INPUT);
         initAlertCheckBox(cbUseSlopeCheck, ConfigData.KEY_USE_SLOPE_CHECK);
+        initAlertCheckBox(cbAutoUnmuteOnStart, ConfigData.KEY_AUTO_UNMUTE_ON_START);
         initAlertCheckBox(cbToolAc, ConfigData.KEY_ENABLE_TOOL_AC);
         initAlertCheckBox(cbToolSeat, ConfigData.KEY_ENABLE_TOOL_SEAT);
         initAlertCheckBox(cbToolWheel, ConfigData.KEY_ENABLE_TOOL_WHEEL);
@@ -920,6 +923,8 @@ public class MainActivity extends AppCompatActivity {
             defaultValue = ConfigData.DEFAULT_USE_SLOPE_CHECK;
         } else if (ConfigData.KEY_REDUCE_AC_FAN_DURING_AUDIO_INPUT.equals(key)) {
             defaultValue = ConfigData.DEFAULT_REDUCE_AC_FAN_DURING_AUDIO_INPUT;
+        } else if (ConfigData.KEY_AUTO_UNMUTE_ON_START.equals(key)) {
+            defaultValue = ConfigData.DEFAULT_AUTO_UNMUTE_ON_START;
         }
 
         cb.setChecked(getSharedPreferences(ConfigData.PREF_NAME, MODE_PRIVATE).getBoolean(key, defaultValue));

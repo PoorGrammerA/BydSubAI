@@ -86,6 +86,8 @@ public class ConfigData {
     public static final boolean DEFAULT_USE_SLOPE_CHECK = true;
     public static final String KEY_REDUCE_AC_FAN_DURING_AUDIO_INPUT = "pref_reduce_ac_fan_during_audio_input";
     public static final boolean DEFAULT_REDUCE_AC_FAN_DURING_AUDIO_INPUT = false;
+    public static final String KEY_AUTO_UNMUTE_ON_START = "pref_auto_unmute_on_start";
+    public static final boolean DEFAULT_AUTO_UNMUTE_ON_START = true;
 
     public static final int VOICE_STREAM_START = R.raw.stream_start;
     public static final int VOICE_STREAM_END = R.raw.stream_end;

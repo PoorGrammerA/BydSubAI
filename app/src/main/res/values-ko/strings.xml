@@ -381,6 +381,7 @@
     <string name="boot_weather_briefing_label">부팅 시 날씨 브리핑하기</string>
     <string name="boot_news_briefing_label">부팅 시 뉴스 브리핑하기</string>
     <string name="use_slope_check_label">주차 시 경사각 체크 기능 사용하기</string>
+    <string name="auto_unmute_on_start_label">대화 시작 시 차량 음소거 자동 해제</string>
     <string name="vehicle_tool_permissions_title">Gemini Live 차량 제어 도구 허용 설정</string>
     <string name="tool_ac_label">에어컨/공조기 제어 (control_air_conditioner)</string>
     <string name="tool_seat_label">시트 열선/통풍 제어 (control_seat)</string>
